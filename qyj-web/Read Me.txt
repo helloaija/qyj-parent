@@ -1,2 +1,3 @@
 wechat/freedom/{业务}/操作----不需要登录
 wechat/restrict/{业务}/操作---需要登录
+git
