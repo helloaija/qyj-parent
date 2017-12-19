@@ -1,6 +1,6 @@
 
-define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], function() {
-	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize"]);
+define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "ui-bootstrap-tpls"], function() {
+	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ui.bootstrap"]);
 	
 	qyjApp.httpsHeader = "http://localhost:8082/qyj-web";
 	
@@ -43,6 +43,17 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   					                      '../js/service/newsService.js']);
 	   				}]
 	   			}
+	   		}).state("productContent", {
+	   			url : "/productContent?productId",
+	   			// 产品内容
+	   			templateUrl : "../page/product/productContent.html",
+	   			controller : "productContentCtrl",
+	   			resolve : {
+	   				newsContentCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load(["ui-bootstrap", '../js/controller/productContentController.js',
+	   					                      '../js/service/productContentService.js']);
+	   				}]
+	   			}
 	   		});
 	   		
 	   		// 定义请求过滤器
@@ -81,6 +92,11 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	    	   events: true,
 	    	   name : "angular-sanitize",
 	    	   files : ["../js/base/angular-sanitize.min.js"]
+	       }, {
+	    	   events: true,
+	    	   name : "ui-bootstrap",
+	    	   files : ["../js/base/ui-bootstrap.min.js",
+	    	            "../js/base/ui-bootstrap-tpls-2.5.0.min.js"]
 	       }],
 	       debug: true
 	   })

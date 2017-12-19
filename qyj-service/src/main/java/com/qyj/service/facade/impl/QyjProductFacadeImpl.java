@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.QyjProductFacade;
+import com.qyj.facade.entity.QyjProductEntity;
 import com.qyj.service.biz.QyjProductBiz;
 
 /**
@@ -34,6 +35,16 @@ public class QyjProductFacadeImpl implements QyjProductFacade {
 	public PageBean listProductPage(PageParam pageParam, Map<String, Object> paramMap) throws Exception {
 		logger.info("listProductPage params,pageParam={},paramMap={}", pageParam, paramMap);
 		return productBiz.listProjectPage(pageParam, paramMap);
+	}
+	
+	/**
+	 * 根据产品id查询产品信息
+	 * @param productId
+	 * @return
+	 * @throws Exception
+	 */
+	public QyjProductEntity getProductInfoById(Long productId) throws Exception {
+		return productBiz.selectByPrimaryKey(productId);
 	}
 
 }

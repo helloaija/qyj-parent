@@ -9,7 +9,7 @@
 
 <div class="container">
 	<div ng-repeat="product in productList" class="product-list">
-		<a>
+		<a ui-sref="productContent({productId:{{product.id}}})" href="javascript:void(0);">
 			<div class="row">
 				<div class="col-xs-4">
 					<img src="https://img13.360buyimg.com/n3/jfs/t3361/206/1956093146/236604/f9a4f245/5837e160N6014925f.jpg"

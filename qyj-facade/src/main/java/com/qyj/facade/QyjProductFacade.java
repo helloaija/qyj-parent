@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
+import com.qyj.facade.entity.QyjProductEntity;
 
 /**
  * 产品Dubbo服务接口
@@ -19,4 +20,12 @@ public interface QyjProductFacade {
 	 * @throws Exception
 	 */
 	public PageBean listProductPage(PageParam pageParam, Map<String, Object> paramMap) throws Exception;
+	
+	/**
+	 * 根据产品id查询产品信息
+	 * @param productId
+	 * @return
+	 * @throws Exception
+	 */
+	public QyjProductEntity getProductInfoById(Long productId) throws Exception;
 }
