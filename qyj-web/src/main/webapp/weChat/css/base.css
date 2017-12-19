@@ -4,6 +4,13 @@ body {
 }
 
 
+/* 页面块分割线 */
+.hr-default {
+	border: 3px solid #eee;
+	margin:0 0;
+}
+
+
 /* 头标题 */
 .header-fixed {
 	margin: 0 auto;
@@ -12,7 +19,6 @@ body {
 	text-align: center;
 	color: #fff;
 }
-
 .header-body {
     padding: 0px;
 }
@@ -26,17 +32,14 @@ body {
 	max-width: 640px;
 	width: 100%;
 }
-
 .footer ul {
 	margin: 0 auto;
 	width: 100%;
 }
-
 .footer ul li {
 	width: 32%;
 	text-align: center;
 }
-
 .footer ul li a {
 	padding: 14px 15px;
 }
@@ -48,6 +51,10 @@ body {
 }
 
 
+/* 产品列表容器 */
+.product-container {
+	max-width: 640px;
+}
 /* 产品列表 */
 .product-list {
 	border-bottom: 1px solid #ddd;

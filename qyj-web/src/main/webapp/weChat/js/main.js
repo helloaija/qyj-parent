@@ -7,8 +7,7 @@ require.config({
 		"angular-ui-router" : "base/angular-ui-router-0.4.3.min",
 		"oclazyload" : "base/ocLazyLoad-1.1.0.min",
 		"angular-sanitize" : "base/angular-sanitize.min",
-		"ui-bootstrap" : "base/ui-bootstrap.min",
-		"ui-bootstrap-tpls" : "base/ui-bootstrap-tpls-2.5.0.min"
+		"angular-animate" : "base/angular-animate-1.6.7.min"
 	},
 	// 这个配置是你在引入依赖的时候的包名
 	shim : {
@@ -33,13 +32,9 @@ require.config({
 	    	deps: ['angular'],
 			exports : "angular-sanitize"
 	    },
-	    "ui-bootstrap-tpls" : {
+	    "angular-animate" : {
 	    	deps: ['angular'],
-			exports : "ui-bootstrap-tpls"
-	    },
-	    "ui-bootstrap" : {
-	    	deps: ['angular', "ui-bootstrap-tpls"],
-			exports : "ui-bootstrap"
+			exports : "angular-animate"
 	    }
 	},
 	urlArgs: "bust=" + (new Date()).getTime()

@@ -1,8 +1,8 @@
 
-define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "ui-bootstrap-tpls"], function() {
-	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ui.bootstrap"]);
+define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate"], function() {
+	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate"]);
 	
-	qyjApp.httpsHeader = "http://localhost:8082/qyj-web";
+	qyjApp.httpsHeader = "http://localhost:8080/qyj-web";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {
@@ -50,8 +50,9 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "ui-bo
 	   			controller : "productContentCtrl",
 	   			resolve : {
 	   				newsContentCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(["ui-bootstrap", '../js/controller/productContentController.js',
-	   					                      '../js/service/productContentService.js']);
+	   					return $ocLazyLoad.load(["ui-bootstrap",
+	   											'../js/controller/productContentController.js',
+	   											'../js/service/productContentService.js']);
 	   				}]
 	   			}
 	   		});
@@ -92,6 +93,10 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "ui-bo
 	    	   events: true,
 	    	   name : "angular-sanitize",
 	    	   files : ["../js/base/angular-sanitize.min.js"]
+	       }, {
+	    	   events: true,
+	    	   name : "angular-animate",
+	    	   files : ["../js/base/angular-animate-1.6.7.min.js"]
 	       }, {
 	    	   events: true,
 	    	   name : "ui-bootstrap",
