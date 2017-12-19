@@ -3,7 +3,8 @@ body {
     margin: 0 auto;
 }
 
-/* Í·²¿±êÌâÀ¸ */
+
+/* å¤´æ ‡é¢˜ */
 .header-fixed {
 	margin: 0 auto;
 	background: #4c6db4;
@@ -16,7 +17,8 @@ body {
     padding: 0px;
 }
 
-/* µ×ÏÂµ¼º½À¸ */
+
+/* ä¸‹æ–¹å¯¼èˆª */
 .footer {
 	height: 44px;
 	margin: 0 auto;
@@ -37,4 +39,16 @@ body {
 
 .footer ul li a {
 	padding: 14px 15px;
+}
+
+
+/* homeé¡µé»˜è®¤æ ·å¼ */
+.home-default {
+	margin-bottom: 45px;
+}
+
+
+/* äº§å“åˆ—è¡¨ */
+.product-list {
+	border-bottom: 1px solid #ddd;
 }

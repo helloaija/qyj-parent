@@ -8,16 +8,19 @@
 </div>
 
 <div class="container">
-	<div class="row" ng-repeat="product in productList">
-		<div class="col-xs-4">
-			<img
-				src="https://img13.360buyimg.com/n3/jfs/t3361/206/1956093146/236604/f9a4f245/5837e160N6014925f.jpg"
-				class="img-rounded">
-		</div>
-		<div class="col-xs-8">
-			<h5>{{product.title}}</h5>
-			<h6>￥{{product.price}}元</h6>
-		</div>
+	<div ng-repeat="product in productList" class="product-list">
+		<a>
+			<div class="row">
+				<div class="col-xs-4">
+					<img src="https://img13.360buyimg.com/n3/jfs/t3361/206/1956093146/236604/f9a4f245/5837e160N6014925f.jpg"
+						class="img-rounded">
+				</div>
+				<div class="col-xs-8">
+					<h5>{{product.title}}</h5>
+					<h6>￥{{product.price}}元</h6>
+				</div>
+			</div>
+		</a>
 	</div>
 </div>
 
