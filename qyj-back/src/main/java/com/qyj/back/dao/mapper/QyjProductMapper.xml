@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.back.dao.QyjProductMapper">
+	<resultMap id="baseResultMap" type="com.qyj.back.entity.QyjProductEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="price" jdbcType="DECIMAL" property="price" />
+		<result column="product_type" jdbcType="VARCHAR" property="productType" />
+		<result column="product_status" jdbcType="VARCHAR" property="productStatus" />
+		<result column="number" jdbcType="INTEGER" property="number" />
+		<result column="create_user" property="createUser" />
+		<result column="create_time" property="createTime" />
+		<result column="update_user" property="updateUser" />
+		<result column="update_time" property="updateTime" />
+		<result column="version" jdbcType="INTEGER" property="version" />
+	</resultMap>
+
+	<sql id="allColumns">
+		id, title, price, product_type, product_status, number,
+		create_user, create_time, update_user, update_time, version
+	</sql>
+
+	<!-- 根据主键查找产品 -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="allColumns" /> from qyj_product where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 根据主键删除产品信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from qyj_product where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 插入产品信息 -->    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.qyj.back.entity.QyjProductEntity">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+	      	SELECT LAST_INSERT_ID() AS id
+	    </selectKey>
+		insert into qyj_product (title, price, product_type, product_status, number,
+			create_user, create_time, update_user, update_time)
+		values (#{title,jdbcType=VARCHAR},
+			#{price,jdbcType=DECIMAL}, #{productType,jdbcType=VARCHAR},
+			#{productStatus,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER},
+			#{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+			#{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.qyj.back.entity.QyjProductEntity">
+		insert into qyj_product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="productType != null">
+				product_type,
+			</if>
+			<if test="productStatus != null">
+				product_status,
+			</if>
+			<if test="number != null">
+				number,
+			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="productType != null">
+				#{productType,jdbcType=VARCHAR},
+			</if>
+			<if test="productStatus != null">
+				#{productStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="number != null">
+				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.qyj.back.entity.QyjProductEntity">
+		update qyj_product
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="productType != null">
+				product_type = #{productType,jdbcType=VARCHAR},
+			</if>
+			<if test="productStatus != null">
+				product_status = #{productStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="number != null">
+				number = #{number,jdbcType=INTEGER},
+			</if>
+			<if test="createUser != null">
+				create_user = #{createUser,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			version = version + 1
+		</set>
+		where id = #{id,jdbcType=BIGINT} and version=#{version}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.qyj.back.entity.QyjProductEntity">
+		update qyj_product set title = #{title,jdbcType=VARCHAR},
+			price = #{price,jdbcType=DECIMAL},
+			product_type = #{productType,jdbcType=VARCHAR},
+			product_status = #{productStatus,jdbcType=VARCHAR},
+			number = #{number,jdbcType=INTEGER},
+			create_user = #{createUser,jdbcType=BIGINT},
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+			update_user = #{updateUser,jdbcType=INTEGER},
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+			version = version + 1
+		where id = #{id,jdbcType=BIGINT} and version=#{version}
+	</update>
+
+	<!-- 查询条件 -->
+	<sql id="condition_sql">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="productType != null and productType != ''">
+			and product_type = #{productType}
+		</if>
+		<if test="productStatus != null and productStatus != ''">
+			and product_status = #{productStatus}
+		</if>
+		<if test="productStatus != null and productStatus != ''">
+			and product_status = #{productStatus}
+		</if>
+		<if test="createTimeBegin != null">
+			<![CDATA[and create_time >= #{createTimeBegin}]]>
+		</if>
+		<if test="createTimeEnd != null">
+			<![CDATA[and create_time < DATE_FORMAT(date_add(#{createTimeEnd,jdbcType=TIMESTAMP}, interval 1 day), '%Y-%c-%d')]]>
+		</if>
+		<!-- Like query -->
+		<if test="title != null and title != ''">
+			and title like CONCAT(CONCAT('%', #{title}), '%')
+		</if>
+	</sql>
+	
+	<!-- 统计产品数量 -->
+	<select id="countProduct" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from qyj_product
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		</if>
+	</select>
+	
+	<!-- 获取产品数据列表 -->
+	<select id="listProduct" parameterType="java.util.Map" resultMap="baseResultMap">
+		select * from qyj_product
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		    ${pageParam.orderByCondition}
+		    ${pageParam.limit}
+		</if>
+	</select>
+</mapper>

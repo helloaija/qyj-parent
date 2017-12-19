@@ -1,0 +1,80 @@
+<!-- 新增、编辑产品弹窗 -->
+<div class="modal-content" style="width: 1000px;">
+	<div class="modal-header">
+		<h5 class="modal-title" id="gridModalLabel">{{winParams.title}}</h5>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid bd-example-row">
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="edit.title" class="col-md-2 col-form-label">产品标题：</label>
+				<div class="col-md-10">
+					<input class="form-control" id="edit.title" placeholder="请输入产品标题" ng-model="edit.title" required>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-md-4 ml-auto">
+					<div class="row">
+						<label for="edit.price" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">价格：</label>
+						<div class="col-md-8">
+							<input class="form-control" id="edit.price" placeholder="请输入产品价格" ng-model="edit.price" required>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 ml-auto">
+					<div class="row">
+						<label for="edit.productType" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">产品类型：</label>
+						<div class="col-md-8">
+							<select ng-model="edit.productType" class="form-control" required>
+							    <option ng-repeat="n in productTypeList" value="{{n.value}}">{{n.name}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 ml-auto">
+					<div class="row">
+						<label for="edit.number" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">数量：</label>
+						<div class="col-md-8">
+							<input class="form-control" id="edit.number" placeholder="请输入产品数量" ng-model="edit.number" required>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="title" class="col-md-2 col-form-label">产品介绍：</label>
+				<div class="col-md-10">
+					<textarea class="form-control" placeholder="请输入产品介绍" id="exampleFormControlTextarea1" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="row" style="border: 1px solid #ccc; min-height: 120px;">
+<!-- 				<input type="file" ngf-select="uploadFiles($files)" ng-model="picFile" name="file" ngf-accept="'image/*'" required> -->
+				
+				<button ngf-select="uploadFiles($files)" multiple accept="image/*">Select Files</button>
+				<br>
+				Files:
+				<ul>
+					<li ng-repeat="f in productImages" style="font: smaller">{{f.name}}</li>
+				</ul>
+				<span class="progress" ng-show="progress >= 0">
+					<div style="width: {{progress" ng-bind="progress + '%'"></div>
+				</span> {{errorMsg}}
+
+				<!-- 				<button class="btn btn-default" ngf-select="selectImage($files)" ngf-pattern="'image/*'" ngf-multiple="true">选择图片</button> -->
+<!-- 				<span>(支持多张图片拖拽上传)</span> -->
+<!-- 				<div class="row cropArea" style="padding: 0 15px 15px 0" ngf-drop ngf-pattern="'image/*'" ng-model="files" ngf-multiple="true"> -->
+<!-- 					<img-crop image="files || data.defaultImage" resule-image="files"></img-crop> -->
+<!-- 					<div ngf-no-file-drop>该浏览器不支持拖拽上传。</div> -->
+<!-- 					<div class="col col-xs-4 text-left" style="margin-top: 15px;" ng-repeat="image in mulImages"> -->
+<!-- 						<div ng-repeat="oneImage in image"> -->
+<!-- 							<img ngf-src="oneImage || data.defaultImage" class="img-responsive" -->
+<!-- 								style="width: 200px; height: 200px; max-width: 500px;" /> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="saveProduct()">保存</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>

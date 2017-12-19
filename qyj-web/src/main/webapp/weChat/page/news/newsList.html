@@ -1,0 +1,20 @@
+
+<div class="panel-default header-fixed">
+	<div class="panel-body header-body">
+		<div>
+			<h4>新闻公告</h4>
+		</div>
+	</div>
+</div>
+
+<div>
+	<div class="list-group">
+		<div ng-repeat="item in newsList">
+			<a ui-sref="newsContent({newsInfoId:{{item.id}}})" href="javascript:void(0);" class="list-group-item" 
+					style="margin-bottom: 0px; border: blue;border-bottom: 1px solid #ddd;"> 
+				{{item.title}}
+			</a>
+		</div>
+	</div>
+</div>
+

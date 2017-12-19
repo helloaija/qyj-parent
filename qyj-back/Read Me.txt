@@ -1,0 +1,9 @@
+tomcat虚拟路径
+<Context docBase="D:\DevelopmentEnvironment\tomcat\tomcat-8.0.28_dubbo_8082\uploadFile" path="/qyj-back/uploadFile" reloadable="false"/>
+ueditor文件地址虚拟路径
+<Context docBase="D:\DevelopmentEnvironment\tomcat\upload" path="/qyj-back/upload" reloadable="false"/>
+ueditor配置修改
+ueditor.config.js --- 假如了URL = URL.replace("js/base", "ueditor-1.4.3");
+config.json --- 放在虚拟地址在“\ueditor-1.4.3\jsp”路径，例如“D:\DevelopmentEnvironment\tomcat\upload\ueditor-1.4.3\jsp\config.json”
+			--- "imageUrlPrefix": "http://localhost:8082/qyj-back/upload", /* 图片访问路径前缀 */
+    		--- "imagePathFormat": "/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */

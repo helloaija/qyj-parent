@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.back.dao.QyjNewsInfoMapper">
+	<resultMap id="baseResultMap" type="com.qyj.back.entity.QyjNewsInfoEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="order_num" jdbcType="INTEGER" property="orderNum" />
+		<result column="visit_count" jdbcType="INTEGER" property="visitCount" />
+		<result column="create_user" jdbcType="BIGINT" property="createUser" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+	
+	<resultMap extends="baseResultMap" id="resultMapWithBLOBs"
+		type="com.qyj.back.entity.QyjNewsInfoEntity">
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+	</resultMap>
+	
+	<sql id="baseColumnList">
+		id, title, type, status, description, order_num, visit_count,
+		create_user, create_time
+	</sql>
+	
+	<sql id="blobColumnList">
+		content
+	</sql>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="resultMapWithBLOBs">
+		select <include refid="baseColumnList" />,<include refid="blobColumnList" />
+		from qyj_news_info where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from qyj_news_info where id = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<insert id="insert" parameterType="com.qyj.back.entity.QyjNewsInfoEntity">
+		insert into qyj_news_info (title, type, status, description, order_num,
+			visit_count, create_user, create_time, content)
+		values (#{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+			#{status,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+			#{orderNum,jdbcType=INTEGER}, #{visitCount,jdbcType=INTEGER},
+			#{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+			#{content,jdbcType=LONGVARCHAR})
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.qyj.back.entity.QyjNewsInfoEntity">
+		update qyj_news_info
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="orderNum != null">
+				order_num = #{orderNum,jdbcType=INTEGER},
+			</if>
+			<if test="visitCount != null">
+				visit_count = #{visitCount,jdbcType=INTEGER},
+			</if>
+			<if test="createUser != null">
+				create_user = #{createUser,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.qyj.back.entity.QyjNewsInfoEntity">
+		update qyj_news_info set title = #{title,jdbcType=VARCHAR},
+			type = #{type,jdbcType=VARCHAR}, status = #{status,jdbcType=VARCHAR},
+			description = #{description,jdbcType=VARCHAR}, order_num = #{orderNum,jdbcType=INTEGER},
+			visit_count = #{visitCount,jdbcType=INTEGER}, create_user = #{createUser,jdbcType=BIGINT},
+			create_time = #{createTime,jdbcType=TIMESTAMP}, content = #{content,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 查询条件 -->
+	<sql id="conditionSql">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="type != null and type != ''">
+			and type = #{type}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<if test="createTimeBegin != null">
+			<![CDATA[and create_time >= #{createTimeBegin}]]>
+		</if>
+		<if test="createTimeEnd != null">
+			<![CDATA[and create_time < DATE_FORMAT(date_add(#{createTimeEnd,jdbcType=TIMESTAMP}, interval 1 day), '%Y-%c-%d')]]>
+		</if>
+		<!-- Like query -->
+		<if test="title != null and title != ''">
+			and title like CONCAT(CONCAT('%', #{title}), '%')
+		</if>
+	</sql>
+	
+	<!-- 统计产品数量 -->
+	<select id="countNewsInfo" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from qyj_news_info
+		<where>
+			<include refid="conditionSql" />
+		</where>
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		</if>
+	</select>
+	
+	<!-- 获取产品数据列表 -->
+	<select id="listNewsInfo" parameterType="java.util.Map" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_news_info
+		<where>
+			<include refid="conditionSql" />
+		</where>
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		    ${pageParam.orderByCondition}
+		    ${pageParam.limit}
+		</if>
+	</select>
+</mapper>

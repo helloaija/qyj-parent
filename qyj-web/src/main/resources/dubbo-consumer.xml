@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="com.stu.web.user" />
+
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<!-- 注册中心地址 -->
+	<dubbo:registry protocol="zookeeper" address="zookeeper://192.168.30.61:2181" />
+
+	<!-- 用户服务接口 -->
+	<dubbo:reference id="SysUserFacade" interface="com.qyj.facade.SysUserFacade" check="false" />
+	<!-- 产品服务接口 -->
+	<dubbo:reference id="qyjProductFacade" interface="com.qyj.facade.QyjProductFacade" check="false" />
+	<!-- 新闻公告服务接口 -->
+	<dubbo:reference id="qyjNewsInfoFacade" interface="com.qyj.facade.QyjNewsInfoFacade" check="false" />
+</beans>

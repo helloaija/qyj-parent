@@ -1,0 +1,22 @@
+<div class="page-header">
+  <h1>后台管理系统 <small>Subtext for header</small></h1>
+</div>
+
+<div>
+	<div class="row">
+		<!-- 左侧导航区域 -->
+		<div class="col-md-2" style="border: 1px solid #eee;">
+			<ul class="nav nav-pills nav-stacked">
+			 	<!-- class="active" -->
+			  	<li role="presentation"><a class="nav-link" ui-sref="home.productList">产品管理</a></li>
+			  	<li role="presentation"><a class="nav-link" ui-sref="home.newsList">新闻管理</a></li>
+			  	<li role="presentation"><a href="#">Messages</a></li>
+			</ul>
+		</div>
+		<!-- 右侧内容区域 -->
+		<div class="col-md-10" id="contentView"  style="border: 1px solid #eee;" ui-view>
+			欢迎光临
+		</div>
+	</div>
+</div>
+

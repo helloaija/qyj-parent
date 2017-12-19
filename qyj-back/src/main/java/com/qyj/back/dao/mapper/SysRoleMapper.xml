@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.back.dao.SysRoleMapper">
+	
+	<!-- Result Map 数据库映射到实体类  -->
+	<resultMap id="tableMapToModel" type="com.qyj.back.entity.SysRoleModel" >
+		<result column="id" property="id"/>
+		<result column="roleCode" property="roleCode"/>
+		<result column="roleName" property="roleName"/>
+		<result column="remark" property="remark"/>
+		<result column="createTime" property="createTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="createUser" property="createUser"/>
+		<result column="updateUser" property="updateUser"/>
+	</resultMap>
+
+	<!-- tbaleColumns  所有列 -->
+	<sql id="tableColumns">
+		<trim suffix="" suffixOverrides=",">
+			id, roleCode, roleName, remark, createTime, updateTime, createUser, updateUser,
+		</trim>
+	</sql>
+	
+	<!-- where 条件  -->
+	<sql id="where">
+     	where 1=1
+	</sql>
+
+	<!-- 查询条件  包含所有 -->
+	<sql id="andOtherAll">
+		<trim  suffixOverrides="," >
+			<if test="sysRoleModel.id != null and sysRoleModel.id != '' " >
+			and id = #{sysRoleModel.id}
+			</if>
+			<if test="sysRoleModel.roleCode != null and sysRoleModel.roleCode != '' " >
+			and roleCode = #{sysRoleModel.roleCode}
+			</if>
+			<if test="sysRoleModel.roleName != null and sysRoleModel.roleName != '' " >
+			and roleName = #{sysRoleModel.roleName}
+			</if>
+			<if test="sysRoleModel.remark != null and sysRoleModel.remark != '' " >
+			and remark = #{sysRoleModel.remark}
+			</if>
+			<if test="sysRoleModel.createTime != null and sysRoleModel.createTime != '' ">
+			and createTime = #{sysRoleModel.createTime}
+			</if>
+			<if test="sysRoleModel.updateTime != null and sysRoleModel.updateTime != '' " >
+			and updateTime = #{sysRoleModel.updateTime}
+			</if>
+			<if test="sysRoleModel.createUser != null and sysRoleModel.createUser != '' " >
+			and createUser = #{sysRoleModel.createUser}
+			</if>
+			<if test="sysRoleModel.updateUser != null and sysRoleModel.updateUser != '' " >
+			and updateUser = #{sysRoleModel.updateUser}
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- insertColumns 插入列 -->
+	<sql id="insertColumns">
+		<trim suffix="" suffixOverrides=",">
+			<if test="sysRoleModel.id != null and sysRoleModel.id != '' " >
+				id,
+			</if>
+			<if test="sysRoleModel.roleCode != null and sysRoleModel.roleCode != '' " >
+			    roleCode,
+			</if>
+			<if test="sysRoleModel.roleName != null and sysRoleModel.roleName != '' " >
+				roleName,
+			</if>
+			<if test="sysRoleModel.remark != null and sysRoleModel.remark != '' " >
+				remark,
+			</if>
+			<if test="sysRoleModel.createTime != null and sysRoleModel.createTime != '' " >
+				createTime,
+			</if>
+			<if test="sysRoleModel.updateTime != null and sysRoleModel.updateTime != '' " >
+				updateTime,
+			</if>
+			<if test="sysRoleModel.createUser != null and sysRoleModel.createUser != '' " >
+				createUser,
+			</if>
+			<if test="sysRoleModel.updateUser != null and sysRoleModel.updateUser != '' " >
+				updateUser,
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- insertParams 插入参数 -->
+	<sql id="insertParams">
+		<trim suffix="" suffixOverrides=",">
+			<if test="sysRoleModel.id != null and sysRoleModel.id != '' " >
+				${sysRoleModel.id},
+			</if>
+			<if test="sysRoleModel.roleCode != null and sysRoleModel.roleCode != '' " >
+			    #{sysRoleModel.roleCode},
+			</if>
+			<if test="sysRoleModel.roleName != null and sysRoleModel.roleName != '' " >
+				#{sysRoleModel.roleName},
+			</if>
+			<if test="sysRoleModel.remark != null and sysRoleModel.remark != '' " >
+				#{sysRoleModel.remark},
+			</if>
+			<if test="sysRoleModel.createTime != null and sysRoleModel.createTime != '' " >
+				#{sysRoleModel.createTime},
+			</if>
+			<if test="sysRoleModel.updateTime != null and sysRoleModel.updateTime != '' " >
+				#{sysRoleModel.updateTime},
+			</if>
+			<if test="sysRoleModel.createUser != null and sysRoleModel.createUser != '' " >
+				#{sysRoleModel.createUser},
+			</if>
+			<if test="sysRoleModel.updateUser != null and sysRoleModel.updateUser != '' " >
+				#{sysRoleModel.updateUser},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- updateParams 修改参数 -->
+	<sql id="updateParams">
+		<trim suffix="" suffixOverrides=",">
+			id=${sysRoleModel.id},
+		    roleCode=#{sysRoleModel.roleCode},
+			roleName=#{sysRoleModel.roleName},
+			remark=#{sysRoleModel.remark},
+			updateTime=#{sysRoleModel.updateTime},
+			updateUser=#{sysRoleModel.updateUser},
+		</trim>
+	</sql>
+	
+	<select id="querySysRoleList"  resultMap="tableMapToModel">
+		select <include refid="tableColumns"/> from sys_role 
+		<include refid="where"/>
+		<include refid="andOtherAll"/>
+			<if test="pageBean.queryCondition != null and pageBean.queryCondition != '' " >
+				${pageBean.queryCondition}
+			</if>
+			<if test="pageBean.orderByCondition != null and pageBean.orderByCondition != '' " >
+	    		${pageBean.orderByCondition}
+	    	</if>
+		<if test="pageBean.paging == true" >
+		    	${pageBean.limit}
+		</if>
+	</select>
+	
+	<select id="querySysRoleTotal"  resultType="java.lang.Integer">
+		select count(1) from sys_role
+		<include refid="where"/>
+		<include refid="andOtherAll"/>
+			${pageBean.queryCondition}
+	</select>
+	
+	<insert id="insertRole">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_role (<include refid="insertColumns"/>) values (<include refid="insertParams"/>)
+	</insert>
+	
+	<delete id="delRole">
+		delete from sys_role where id in
+			<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+	            #{item}  
+	    	</foreach>	
+	</delete>
+	
+</mapper> 

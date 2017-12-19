@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.back.dao.SysMenuMapper">
+	
+	<!-- Result Map 数据库映射到实体类  -->
+	<resultMap id="tableMapToModel" type="com.qyj.back.entity.SysMenuModel" >
+		<result column="id" property="id"/>
+		<result column="parentId" property="parentId"/>
+		<result column="name" property="name"/>
+		<result column="menuType" property="menuType"/>
+		<result column="sortNumber" property="sortNumber"/>
+		<result column="url" property="url"/>
+		<result column="status" property="status"/>
+		<result column="remark" property="remark"/>
+		<result column="createTime" property="createTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="createUser" property="createUser"/>
+		<result column="updateUser" property="updateUser"/>
+	</resultMap>
+
+	<!-- tbaleColumns  所有列 -->
+	<sql id="tableColumns">
+		<trim suffix="" suffixOverrides=",">
+			id, parentId, name, menuType, sortNumber, url, status, remark, 
+			createTime, updateTime, createUser, updateUser,
+		</trim>
+	</sql>
+	
+	<!-- where 条件  -->
+	<sql id="where">
+     	where 1=1
+	</sql>
+
+	<!-- 查询条件  包含所有 -->
+	<sql id="andOtherAll">
+		<trim  suffixOverrides="," >
+			<if test="sysMenuModel.id != null and sysMenuModel.id != '' " >
+			and id =  #{sysMenuModel.id}
+			</if>
+			<if test="sysMenuModel.parentId != null and sysMenuModel.parentId != '' " >
+			and parentId =  #{sysMenuModel.parentId}
+			</if>
+			<if test="sysMenuModel.name != null and sysMenuModel.name != '' " >
+			and name =  #{sysMenuModel.name}
+			</if>
+			<if test="sysMenuModel.menuType != null and sysMenuModel.menuType != '' " >
+			and menuType =  #{sysMenuModel.menuType}
+			</if>
+			<if test="sysMenuModel.sortNumber != null and sysMenuModel.sortNumber != '' " >
+			and sortNumber =  #{sysMenuModel.sortNumber}
+			</if>
+			<if test="sysMenuModel.url != null and sysMenuModel.url != '' " >
+			and url =  #{sysMenuModel.url}
+			</if>
+			<if test="sysMenuModel.status != null and sysMenuModel.status != '' " >
+			and status =  #{sysMenuModel.status}
+			</if>
+			<if test="sysMenuModel.remark != null and sysMenuModel.remark != '' " >
+			and remark =  #{sysMenuModel.remark}
+			</if>
+			<if test="sysMenuModel.createTime != null and sysMenuModel.createTime != '' " >
+			and createTime =  #{sysMenuModel.createTime}
+			</if>
+			<if test="sysMenuModel.updateTime != null and sysMenuModel.updateTime != '' " >
+			and updateTime =  #{sysMenuModel.updateTime}
+			</if>
+			<if test="sysMenuModel.createUser != null and sysMenuModel.createUser != '' " >
+			and createUser =  #{sysMenuModel.createUser}
+			</if>
+			<if test="sysMenuModel.updateUser != null and sysMenuModel.updateUser != '' " >
+			and updateUser =  #{sysMenuModel.updateUser}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 根据查询条件获取菜单 -->
+	<select id="querySysMenuList"  resultMap="tableMapToModel">
+		select <include refid="tableColumns"/> from sys_menu
+		<include refid="where"/>
+		<include refid="andOtherAll"/>
+			${pageBean.queryCondition}
+	    	${pageBean.orderByCondition}
+		<if test="pageBean.paging == true" >
+		    	${pageBean.limit}
+		</if>
+	</select>
+	
+</mapper> 

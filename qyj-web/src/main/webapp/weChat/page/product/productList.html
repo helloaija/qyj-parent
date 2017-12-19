@@ -1,0 +1,23 @@
+
+<div class="panel-default header-fixed">
+	<div class="panel-body header-body">
+		<div>
+			<h4>产品列表</h4>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row" ng-repeat="product in productList">
+		<div class="col-xs-4">
+			<img
+				src="https://img13.360buyimg.com/n3/jfs/t3361/206/1956093146/236604/f9a4f245/5837e160N6014925f.jpg"
+				class="img-rounded">
+		</div>
+		<div class="col-xs-8">
+			<h5>{{product.title}}</h5>
+			<h6>￥{{product.price}}元</h6>
+		</div>
+	</div>
+</div>
+

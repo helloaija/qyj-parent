@@ -1,0 +1,56 @@
+<!-- 新增、编辑新闻公告弹窗 -->
+<div class="modal-content" style="width: 1000px;">
+	<div class="modal-header">
+		<h5 class="modal-title" id="gridModalLabel">{{winParams.title}}</h5>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid bd-example-row">
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="editModel.title" class="col-md-2 col-form-label">新闻公告标题：</label>
+				<div class="col-md-10">
+					<input class="form-control" id="editModel.title" placeholder="请输入新闻公告标题" ng-model="editModel.title" required>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-md-6 ml-auto">
+					<div class="row">
+						<label for="editModel.type" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">类型：</label>
+						<div class="col-md-8">
+							<select ng-model="editModel.type" class="form-control" required>
+							    <option ng-repeat="n in newsTypeList" value="{{n.value}}">{{n.name}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 ml-auto">
+					<div class="row">
+						<label for="editModel.price" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">序号：</label>
+						<div class="col-md-8">
+							<input class="form-control" id="editModel.price" placeholder="请输入产品价格" ng-model="editModel.orderNum" required>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="editModel.description" class="col-md-2 col-form-label">说明：</label>
+				<div class="col-md-10">
+					<textarea class="form-control" placeholder="请输入新闻公告说明" id="editModel.description" rows="1" ng-model="editModel.description"></textarea>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="contentEditorId" class="col-md-2 col-form-label">内容：</label>
+				<div class="col-md-10">
+					<!-- 加载编辑器的容器 -->
+    				<script id="contentEditorId" name="content" type="text/plain" ng-model="editModel.content">
+						这里写你的初始化内容
+    				</script>
+<!-- 					<textarea class="form-control" placeholder="请输入新闻公告内容" id="editModel.content" rows="3" ng-model="editModel.content"></textarea> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="saveNewsInfo()">保存</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>
