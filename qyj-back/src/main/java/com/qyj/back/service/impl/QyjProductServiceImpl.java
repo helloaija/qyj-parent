@@ -3,6 +3,7 @@ package com.qyj.back.service.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -22,10 +24,15 @@ import com.qyj.back.common.enums.CommonEnums.ProductStatusEnum;
 import com.qyj.back.common.util.FileUtils;
 import com.qyj.back.common.util.Utils;
 import com.qyj.back.dao.QyjFileInfoMapper;
+import com.qyj.back.dao.QyjProductDetailMapper;
 import com.qyj.back.dao.QyjProductMapper;
 import com.qyj.back.entity.QyjFileInfoEntity;
+import com.qyj.back.entity.QyjProductDetailEntity;
 import com.qyj.back.entity.QyjProductEntity;
 import com.qyj.back.service.QyjProductService;
+import com.qyj.back.vo.QyjProductBean;
+import com.qyj.back.vo.QyjProductDetailBean;
+import com.qyj.back.vo.SysUserBean;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 
@@ -43,6 +50,10 @@ public class QyjProductServiceImpl implements QyjProductService {
 	
 	@Autowired
 	private QyjFileInfoMapper fileInfoMapper;
+	
+	@Autowired
+	private QyjProductDetailMapper productDetailMapper;
+	
 
 	/**
 	 * 根据主键删除产品信息
@@ -144,23 +155,45 @@ public class QyjProductServiceImpl implements QyjProductService {
 	 * @return
 	 */
 	@Override
-	public void saveAllProductInfo(QyjProductEntity productEntity, @RequestParam("file") MultipartFile file,
+	public void saveAllProductInfo(SysUserBean sysUserBean, QyjProductBean productBean, @RequestParam("file") MultipartFile file,
 			MultipartHttpServletRequest files) throws Exception {
 		Date nowDate = new Date();
+		QyjProductEntity productEntity = new QyjProductEntity();
+		BeanUtils.copyProperties(productBean, productEntity);
+		
+		productEntity.setUpdateUser(sysUserBean.getId());
+		productEntity.setUpdateTime(nowDate);
 		// id为空插入数据
 		if (productEntity.getId() == null || productEntity.getId() == 0) {
 			productEntity.setCreateTime(nowDate);
-			productEntity.setUpdateTime(nowDate);
-			productEntity.setCreateUser(productEntity.getUpdateUser());
+			productEntity.setCreateUser(sysUserBean.getId());
 			productEntity.setProductStatus(ProductStatusEnum.UNPUBLISHED.toString());
+			
 			int insertResult = this.insert(productEntity);
 			logger.info("saveAllProductInfo insert productEntity, info={}, insertResult={}", productEntity.toString(), insertResult);
+			
+			if (insertResult <= 0) {
+				throw new Exception("新增产品信息失败！");
+			}
 		} else {
 			// 编辑更新数据
 			productEntity.setUpdateTime(nowDate);
 			int updateResult = this.updateByPrimaryKey(productEntity);
 			logger.info("saveAllProductInfo update productEntity, info={}, result={}", productEntity.toString(),
 					updateResult);
+			
+			productDetailMapper.delProductDetailByProductId(productEntity.getId());
+		}
+		
+		if (productBean.getProductDetailList() != null && productBean.getProductDetailList().isEmpty()) {
+			List<QyjProductDetailEntity> productDetailList = new ArrayList<QyjProductDetailEntity>();
+			for (QyjProductDetailBean productDetailBean : productBean.getProductDetailList()) {
+				productDetailBean.setProductId(productEntity.getId());
+				productDetailBean.setCreateTime(nowDate);
+				productDetailBean.setUpdateTime(nowDate);
+			}
+			// 保存产品详情
+			productDetailMapper.insertProductDetailList(productDetailList);
 		}
 
 		String todayDir = new SimpleDateFormat("yyyyMMdd").format(nowDate);
