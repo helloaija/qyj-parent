@@ -29,6 +29,7 @@ import com.qyj.back.common.util.Utils;
 import com.qyj.back.controller.BaseController;
 import com.qyj.back.entity.QyjProductEntity;
 import com.qyj.back.service.QyjProductService;
+import com.qyj.back.vo.QyjProductBean;
 import com.qyj.back.vo.SysUserBean;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
@@ -45,6 +46,7 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 获取产品分页数据信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -79,6 +81,7 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 根据主键查询产品信息
+	 * 
 	 * @param productId
 	 * @param request
 	 * @param response
@@ -98,6 +101,7 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 插入产品信息
+	 * 
 	 * @param productId
 	 * @param request
 	 * @param response
@@ -109,11 +113,11 @@ public class QyjProductController extends BaseController {
 			HttpServletResponse response) {
 		try {
 			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
-			
+
 			Date nowDate = new Date();
 			productEntity.setUpdateTime(nowDate);
 			productEntity.setUpdateUser(userBean.getId());
-			
+
 			// id为空插入数据
 			if (productEntity.getId() == null || productEntity.getId() == 0) {
 				productEntity.setCreateTime(nowDate);
@@ -145,6 +149,7 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 根据主键删除产品信息
+	 * 
 	 * @param productId
 	 * @param request
 	 * @param response
@@ -167,48 +172,50 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 上传项目缩略图
+	 * 
 	 * @param file
 	 * @param request
 	 * @param response
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/uploadImage")
-	public ResultBean uploadImage(HttpServletResponse response, HttpServletRequest request, MultipartHttpServletRequest files,
-			@RequestParam("file")MultipartFile file) {
+	public ResultBean uploadImage(HttpServletResponse response, HttpServletRequest request,
+			MultipartHttpServletRequest files, @RequestParam("file") MultipartFile file) {
 		try {
 			System.out.println(request.getParameter("username"));
 			System.out.println(Utils.getWebAppPath());
-			
+
 			String todayDir = new SimpleDateFormat("yyyyMMdd").format(new Date());
-			
+
 			// 图片保存文件夹地址
 			String fileDirPath = Utils.getUploadFilePath() + File.separator + "product" + File.separator + todayDir;
 			FileUtils.mkDirs(fileDirPath);
-			
-			FileCopyUtils.copy(file.getBytes(), new FileOutputStream(fileDirPath + File.separator + file.getOriginalFilename()));
+
+			FileCopyUtils.copy(file.getBytes(),
+					new FileOutputStream(fileDirPath + File.separator + file.getOriginalFilename()));
 			return new ResultBean("0000", "图片上传成功", null);
 		} catch (Exception e) {
 			logger.error("uploadImg error", e);
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
 		}
 	}
-	
+
 	/**
 	 * 上传项目缩略图
+	 * 
 	 * @param file
 	 * @param request
 	 * @param response
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/saveAllProductInfo")
-	public ResultBean saveAllProductInfo(HttpServletResponse response, HttpServletRequest request, QyjProductEntity productEntity,
-			@RequestParam("file")MultipartFile file, MultipartHttpServletRequest files) {
+	public ResultBean saveAllProductInfo(HttpServletResponse response, HttpServletRequest request,
+			QyjProductBean productBean, @RequestParam("file") MultipartFile file, MultipartHttpServletRequest files) {
 		try {
 			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
-			productEntity.setUpdateUser(userBean.getId());
-			
-			productService.saveAllProductInfo(productEntity, file, files);
-			return new ResultBean("0000", "保存成功", null);
+			return new ResultBean("0001", "请求异常:", null);
+//			productService.saveAllProductInfo(userBean, productBean, file, files);
+//			return new ResultBean("0000", "保存成功", null);
 		} catch (Exception e) {
 			logger.error("saveAllProductInfo error", e);
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);

@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.qyj.back.entity.QyjProductEntity;
+import com.qyj.back.vo.QyjProductBean;
+import com.qyj.back.vo.SysUserBean;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 
@@ -64,20 +66,25 @@ public interface QyjProductService {
 	 * @return
 	 */
 	int updateByPrimaryKey(QyjProductEntity record) throws Exception;
-	
+
 	/**
 	 * 获取产品分页数据
+	 * 
 	 * @param pageParam 分页信息
 	 * @param paramMap 查询参数
 	 * @return
 	 * @throws Exception
 	 */
 	PageBean listProjectPage(PageParam pageParam, Map<String, Object> paramMap) throws Exception;
-	
+
 	/**
 	 * 保存产品信息包括图片信息
-	 * @param record
-	 * @return
+	 * @param sysUserBean 登录用户信息
+	 * @param productBean 产品信息
+	 * @param file
+	 * @param files
+	 * @throws Exception
 	 */
-	void saveAllProductInfo(QyjProductEntity record, @RequestParam("file")MultipartFile file, MultipartHttpServletRequest files) throws Exception;
+	void saveAllProductInfo(SysUserBean sysUserBean, QyjProductBean productBean,
+			@RequestParam("file") MultipartFile file, MultipartHttpServletRequest files) throws Exception;
 }

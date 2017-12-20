@@ -457,10 +457,14 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 		var fieldData = {};
 		angular.copy($scope.edit, fieldData);
 		fieldData.files = $scope.productImages;
+		angular.forEach($scope.detailList, function(value, index, obj) {
+			fieldData["productDetailList[" + index + "].content"] = value.content;
+		});
+		
 		
 		console.log("saveProduct...");
 		Upload.upload({
-            url: 'http://localhost:8082/qyj-back/admin/product/saveAllProductInfo',
+            url: qyjBackApp.httpsHeader + '/admin/product/saveAllProductInfo',
             fields: fieldData,
             file: $scope.productImages[0]
         }).progress(function (evt) {

@@ -1,7 +1,7 @@
 define(["angular", "angular-ui-router", "oclazyload"], function() {
 	var qyjBackApp = angular.module("qyjBackApp", ["oc.lazyLoad", "ui.router"]);
 	
-	qyjBackApp.httpsHeader = "http://localhost:8082/qyj-back";
+	qyjBackApp.httpsHeader = "http://localhost:8080/qyj-back";
 	
 	qyjBackApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {
@@ -40,7 +40,6 @@ define(["angular", "angular-ui-router", "oclazyload"], function() {
 	   				load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
                             "ui.grid", "ui.bootstrap", "ng-file-upload", "ueditor",
-                            "../js/directive/commonDirectives.js",
                             "../js/filter/filters.js", '../js/service/commonServices.js',
                             '../js/service/productService.js', '../js/controller/productController.js'
 	   					]);
