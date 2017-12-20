@@ -39,9 +39,10 @@ define(["angular", "angular-ui-router", "oclazyload"], function() {
 	   			resolve : {
 	   				load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
-                            "ui.grid", "ui.bootstrap", "ng-file-upload",
+                            "ui.grid", "ui.bootstrap", "ng-file-upload", "ueditor",
+                            "../js/directive/commonDirectives.js",
                             "../js/filter/filters.js", '../js/service/commonServices.js',
-                            '../js/service/productService.js', '../js/controller/productController.js'	   					                         
+                            '../js/service/productService.js', '../js/controller/productController.js'
 	   					]);
 	   				}]
 	   	        }

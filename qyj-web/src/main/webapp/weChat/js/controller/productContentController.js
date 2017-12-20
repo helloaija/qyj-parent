@@ -17,11 +17,23 @@ qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productCont
 		
 		$scope.slideInterval = 5000;
 		
-		$scope.slideList = [{ image: 'https://img13.360buyimg.com/imgzone/jfs/t5845/159/5846779009/58997/2318fdd3/5966352bN17ac59b2.jpg', 
-			text: '亲爱的你，情人节快乐', id:0 },
-		             { image: 'https://img13.360buyimg.com/imgzone/jfs/t5845/159/5846779009/58997/2318fdd3/5966352bN17ac59b2.jpg', 
-				text: '亲爱的你，情人节快乐', id:1 }];
+		$scope.slideList = [{ image: 'http://www.harworld.com/upfile/201509/20150921173324_product_img.jpg', id:0 },
+		             { image: 'http://www.harworld.com/upfile/201509/20150921173324_product_img.jpg', id:1 }];
 		
+		$scope.tabs = [
+		               { title:'Dynamic Title 1', content:'Dynamic content 1' },
+		               { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
+		             ];
+
+		             $scope.alertMe = function() {
+		               setTimeout(function() {
+		                 $window.alert('You\'ve selected the alert tab!');
+		               });
+		             };
+
+		             $scope.model = {
+		               name: 'Tabs'
+		             };
 		
 	} 
 ]);

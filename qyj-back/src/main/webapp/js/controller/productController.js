@@ -298,20 +298,28 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 		return grid.rows.indexOf(row) + 1;
 	}
 	
-	
 	// 创建产品编辑窗口
 	$scope.createProductWin = function(productData, winParams) {
 		var editWin = $uibModal.open({
 			templateUrl : '../page/product/productEditView.html',
 			controller : 'productEditCtrl',
 			backdrop : "static",
-//			appendTo : $document.find("#contentView").eq(0),
 			size : "md",
 			resolve : {
 				editParams : function() {
 					return productData;
 				},
 				winParams : winParams,
+			}
+		});
+		
+		editWin.rendered.then(function() {
+			// 模态窗口渲染完场之后执行的函数，uditor富编辑器需要渲染完成只会在加载，否则会出现找不到元素
+			if (productData && productData.detailList) {
+				angular.forEach(productData.detailList, function(value, key, obj) {
+					value.uId = (Math.random() + "").replace(".", "");
+					addDetailElement(value);
+				});
 			}
 		});
 		
@@ -339,7 +347,10 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 					alert("获取不到产品数据，id：" + productId);
 					return;
 				}
-				$scope.createProductWin(resultBean.result, {title : "编辑产品", operationType : "edit"});
+				var prodectInfo = resultBean.result;
+				prodectInfo.detailList = [{id: 1, detailName : "图文详情", index : "1", content : "<p>图文详情内容1</p>"},
+						                  {id: 2, detailName : "图文详情", index : "2", content : "<p>图文详情内容2</p>"}];
+				$scope.createProductWin(prodectInfo, {title : "编辑产品", operationType : "edit"});
 			} else {
 				// 请求数据异常
 				alert(resultBean.resultMessage);
@@ -367,7 +378,40 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 		}});
 		$scope.delProductId = productId;
 		return;
+	}
+	
+	$scope.delProductDetail = function(uId, ele) {
+		// 删除dom节点
+		ele.remove();
+		angular.forEach($scope.detailList, function(value, index, obj) {
+			if (value.uId == uId) {
+				// 删除数据
+				$scope.detailList.splice(index, 1);
+				return;
+			}
+		});
+	}
+	
+	// 添加产品详细dom节点
+	function addDetailElement(detail) {
+		var newDetailHtml = angular.element(angular.copy(document.getElementById("productDetailHtml")));
+		newDetailHtml.css("display", "");
+		newDetailHtml.attr("id", "");
+		newDetailHtml.attr("uId", detail.uId);
+		newDetailHtml.find("script").attr("id", detail.uId);
+		newDetailHtml.find("button").attr("uId", detail.uId);
+		newDetailHtml.find("button").on("click", function() {
+			$scope.delProductDetail(detail.uId, newDetailHtml);
+		});
+		angular.element(document.getElementById("productContainer")).append(newDetailHtml);
 		
+		// 加载富编辑器
+		var ueditor = UE.getEditor(detail.uId);
+		ueditor.ready(function() {
+			if (detail.content) {
+				ueditor.setContent(detail.content);
+			}
+		});
 	}
 } 
 
@@ -379,9 +423,14 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 	$scope.edit = {};
 	// 弹窗参数
 	$scope.winParams = {};
+	// 产品详情数据
+	$scope.detailList = [];
 	
 	if ("edit" == winParams.operationType) {
 		angular.copy(editParams, $scope.edit);
+		if (editParams.detailList) {
+			$scope.detailList = editParams.detailList;
+		}
 	}
 	angular.copy(winParams, $scope.winParams);
 	
@@ -391,6 +440,9 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 	// 关闭窗口
 	$scope.closeWin = function() {
 		console.log("closeWin...");
+		angular.forEach($scope.detailList, function(value, index, obj) {
+			UE.delEditor(value.uId);
+		});
 		$uibModalInstance.dismiss('cancel');
 	};
 	
@@ -415,6 +467,9 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
         }).success(function (data, status, headers, config) {
         	if (data.resultCode == "0000") {
+        		angular.forEach($scope.detailList, function(value, index, obj) {
+        			UE.delEditor(value.uId);
+        		});
 				$uibModalInstance.close();
 			} else {
 				// 请求数据异常
@@ -422,4 +477,45 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 			}
         });
 	};
+	
+	// 添加产品详细
+	$scope.addProductDetail = function() {
+		var detail = {id: "", name : "", index : "", content : "<p>图文详情内容</p>", uId : (Math.random() + "").replace(".", "")};
+		$scope.detailList.push(detail);
+		addDetailElement(detail);
+	}
+	
+	$scope.delProductDetail = function(uId, ele) {
+		// 删除dom节点
+		ele.remove();
+		angular.forEach($scope.detailList, function(value, index, obj) {
+			if (value.uId == uId) {
+				// 删除数据
+				$scope.detailList.splice(index, 1);
+				return;
+			}
+		});
+	}
+	
+	// 添加产品详细dom节点
+	function addDetailElement(detail) {
+		var newDetailHtml = angular.element(angular.copy(document.getElementById("productDetailHtml")));
+		newDetailHtml.css("display", "");
+		newDetailHtml.attr("id", "");
+		newDetailHtml.attr("uId", detail.uId);
+		newDetailHtml.find("script").attr("id", detail.uId);
+		newDetailHtml.find("button").attr("uId", detail.uId);
+		newDetailHtml.find("button").on("click", function() {
+			$scope.delProductDetail(detail.uId, newDetailHtml);
+		});
+		angular.element(document.getElementById("productContainer")).append(newDetailHtml);
+		
+		// 加载富编辑器
+		var ueditor = UE.getEditor(detail.uId);
+		ueditor.ready(function() {
+			if (detail.content) {
+				ueditor.setContent(detail.content);
+			}
+		});
+	}
 });

@@ -4,7 +4,7 @@
 		<h5 class="modal-title" id="gridModalLabel">{{winParams.title}}</h5>
 	</div>
 	<div class="modal-body">
-		<div class="container-fluid bd-example-row">
+		<div class="container-fluid bd-example-row" id="productContainer">
 			<div class="row" style="margin-bottom: 20px;">
 				<label for="edit.title" class="col-md-2 col-form-label">产品标题：</label>
 				<div class="col-md-10">
@@ -45,7 +45,7 @@
 					<textarea class="form-control" placeholder="请输入产品介绍" id="exampleFormControlTextarea1" rows="3"></textarea>
 				</div>
 			</div>
-			<div class="row" style="border: 1px solid #ccc; min-height: 120px;">
+			<div class="row" style="border: 1px solid #ccc; min-height: 120px;margin-bottom: 20px;">
 <!-- 				<input type="file" ngf-select="uploadFiles($files)" ng-model="picFile" name="file" ngf-accept="'image/*'" required> -->
 				
 				<button ngf-select="uploadFiles($files)" multiple accept="image/*">Select Files</button>
@@ -70,6 +70,40 @@
 <!-- 						</div> -->
 <!-- 					</div> -->
 <!-- 				</div> -->
+			</div>
+			
+			<div class="row">
+				<button type="button" class="btn btn-primary" ng-click="addProductDetail()">新增</button>
+			</div>
+			<div class="row" style="margin-bottom: 20px;border-top: 1px solid #eee;display:none;" id="productDetailHtml">
+				<div class="row">
+					<div class="col-md-6 ml-auto">
+						<div class="row">
+							<div class="col-md-4">
+								<button type="button" class="btn btn-primary">删除</button>
+								<label class="col-form-label" style="padding-right:0px;text-align: right;width: 57%;">名称：</label>
+							</div>
+							<div class="col-md-8">
+								<input class="form-control" placeholder="请输入名称" ng-model="detail.name" required>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 ml-auto">
+						<div class="row">
+							<label class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">序号：</label>
+							<div class="col-md-8">
+								<input class="form-control" placeholder="请输入名称" ng-model="detail.index" required>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-md-2 col-form-label" style="text-align: right;">内容：</label>
+					<div class="col-md-10">
+						<!-- 加载编辑器的容器 -->
+	    				<script class="detail-content" type="text/plain"></script>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
