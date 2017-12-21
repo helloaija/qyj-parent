@@ -21,14 +21,13 @@ public class CommonEnums {
 	}
 	
 	/**
-	 * 银行卡状态
-	 * [UNCOMMITTED:未提交, SUBMIT：已经提交到存管，AUDIT:审核中, PASSED:审核通过, BACK:审核回退, REFUSED:审核拒绝，
-	 *	UNBIND:解绑，UNACTIVE：未激活]
+	 * 产品详细状态
+	 * [SHOW:显示,HIDE:隐藏]
 	 * @author shitl
 	 *
 	 */
-	public enum BankCardAuditStatus {
-		UNCOMMITTED, SUBMIT, AUDIT, PASSED, BACK, REFUSED, UNBIND, UNACTIVE
+	public enum ProductDetailStatusEnum {
+		SHOW, HIDE
 	}
 	
 	/**

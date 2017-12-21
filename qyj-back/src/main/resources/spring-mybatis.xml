@@ -45,19 +45,16 @@
 	</bean>
 
 	<!-- ================= 事务配置 Begin ================= -->
-	<bean id="druid-stat-interceptor"
-		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
-	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-		scope="prototype">
+	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>com.qyj.back.service.impl.*</value>
+				<value>com.qyj.back.service.*</value>
 			</list>
 		</property>
 	</bean>
 	<aop:config>
-		<aop:advisor advice-ref="druid-stat-interceptor"
-			pointcut-ref="druid-stat-pointcut" />
+		<aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
 	</aop:config>
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -72,11 +69,13 @@
 			<tx:method name="load*" read-only="true" />
 			<tx:method name="select*" read-only="true" />
 			<tx:method name="sel*" read-only="true" />
+			<tx:method name="list*" read-only="true" />
 			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception" />
 			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception" />
 			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception" />
 			<tx:method name="edit*" propagation="REQUIRED" rollback-for="Exception" />
 			<tx:method name="add*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>

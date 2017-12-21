@@ -20,7 +20,7 @@ public class QyjProductDetailEntity {
     private String name;
 
     /** 展示序号 */
-    private Integer index;
+    private Integer detailIndex;
 
     /** 状态[SHOW:显示,HIDE:隐藏] */
     private String status;
@@ -69,12 +69,12 @@ public class QyjProductDetailEntity {
         this.name = name;
     }
 
-    public Integer getIndex() {
-        return index;
+    public Integer getDetailIndex() {
+        return detailIndex;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setDetailIndex(Integer detailIndex) {
+        this.detailIndex = detailIndex;
     }
 
     public String getStatus() {
@@ -135,7 +135,7 @@ public class QyjProductDetailEntity {
 
 	@Override
 	public String toString() {
-		return "QyjProductDetailEntity [id=" + id + ", productId=" + productId + ", name=" + name + ", index=" + index
+		return "QyjProductDetailEntity [id=" + id + ", productId=" + productId + ", name=" + name + ", detailIndex=" + detailIndex
 				+ ", status=" + status + ", remark=" + remark + ", createTime=" + createTime + ", createUser="
 				+ createUser + ", updateTime=" + updateTime + ", updateUser=" + updateUser + ", content=" + content
 				+ "]";

@@ -46,6 +46,9 @@ public class QyjProductBean implements Serializable {
 
 	/** 产品详情列表数据 */
 	List<QyjProductDetailBean> productDetailList = new ArrayList<QyjProductDetailBean>();
+	
+	/** 文件列表数据 */
+	List<QyjFileInfoBean> fileInfoList = new ArrayList<QyjFileInfoBean>();
 
 	public String getTitle() {
 		return title;
@@ -141,6 +144,14 @@ public class QyjProductBean implements Serializable {
 
 	public void setProductDetailList(List<QyjProductDetailBean> productDetailList) {
 		this.productDetailList = productDetailList;
+	}
+
+	public List<QyjFileInfoBean> getFileInfoList() {
+		return fileInfoList;
+	}
+
+	public void setFileInfoList(List<QyjFileInfoBean> fileInfoList) {
+		this.fileInfoList = fileInfoList;
 	}
 
 	@Override

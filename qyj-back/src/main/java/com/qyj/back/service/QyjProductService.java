@@ -14,14 +14,11 @@ import com.qyj.common.page.PageParam;
 
 /**
  * 产品表服务层接口
- * 
  * @author CTF_stone
- *
  */
 public interface QyjProductService {
 	/**
 	 * 根据主键删除产品信息
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -29,7 +26,6 @@ public interface QyjProductService {
 
 	/**
 	 * 插入产品信息
-	 * 
 	 * @param record
 	 * @return
 	 */
@@ -37,7 +33,6 @@ public interface QyjProductService {
 
 	/**
 	 * 选择性的插入产品信息
-	 * 
 	 * @param record
 	 * @return
 	 */
@@ -45,7 +40,6 @@ public interface QyjProductService {
 
 	/**
 	 * 根据产品id获取产品信息
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -53,7 +47,6 @@ public interface QyjProductService {
 
 	/**
 	 * 根据产品id选择性的更新产品信息
-	 * 
 	 * @param record
 	 * @return
 	 */
@@ -61,7 +54,6 @@ public interface QyjProductService {
 
 	/**
 	 * 根据产品id更新产品信息
-	 * 
 	 * @param record
 	 * @return
 	 */
@@ -69,7 +61,6 @@ public interface QyjProductService {
 
 	/**
 	 * 获取产品分页数据
-	 * 
 	 * @param pageParam 分页信息
 	 * @param paramMap 查询参数
 	 * @return
@@ -85,6 +76,20 @@ public interface QyjProductService {
 	 * @param files
 	 * @throws Exception
 	 */
-	void saveAllProductInfo(SysUserBean sysUserBean, QyjProductBean productBean,
-			@RequestParam("file") MultipartFile file, MultipartHttpServletRequest files) throws Exception;
+	void saveAllProductInfo(SysUserBean sysUserBean, QyjProductBean productBean, MultipartFile file,
+			MultipartHttpServletRequest files) throws Exception;
+	
+	/**
+	 * 根据产品id删除产品信息（包括产品、产品详情、产品图片）
+	 * @param id
+	 * @return
+	 */
+	public int deleteProductInfo(Long productId) throws Exception;
+	
+	/**
+	 * 根据产品id获取产品信息
+	 * @param productId
+	 * @return
+	 */
+	public QyjProductBean selectProductInfo(Long productId) throws Exception;
 }

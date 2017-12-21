@@ -26,6 +26,36 @@ public interface QyjProductDetailMapper {
 	 */
 	int delProductDetailByProductId(Long productId);
 	
+	/**
+	 * 根据产品id获取产品详情（不包括content属性）列表
+	 * @param productId
+	 * @return
+	 */
+	List<QyjProductDetailEntity> listProductDetailByProductId(Long productId);
+	
+	/**
+	 * 根据产品id获取产品详情（包括content属性）列表
+	 * @param productId
+	 * @return
+	 */
+	List<QyjProductDetailEntity> listProductDetailWithBlobByProductId(Long productId);
+	
+	/**
+	 * 根据删除条件删除产品详情
+	 * @param 删除条件
+	 * @return
+	 */
+	int delProductDetailByCondition(String whereCondition);
+	
+	/**
+	 * 批量更新产品详情
+	 * @param productDetailList
+	 * @return
+	 */
+	int updateProductDetailList(List<QyjProductDetailEntity> productDetailList);
+	
+	
+	
 	int deleteByPrimaryKey(Long id);
 
 	int insert(QyjProductDetailEntity record);

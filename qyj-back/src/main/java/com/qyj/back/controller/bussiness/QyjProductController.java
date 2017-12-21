@@ -46,7 +46,6 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 获取产品分页数据信息
-	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -81,7 +80,6 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 根据主键查询产品信息
-	 * 
 	 * @param productId
 	 * @param request
 	 * @param response
@@ -91,7 +89,7 @@ public class QyjProductController extends BaseController {
 	@RequestMapping("/getProductInfo")
 	public ResultBean getProductInfo(Long productId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjProductEntity product = productService.selectByPrimaryKey(productId);
+			QyjProductBean product = productService.selectProductInfo(productId);
 			return new ResultBean("0000", "请求成功", product);
 		} catch (Exception e) {
 			logger.error("getProductInfo error", e);
@@ -101,7 +99,6 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 插入产品信息
-	 * 
 	 * @param productId
 	 * @param request
 	 * @param response
@@ -149,7 +146,6 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 根据主键删除产品信息
-	 * 
 	 * @param productId
 	 * @param request
 	 * @param response
@@ -159,7 +155,7 @@ public class QyjProductController extends BaseController {
 	@RequestMapping("/delProductInfo")
 	public ResultBean delProductInfo(Long productId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			int deleteResult = productService.deleteByPrimaryKey(productId);
+			int deleteResult = productService.deleteProductInfo(productId);
 			if (deleteResult == 1) {
 				return new ResultBean("0000", "删除产品信息成功", deleteResult);
 			}
@@ -172,7 +168,6 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 上传项目缩略图
-	 * 
 	 * @param file
 	 * @param request
 	 * @param response
@@ -202,7 +197,6 @@ public class QyjProductController extends BaseController {
 
 	/**
 	 * 上传项目缩略图
-	 * 
 	 * @param file
 	 * @param request
 	 * @param response
@@ -210,12 +204,12 @@ public class QyjProductController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/saveAllProductInfo")
 	public ResultBean saveAllProductInfo(HttpServletResponse response, HttpServletRequest request,
-			QyjProductBean productBean, @RequestParam("file") MultipartFile file, MultipartHttpServletRequest files) {
+			QyjProductBean productBean, @RequestParam(value = "file", required = false) MultipartFile file,
+			MultipartHttpServletRequest files) {
 		try {
 			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
-			return new ResultBean("0001", "请求异常:", null);
-//			productService.saveAllProductInfo(userBean, productBean, file, files);
-//			return new ResultBean("0000", "保存成功", null);
+			 productService.saveAllProductInfo(userBean, productBean, file, files);
+			 return new ResultBean("0000", "保存成功", null);
 		} catch (Exception e) {
 			logger.error("saveAllProductInfo error", e);
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
