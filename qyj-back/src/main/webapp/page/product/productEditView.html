@@ -34,7 +34,8 @@
 					<div class="row">
 						<label for="edit.number" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">数量：</label>
 						<div class="col-md-8">
-							<input class="form-control" id="edit.number" placeholder="请输入产品数量" ng-model="edit.number" required>
+							<input class="form-control" id="edit.number" placeholder="请输入产品数量" ng-model="edit.number" required
+								onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else if (this.value.length>4) {this.value=this.value.substring(0, 4)} else{this.value=this.value.replace(/\D/g,'')}">
 						</div>
 					</div>
 				</div>
@@ -92,7 +93,8 @@
 						<div class="row">
 							<label class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">序号：</label>
 							<div class="col-md-8">
-								<input class="form-control" name="detailIndex" placeholder="请输入名称" required>
+								<input class="form-control" name="detailIndex" placeholder="请输入名称" required 
+										onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else if (this.value.length>4) {this.value=this.value.substring(0, 4)} else{this.value=this.value.replace(/\D/g,'')}">
 							</div>
 						</div>
 					</div>

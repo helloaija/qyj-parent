@@ -29,8 +29,8 @@ public class QyjProductDetailEntity {
     private String remark;
 
     /** 创建时间 */
-    private Date createTime;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
     /** 创建人id */
     private Long createUser;

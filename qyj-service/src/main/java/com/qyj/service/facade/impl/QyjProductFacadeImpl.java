@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.QyjProductFacade;
-import com.qyj.facade.entity.QyjProductEntity;
+import com.qyj.facade.vo.QyjProductBean;
 import com.qyj.service.biz.QyjProductBiz;
 
 /**
@@ -43,8 +43,8 @@ public class QyjProductFacadeImpl implements QyjProductFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	public QyjProductEntity getProductInfoById(Long productId) throws Exception {
-		return productBiz.selectByPrimaryKey(productId);
+	public QyjProductBean getProductInfoById(Long productId) throws Exception {
+		return productBiz.getProductInfoById(productId);
 	}
 
 }

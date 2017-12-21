@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.service.dao.QyjProductDetailMapper">
+	<resultMap id="baseResultMap" type="com.qyj.facade.entity.QyjProductDetailEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="product_id" jdbcType="BIGINT" property="productId" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="detail_index" jdbcType="INTEGER" property="detailIndex" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="create_user" jdbcType="BIGINT" property="createUser" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="update_user" jdbcType="BIGINT" property="updateUser" />
+	</resultMap>
+
+	<resultMap extends="baseResultMap" id="resultMapWithBLOBs"
+		type="com.qyj.facade.entity.QyjProductDetailEntity">
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		id, product_id, name, detail_index, status, remark, create_time, create_user,
+		update_time, update_user
+	</sql>
+
+	<sql id=" blobColumnList">
+		content
+	</sql>
+
+	<!-- 批量插入产品详细信息 -->
+	<insert id="insertProductDetailList" parameterType="java.util.List">
+		insert into qyj_product_detail (product_id, name, detail_index, status, remark, create_time, create_user,
+			update_time, update_user, content) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			( #{item.productId}, #{item.name}, #{item.detailIndex}, #{item.status}, #{item.remark}, #{item.createTime}, #{item.createUser},
+			#{item.updateTime}, #{item.updateUser}, #{item.content})
+		</foreach>
+	</insert>
+	
+	<!-- 根据产品id删除产品详细 -->
+	<delete id="delProductDetailByProductId" parameterType="java.lang.Long">
+		delete from qyj_product_detail where product_id = #{productId}
+	</delete>
+	
+	<!-- 根据产品id获取产品详情（不包括content属性） -->
+	<select id="listProductDetailByProductId" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_product_detail where product_id = #{productId} 
+	</select>
+	
+	<!-- 根据产品id获取产品详情（包括content属性） -->
+	<select id="listProductDetailWithBlobByProductId" parameterType="java.lang.Long" resultMap="resultMapWithBLOBs">
+		select <include refid="baseColumnList" />,<include refid=" blobColumnList" /> from qyj_product_detail where product_id = #{productId} 
+	</select>
+	
+	<!-- 根据产品id删除产品详细 -->
+	<delete id="delProductDetailByCondition" parameterType="java.lang.String">
+		delete from qyj_product_detail where ${_parameter}
+	</delete>
+	
+	<!-- 批量更新列 -->
+	<sql id="updateBatchColumns">
+		<trim suffix="" suffixOverrides=",">
+			<if test="item.productId != null">
+				product_id = #{item.productId},
+			</if>
+			<if test="item.name != null and item.name != ''">
+				name = #{item.name},
+			</if>
+			<if test="item.detailIndex != null">
+				detail_index = #{item.detailIndex},
+			</if>
+			<if test="item.status != null and item.status != ''">
+				status = #{item.status},
+			</if>
+			<if test="item.content != null and item.content != ''">
+				content = #{item.content},
+			</if>
+			<if test="item.remark != null and item.remark != ''">
+				remark = #{item.remark},
+			</if>
+			<if test="item.createTime != null">
+				create_time = #{item.createTime},
+			</if>
+			<if test="item.createUser != null">
+				create_user = #{item.createUser},
+			</if>
+			<if test="item.updateTime != null">
+				update_time = #{item.updateTime},
+			</if>
+			<if test="item.updateUser != null">
+				update_user = #{item.updateUser},
+			</if>
+		</trim>
+	</sql>
+	<!-- 批量更新产品详细 -->
+	<update id="updateProductDetailList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			update qyj_product_detail set <include refid="updateBatchColumns" /> where id = #{item.id} and product_id = #{item.productId}
+		</foreach>
+	</update>
+
+</mapper>

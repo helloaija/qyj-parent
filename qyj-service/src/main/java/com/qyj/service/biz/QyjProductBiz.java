@@ -5,6 +5,7 @@ import java.util.Map;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.entity.QyjProductEntity;
+import com.qyj.facade.vo.QyjProductBean;
 
 /**
  * 产品表服务层接口
@@ -69,4 +70,12 @@ public interface QyjProductBiz {
 	 * @throws Exception
 	 */
 	PageBean listProjectPage(PageParam pageParam, Map<String, Object> paramMap) throws Exception;
+	
+	/**
+	 * 根据产品id获取产品信息，包括图片、产品详情
+	 * @param productId
+	 * @return
+	 * @throws Exception
+	 */
+	QyjProductBean getProductInfoById(Long productId) throws Exception;
 }

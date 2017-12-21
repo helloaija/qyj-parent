@@ -1,20 +1,30 @@
 package com.qyj.service.biz.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
+import com.qyj.facade.entity.QyjFileInfoEntity;
+import com.qyj.facade.entity.QyjProductDetailEntity;
 import com.qyj.facade.entity.QyjProductEntity;
+import com.qyj.facade.vo.QyjFileInfoBean;
+import com.qyj.facade.vo.QyjProductBean;
+import com.qyj.facade.vo.QyjProductDetailBean;
 import com.qyj.service.biz.QyjProductBiz;
+import com.qyj.service.dao.QyjFileInfoMapper;
+import com.qyj.service.dao.QyjProductDetailMapper;
 import com.qyj.service.dao.QyjProductMapper;
 
 /**
  * 产品表服务层接口
+ * 
  * @author CTF_stone
  */
 @Service
@@ -22,9 +32,16 @@ public class QyjProductBizImpl implements QyjProductBiz {
 
 	@Autowired
 	private QyjProductMapper productMapper;
+	
+	@Autowired
+	private QyjFileInfoMapper fileInfoMapper;
+	
+	@Autowired
+	private QyjProductDetailMapper productDetailMapper;
 
 	/**
 	 * 根据主键删除产品信息
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -35,6 +52,7 @@ public class QyjProductBizImpl implements QyjProductBiz {
 
 	/**
 	 * 插入产品信息
+	 * 
 	 * @param record
 	 * @return
 	 */
@@ -45,6 +63,7 @@ public class QyjProductBizImpl implements QyjProductBiz {
 
 	/**
 	 * 选择性的插入产品信息
+	 * 
 	 * @param record
 	 * @return
 	 */
@@ -55,6 +74,7 @@ public class QyjProductBizImpl implements QyjProductBiz {
 
 	/**
 	 * 根据产品id获取产品信息
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -65,6 +85,7 @@ public class QyjProductBizImpl implements QyjProductBiz {
 
 	/**
 	 * 根据产品id选择性的更新产品信息
+	 * 
 	 * @param record
 	 * @return
 	 */
@@ -75,6 +96,7 @@ public class QyjProductBizImpl implements QyjProductBiz {
 
 	/**
 	 * 根据产品id更新产品信息
+	 * 
 	 * @param record
 	 * @return
 	 */
@@ -85,6 +107,7 @@ public class QyjProductBizImpl implements QyjProductBiz {
 
 	/**
 	 * 获取产品分页数据
+	 * 
 	 * @param pageParam
 	 *            分页信息
 	 * @param paramMap
@@ -117,5 +140,53 @@ public class QyjProductBizImpl implements QyjProductBiz {
 		List<QyjProductEntity> projectList = productMapper.listProduct(paramMap);
 
 		return new PageBean(pageParam.getCurrentPage(), pageParam.getPageSize(), totalCount, projectList);
+	}
+
+	/**
+	 * 根据产品id获取产品信息，包括图片、产品详情
+	 * 
+	 * @param productId
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public QyjProductBean getProductInfoById(Long productId) throws Exception {
+		// 查询产品信息
+		QyjProductEntity productEntity = productMapper.selectByPrimaryKey(productId);
+		if (productEntity == null) {
+			throw new Exception("不存在产品，产品id：" + productId);
+		}
+
+		QyjProductBean productBean = new QyjProductBean();
+		BeanUtils.copyProperties(productEntity, productBean);
+
+		// 查询文件列表
+		List<QyjFileInfoEntity> fileInfoEntityList = fileInfoMapper.listFileInfoByItemId(productId);
+		if (fileInfoEntityList != null && !fileInfoEntityList.isEmpty()) {
+			List<QyjFileInfoBean> fileInfoBeanList = new ArrayList<QyjFileInfoBean>();
+			QyjFileInfoBean fileInfoBean = null;
+			for (QyjFileInfoEntity fileInfoEntity : fileInfoEntityList) {
+				fileInfoBean = new QyjFileInfoBean();
+				BeanUtils.copyProperties(fileInfoEntity, fileInfoBean);
+				fileInfoBeanList.add(fileInfoBean);
+			}
+			productBean.setFileInfoList(fileInfoBeanList);
+		}
+
+		// 查询产品详情
+		List<QyjProductDetailEntity> productDetailEntityList = productDetailMapper
+				.listProductDetailWithBlobByProductId(productId);
+		if (productDetailEntityList != null && !productDetailEntityList.isEmpty()) {
+			List<QyjProductDetailBean> productDetailBeanList = new ArrayList<QyjProductDetailBean>();
+			QyjProductDetailBean productDetailBean = null;
+			for (QyjProductDetailEntity productDetailEntity : productDetailEntityList) {
+				productDetailBean = new QyjProductDetailBean();
+				BeanUtils.copyProperties(productDetailEntity, productDetailBean);
+				productDetailBeanList.add(productDetailBean);
+			}
+			productBean.setProductDetailList(productDetailBeanList);
+		}
+
+		return productBean;
 	}
 }

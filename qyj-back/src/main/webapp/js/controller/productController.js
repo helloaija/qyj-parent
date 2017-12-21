@@ -454,11 +454,19 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 	
 	// 保存产品信息
 	$scope.saveProduct = function() {
+		// 轮播图片
+		var bannerFiles = [];
+		angular.forEach($scope.productImages, function(value, index, obj) {
+			if (index != 0) {
+				bannerFiles.push(value);
+			}
+		});
+		
 		var fieldData = {};
 		angular.copy($scope.edit, fieldData);
 		delete fieldData.fileInfoList;
 		delete fieldData.productDetailList;
-		fieldData.files = $scope.productImages;
+		fieldData.files = bannerFiles;
 		angular.forEach($scope.detailList, function(value, index, obj) {
 			var newDetailHtml = angular.element(document.getElementById("base_" + value.uId));
 			// 组装产品详情参数
@@ -480,7 +488,8 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 		Upload.upload({
             url: qyjBackApp.httpsHeader + '/admin/product/saveAllProductInfo',
             fields: fieldData,
-            file: $scope.productImages[0]
+            file: $scope.productImages[0],
+            files : bannerFiles
         }).progress(function (evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
         }).success(function (data, status, headers, config) {

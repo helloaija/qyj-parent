@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.service.dao.QyjFileInfoMapper">
+	<resultMap id="baseResultMap" type="com.qyj.facade.entity.QyjFileInfoEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="bus_type" jdbcType="VARCHAR" property="busType" />
+		<result column="item_id" jdbcType="INTEGER" property="itemId" />
+		<result column="field" jdbcType="VARCHAR" property="field" />
+		<result column="file_name" jdbcType="VARCHAR" property="fileName" />
+		<result column="file_type" jdbcType="VARCHAR" property="fileType" />
+		<result column="file_path" jdbcType="VARCHAR" property="filePath" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	<sql id="baseColumns">
+		id, bus_type, item_id, field, file_name, file_type, file_path, create_time
+	</sql>
+
+	<!-- 插入文件信息 -->
+	<insert id="insert" parameterType="com.qyj.facade.entity.QyjFileInfoEntity">
+		insert into qyj_file_info (bus_type, item_id, field, file_name, file_type, file_path, create_time)
+		values (#{busType,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER},
+			#{field,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR},
+			#{fileType,jdbcType=VARCHAR},
+			#{filePath,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<!-- 根据itemId删除文件 -->
+	<delete id="delFileByItemId" parameterType="java.lang.Long">
+		delete from qyj_file_info where item_id = #{itemId}
+	</delete>
+	
+	<!-- 根据itemId获取文件列表 -->
+	<select id="listFileInfoByItemId" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumns"/> from qyj_file_info where item_id = #{itemId}
+	</select>
+
+</mapper>

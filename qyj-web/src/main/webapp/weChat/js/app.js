@@ -2,7 +2,7 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate"], function() {
 	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate"]);
 	
-	qyjApp.httpsHeader = "http://localhost:8082/qyj-web";
+	qyjApp.httpsHeader = "http://localhost:8080/qyj-web";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {

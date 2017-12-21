@@ -14,7 +14,7 @@ import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.common.page.ResultBean;
 import com.qyj.facade.QyjProductFacade;
-import com.qyj.facade.entity.QyjProductEntity;
+import com.qyj.facade.vo.QyjProductBean;
 
 @Controller
 @RequestMapping("/wechat")
@@ -56,7 +56,7 @@ public class QyjProductController extends BaseController {
 	@RequestMapping("/freedom/product/getProductInfo")
 	public ResultBean getProductInfo(Long productId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjProductEntity product = productFacade.getProductInfoById(productId);
+			QyjProductBean product = productFacade.getProductInfoById(productId);
 			if (product == null) {
 				logger.info("getProductInfo result null, productId:{}", productId);
 				return new ResultBean("0002", "产品信息为空！", product);
