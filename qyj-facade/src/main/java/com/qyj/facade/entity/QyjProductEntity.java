@@ -22,6 +22,9 @@ public class QyjProductEntity extends BaseEntity {
 	private String productStatus;
 
 	private Integer number;
+	
+	/** 列表展示图片路径 */
+	private String imgUrl;
 
 	private Long createUser;
 
@@ -91,6 +94,14 @@ public class QyjProductEntity extends BaseEntity {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	@Override

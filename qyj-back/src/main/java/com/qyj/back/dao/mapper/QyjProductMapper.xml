@@ -8,6 +8,7 @@
 		<result column="product_type" jdbcType="VARCHAR" property="productType" />
 		<result column="product_status" jdbcType="VARCHAR" property="productStatus" />
 		<result column="number" jdbcType="INTEGER" property="number" />
+		<result column="img_url" property="imgUrl" />
 		<result column="create_user" property="createUser" />
 		<result column="create_time" property="createTime" />
 		<result column="update_user" property="updateUser" />
@@ -16,7 +17,7 @@
 	</resultMap>
 
 	<sql id="allColumns">
-		id, title, price, product_type, product_status, number,
+		id, title, price, product_type, product_status, number, img_url,
 		create_user, create_time, update_user, update_time, version
 	</sql>
 
@@ -36,11 +37,11 @@
 		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
 	      	SELECT LAST_INSERT_ID() AS id
 	    </selectKey>
-		insert into qyj_product (title, price, product_type, product_status, number,
+		insert into qyj_product (title, price, product_type, product_status, number, img_url,
 			create_user, create_time, update_user, update_time)
 		values (#{title,jdbcType=VARCHAR},
 			#{price,jdbcType=DECIMAL}, #{productType,jdbcType=VARCHAR},
-			#{productStatus,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER},
+			#{productStatus,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{imgUrl},
 			#{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
 			#{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
 	</insert>
@@ -65,6 +66,9 @@
 			</if>
 			<if test="number != null">
 				number,
+			</if>
+			<if test="imgUrl != null and imgUrl != ''">
+				img_url,
 			</if>
 			<if test="createUser != null">
 				create_user,
@@ -97,6 +101,9 @@
 			</if>
 			<if test="number != null">
 				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="imgUrl != null and imgUrl != ''">
+				#{imgUrl},
 			</if>
 			<if test="createUser != null">
 				#{createUser,jdbcType=BIGINT},
@@ -131,6 +138,9 @@
 			<if test="number != null">
 				number = #{number,jdbcType=INTEGER},
 			</if>
+			<if test="imgUrl != null and imgUrl != ''">
+				img_url = #{imgUrl},
+			</if>
 			<if test="createUser != null">
 				create_user = #{createUser,jdbcType=BIGINT},
 			</if>
@@ -154,6 +164,7 @@
 			product_type = #{productType,jdbcType=VARCHAR},
 			product_status = #{productStatus,jdbcType=VARCHAR},
 			number = #{number,jdbcType=INTEGER},
+			img_url = #{imgUrl},
 			create_user = #{createUser,jdbcType=BIGINT},
 			create_time = #{createTime,jdbcType=TIMESTAMP},
 			update_user = #{updateUser,jdbcType=INTEGER},

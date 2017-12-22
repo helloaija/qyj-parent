@@ -32,6 +32,9 @@ public class QyjProductBean implements Serializable {
 	private String productStatus;
 
 	private Integer number;
+	
+	/** 列表展示图片路径 */
+	private String imgUrl;
 
 	private Long createUser;
 
@@ -152,6 +155,14 @@ public class QyjProductBean implements Serializable {
 
 	public void setFileInfoList(List<QyjFileInfoBean> fileInfoList) {
 		this.fileInfoList = fileInfoList;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	@Override

@@ -13,10 +13,11 @@
 		<result column="update_user" property="updateUser" />
 		<result column="update_time" property="updateTime" />
 		<result column="version" jdbcType="INTEGER" property="version" />
+		<result column="img_url" property="imgUrl" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id, title, price, product_type, product_status, number,
+		id, title, price, product_type, product_status, number, img_url,
 		create_user, create_time, update_user, update_time, version
 	</sql>
 
@@ -30,11 +31,11 @@
 	</delete>
 
 	<insert id="insert" parameterType="com.qyj.facade.entity.QyjProductEntity">
-		insert into qyj_product (id, title, price, product_type, product_status, number,
+		insert into qyj_product (id, title, price, product_type, product_status, number, img_url,
 			create_user, create_time, update_user, update_time)
 		values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
 			#{price,jdbcType=DECIMAL}, #{productType,jdbcType=VARCHAR}, 
-			#{productStatus,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER},
+			#{productStatus,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{imgUrl},
 			#{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
 			#{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
 	</insert>
@@ -152,6 +153,7 @@
 			create_time = #{createTime,jdbcType=TIMESTAMP},
 			update_user = #{updateUser,jdbcType=INTEGER},
 			update_time = #{updateTime,jdbcType=TIMESTAMP},
+			img_url = #{imgUrl},
 			version = version + 1
 		where id = #{id,jdbcType=BIGINT} and version=#{version}
 	</update>

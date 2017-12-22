@@ -2,7 +2,8 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate"], function() {
 	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate"]);
 	
-	qyjApp.httpsHeader = "http://localhost:8080/qyj-web";
+	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
+	qyjApp.uploadImageHeader = "http://localhost:8082/qyj-back/uploadFile/";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {
@@ -17,7 +18,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			controller : "productCtrl",
 	   			resolve : {
 	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(['../js/controller/productController.js',
+	   					return $ocLazyLoad.load(["ng-infinite-scroll", '../js/controller/productController.js',
 	   					                      '../js/service/productService.js']);
 	   				}]
 	   	        }
@@ -28,7 +29,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			controller : "newsCtrl",
 	   			resolve : {
 	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(['../js/controller/newsController.js',
+	   					return $ocLazyLoad.load(["ng-infinite-scroll", '../js/controller/newsController.js',
 	   					                      '../js/service/newsService.js']);
 	   				}]
 	   			}
@@ -102,6 +103,9 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	    	   name : "ui-bootstrap",
 	    	   files : ["../js/base/ui-bootstrap.min.js",
 	    	            "../js/base/ui-bootstrap-tpls-2.5.0.min.js"]
+	       }, {
+	    	   name : "ng-infinite-scroll",
+	    	   files : ["../js/base/ng-infinite-scroll-1.0.0.min.js"]
 	       }],
 	       debug: true
 	   })

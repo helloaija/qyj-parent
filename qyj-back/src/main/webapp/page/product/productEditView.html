@@ -46,20 +46,41 @@
 					<textarea class="form-control" placeholder="请输入产品介绍" id="exampleFormControlTextarea1" rows="3"></textarea>
 				</div>
 			</div>
-			<div class="row" style="border: 1px solid #ccc; min-height: 120px;margin-bottom: 20px;">
-<!-- 				<input type="file" ngf-select="uploadFiles($files)" ng-model="picFile" name="file" ngf-accept="'image/*'" required> -->
-				
-				<button ngf-select="uploadFiles($files)" multiple accept="image/*">Select Files</button>
+			<label col-form-label">列表展示图片：</label>
+			<div class="row" style="border: 1px solid #ccc; min-height: 120px;margin-bottom: 20px;background-color: lightblue;">
+				<button ngf-select="uploadTitleFile($files)" accept="image/*">选择图片</button>
 				<br>
-				Files:
-				<ul>
-					<li ng-repeat="f in productImages" style="font: smaller">{{f.name}}</li>
-				</ul>
-				<span class="progress" ng-show="progress >= 0">
-					<div style="width: {{progress" ng-bind="progress + '%'"></div>
-				</span> {{errorMsg}}
+				<div ng-repeat="oneImage in productTitleImage" style="float:left;padding:10px;">
+					<img ngf-src="oneImage || data.defaultImage" class="img-responsive"
+							style="width: 200px; height: 200px; max-width: 500px;" />
+				</div>
+			</div>
+			
+			<label col-form-label">轮播图片：</label>
+			<div class="row" style="border: 1px solid #ccc; min-height: 120px;margin-bottom: 20px;background-color: lightblue;">
+<!-- 				<input type="file" ngf-select="uploadFiles($files)" ng-model="picFile" name="file" ngf-accept="'image/*'" required> -->
+				<button ngf-select="uploadFiles($files)" multiple accept="image/*">选择图片</button>
+				<br>
+				<div ng-repeat="file in fileInfoList" style="float:left;padding:10px;">
+					<img ngf-src="uploadPath + file.filePath" class="img-responsive"
+							style="width: 200px; height: 200px; max-width: 500px;" />
+				</div>
+				<div ng-repeat="oneImage in productImages" style="float:left;padding:10px;">
+					<img ngf-src="oneImage || data.defaultImage" class="img-responsive"
+							style="width: 200px; height: 200px; max-width: 500px;" />
+				</div>
+				
+<!-- 				<button ngf-select="uploadFiles($files)" multiple accept="image/*">Select Files</button> -->
+<!-- 				<br> -->
+<!-- 				Files: -->
+<!-- 				<ul> -->
+<!-- 					<li ng-repeat="f in productImages" style="font: smaller">{{f.name}}</li> -->
+<!-- 				</ul> -->
+<!-- 				<span class="progress" ng-show="progress >= 0"> -->
+<!-- 					<div style="width: {{progress" ng-bind="progress + '%'"></div> -->
+<!-- 				</span> {{errorMsg}} -->
 
-				<!-- 				<button class="btn btn-default" ngf-select="selectImage($files)" ngf-pattern="'image/*'" ngf-multiple="true">选择图片</button> -->
+<!-- 				<button class="btn btn-default" ngf-select="selectImage($files)" ngf-pattern="'image/*'" ngf-multiple="true">选择图片</button> -->
 <!-- 				<span>(支持多张图片拖拽上传)</span> -->
 <!-- 				<div class="row cropArea" style="padding: 0 15px 15px 0" ngf-drop ngf-pattern="'image/*'" ng-model="files" ngf-multiple="true"> -->
 <!-- 					<img-crop image="files || data.defaultImage" resule-image="files"></img-crop> -->

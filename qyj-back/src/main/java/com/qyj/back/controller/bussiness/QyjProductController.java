@@ -204,11 +204,10 @@ public class QyjProductController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/saveAllProductInfo")
 	public ResultBean saveAllProductInfo(HttpServletResponse response, HttpServletRequest request,
-			QyjProductBean productBean, @RequestParam(value = "file", required = false) MultipartFile file,
-			MultipartHttpServletRequest files) {
+			QyjProductBean productBean, MultipartHttpServletRequest files) {
 		try {
 			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
-			 productService.saveAllProductInfo(userBean, productBean, file, files);
+			 productService.saveAllProductInfo(userBean, productBean, files);
 			 return new ResultBean("0000", "保存成功", null);
 		} catch (Exception e) {
 			logger.error("saveAllProductInfo error", e);

@@ -76,7 +76,7 @@ public interface QyjProductService {
 	 * @param files
 	 * @throws Exception
 	 */
-	void saveAllProductInfo(SysUserBean sysUserBean, QyjProductBean productBean, MultipartFile file,
+	void saveAllProductInfo(SysUserBean sysUserBean, QyjProductBean productBean,
 			MultipartHttpServletRequest files) throws Exception;
 	
 	/**

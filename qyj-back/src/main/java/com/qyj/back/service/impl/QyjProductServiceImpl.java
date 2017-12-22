@@ -157,7 +157,7 @@ public class QyjProductServiceImpl implements QyjProductService {
 	 * @return
 	 */
 	@Override
-	public void saveAllProductInfo(SysUserBean sysUserBean, QyjProductBean productBean, MultipartFile file,
+	public void saveAllProductInfo(SysUserBean sysUserBean, QyjProductBean productBean,
 			MultipartHttpServletRequest files) throws Exception {
 		Date nowDate = new Date();
 		QyjProductEntity productEntity = new QyjProductEntity();
@@ -165,6 +165,38 @@ public class QyjProductServiceImpl implements QyjProductService {
 		
 		productEntity.setUpdateUser(sysUserBean.getId());
 		productEntity.setUpdateTime(nowDate);
+		
+		String todayDir = new SimpleDateFormat("yyyyMMdd").format(nowDate);
+		// 图片保存文件夹地址
+		String fileDirPath = Utils.getUploadFilePath() + File.separator;
+		// 相对文件保存地址的路径
+		String relativeFileDirPath = "product" + File.separator + todayDir + File.separator;
+		FileUtils.mkDirs(fileDirPath + relativeFileDirPath);
+		
+		QyjFileInfoEntity fileInfo = null;
+		if (files != null) {
+			// 列表展示图片
+			MultipartFile productTitleFile = files.getFile("file");
+			if (productTitleFile != null) {
+				if (!StringUtils.isEmpty(productEntity.getImgUrl())) {
+					// 删除原来的产品列表展示图片文件
+					File file = new File(Utils.getUploadFilePath() + File.separator + productEntity.getImgUrl());
+					if (file.exists()) {
+						file.delete();
+					}
+				}
+				
+				// 真实文件名
+				String fileName = productTitleFile.getOriginalFilename();
+				// 后缀带点
+				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+				// 保存的文件路径，文件名用日期+随机数
+				String saveRelativeFile = relativeFileDirPath + Utils.getUid(3) + "." + suffix;
+				// 保存文件
+				FileCopyUtils.copy(productTitleFile.getBytes(), new FileOutputStream(fileDirPath + saveRelativeFile));
+				productEntity.setImgUrl(saveRelativeFile);
+			}
+		}
 		
 		// id为空插入数据
 		if (productEntity.getId() == null || productEntity.getId() == 0) {
@@ -233,40 +265,32 @@ public class QyjProductServiceImpl implements QyjProductService {
 			productDetailMapper.updateProductDetailList(detailUpdateList);
 		}
 		
-		String todayDir = new SimpleDateFormat("yyyyMMdd").format(nowDate);
-		// 图片保存文件夹地址
-		String fileDirPath = Utils.getUploadFilePath() + File.separator;
-		// 相对文件保存地址的路径
-		String relativeFileDirPath = "product" + File.separator + todayDir + File.separator;
-		FileUtils.mkDirs(fileDirPath + relativeFileDirPath);
-		
-		QyjFileInfoEntity fileInfo = null;
-		if (file != null) {
-			// 真实文件名
-			String fileName = file.getOriginalFilename();
-			// 后缀带点
-			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-			
-			// 保存的文件路径，文件名用日期+随机数
-			String saveRelativeFile = relativeFileDirPath + Utils.getUid(3) + "." + suffix;
-			fileInfo = new QyjFileInfoEntity();
-			fileInfo.setFileName(fileName);
-			fileInfo.setBusType("PRODUCT");
-			fileInfo.setCreateTime(nowDate);
-			fileInfo.setField("HEAD");
-			fileInfo.setFileType(suffix);
-			fileInfo.setItemId(productEntity.getId());
-			fileInfo.setFilePath(saveRelativeFile);
-
-			// 保存文件信息
-			fileInfoMapper.insert(fileInfo);
-			// 保存文件
-			FileCopyUtils.copy(file.getBytes(), new FileOutputStream(fileDirPath + saveRelativeFile));
-		}
-		
+		// 是否有上传轮播图片
+		Boolean hasFiles = false;
 		// 文件名称遍历器
 		for (Iterator<String> fileNameIt = files.getFileNames(); fileNameIt.hasNext(); ) {
-			MultipartFile nextFile = files.getFile(fileNameIt.next());
+			String nextName = fileNameIt.next();
+			if ("file".equals(nextName)) {
+				continue;
+			}
+			if (!hasFiles) {
+				// 查找文件信息
+				List<QyjFileInfoEntity> fileInfoList = fileInfoMapper.listFileInfoByItemId(productEntity.getId());
+				if (fileInfoList != null && !fileInfoList.isEmpty()) {
+					for (QyjFileInfoEntity fileInfoEntity : fileInfoList) {
+						// 删除文件
+						File file = new File(Utils.getUploadFilePath() + File.separator + fileInfoEntity.getFilePath());
+						if (file.exists()) {
+							file.delete();
+						}
+					}
+					// 删除文件信息
+					fileInfoMapper.delFileByItemId(productEntity.getId());
+				}
+			}
+			hasFiles = true;
+			
+			MultipartFile nextFile = files.getFile(nextName);
 			// 真实文件名
 			String fileName = nextFile.getOriginalFilename();
 			// 后缀带点
@@ -309,6 +333,20 @@ public class QyjProductServiceImpl implements QyjProductService {
 			}
 			// 删除文件信息
 			fileInfoMapper.delFileByItemId(productId);
+		}
+		
+		// 查询产品
+		QyjProductEntity product = productMapper.selectByPrimaryKey(productId);
+		if (product == null) {
+			throw new Exception("id为" + productId + "的产品不存在！");
+		}
+		
+		if (!StringUtils.isEmpty(product.getImgUrl())) {
+			// 删除文件产品列表展示图片文件
+			File file = new File(Utils.getUploadFilePath() + File.separator + product.getImgUrl());
+			if (file.exists()) {
+				file.delete();
+			}
 		}
 		
 		// 删除产品

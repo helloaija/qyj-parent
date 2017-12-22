@@ -9,7 +9,7 @@ qyjApp.service('newsService', ["$http",
 		// 请求获取新闻通知分页数据
 		this.loadNewsInfoList = function(data) {
 			return $http({
-				method : "POST",
+				method : "GET",
 				url : qyjApp.httpsHeader + "/wechat/freedom/news/listNewsInfoPage",
 				params : data
 			});
@@ -18,7 +18,7 @@ qyjApp.service('newsService', ["$http",
 		// 请求获取新闻通知内容
 		this.getNewsInfo = function(newsInfoId) {
 			return $http({
-				method : "POST",
+				method : "GET",
 				url : qyjApp.httpsHeader + "/wechat/freedom/news/getNewsInfo",
 				params : {newsInfoId : newsInfoId}
 			});

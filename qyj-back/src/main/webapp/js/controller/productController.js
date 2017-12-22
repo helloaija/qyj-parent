@@ -425,11 +425,16 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 	$scope.winParams = {};
 	// 产品详情数据
 	$scope.detailList = [];
+	// 轮播图片数据（从数据库中取的）
+	$scope.fileInfoList = [];
+	// 图片路径前缀
+	$scope.uploadPath = qyjBackApp.uploadHeader;
 	
 	if ("edit" == winParams.operationType) {
 		angular.copy(editParams, $scope.edit);
 		if (editParams.productDetailList) {
 			$scope.detailList = editParams.productDetailList;
+			$scope.fileInfoList = editParams.fileInfoList;
 		}
 	}
 	angular.copy(winParams, $scope.winParams);
@@ -446,27 +451,39 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 		$uibModalInstance.dismiss('cancel');
 	};
 	
-	// 产品图片列表
+	// 本次上传的产品图片列表
 	$scope.productImages = [];
 	$scope.uploadFiles = function (files) {
-        $scope.productImages = files;
+        $scope.productImages = $scope.productImages.concat(files);
+        if (files && files.length > 0) {
+        	// 编辑的时候，再次上传图片，会把之前的图片覆盖
+        	$scope.fileInfoList = [];
+    	}
+    };
+    
+    // 本次上传的列表展示图片
+    $scope.productTitleImage = [];
+    $scope.uploadTitleFile = function(file) {
+    	if (file && file.length > 0) {
+    		$scope.productTitleImage = file;
+    	}
     };
 	
 	// 保存产品信息
 	$scope.saveProduct = function() {
-		// 轮播图片
-		var bannerFiles = [];
-		angular.forEach($scope.productImages, function(value, index, obj) {
-			if (index != 0) {
-				bannerFiles.push(value);
+		if ($scope.productTitleImage.length <= 0) {
+			if ("edit" == winParams.operationType) {
+				$scope.productTitleImage.push(null);
+			} else {
+				alert("请选择列表展示图片！");
+				return;
 			}
-		});
-		
+		}
 		var fieldData = {};
 		angular.copy($scope.edit, fieldData);
 		delete fieldData.fileInfoList;
 		delete fieldData.productDetailList;
-		fieldData.files = bannerFiles;
+		fieldData.files = $scope.productImages;
 		angular.forEach($scope.detailList, function(value, index, obj) {
 			var newDetailHtml = angular.element(document.getElementById("base_" + value.uId));
 			// 组装产品详情参数
@@ -488,8 +505,7 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 		Upload.upload({
             url: qyjBackApp.httpsHeader + '/admin/product/saveAllProductInfo',
             fields: fieldData,
-            file: $scope.productImages[0],
-            files : bannerFiles
+            file: $scope.productTitleImage[0]
         }).progress(function (evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
         }).success(function (data, status, headers, config) {

@@ -7,7 +7,7 @@
 	</div>
 </div>
 
-<div class="container product-container">
+<div class="container product-container" infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
 	<div ng-repeat="product in productList" class="product-list">
 		<a ui-sref="productContent({productId:{{product.id}}})" href="javascript:void(0);">
 			<div class="row">
@@ -22,5 +22,7 @@
 			</div>
 		</a>
 	</div>
+	<div ng-show='isBusy' style="height: 30px; text-align: center;">加载中...</div>
+	<div ng-show='isLoadFinish' style="height: 30px; text-align: center;">没有更多数据了</div>
 </div>
 

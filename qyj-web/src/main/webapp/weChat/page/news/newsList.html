@@ -8,13 +8,15 @@
 </div>
 
 <div>
-	<div class="list-group">
+	<div class="list-group" infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
 		<div ng-repeat="item in newsList">
 			<a ui-sref="newsContent({newsInfoId:{{item.id}}})" href="javascript:void(0);" class="list-group-item" 
 					style="margin-bottom: 0px; border: blue;border-bottom: 1px solid #ddd;"> 
 				{{item.title}}
 			</a>
 		</div>
+		<div ng-show='isBusy' style="height: 30px; text-align: center;">加载中...</div>
+		<div ng-show='isLoadFinish' style="height: 30px; text-align: center;">没有更多数据了</div>
 	</div>
 </div>
 
