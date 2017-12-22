@@ -16,6 +16,9 @@ qyjApp.controller("productCtrl", [ "$scope", "productService",
 		$scope.isBusy = false;
 		// 是否加载光光
 		$scope.isLoadFinish = false;
+		// 列表图片前缀
+		$scope.uploadFileHeader = qyjApp.uploadFileHeader;
+		
    		$scope.nextPage = function() {
    			if ($scope.isLoadFinish) {
    				return;

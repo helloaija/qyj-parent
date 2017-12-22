@@ -427,6 +427,8 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 	$scope.detailList = [];
 	// 轮播图片数据（从数据库中取的）
 	$scope.fileInfoList = [];
+	// 列表展示图片是否展示
+	$scope.showTitleImg = false;
 	// 图片路径前缀
 	$scope.uploadPath = qyjBackApp.uploadHeader;
 	
@@ -435,6 +437,9 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 		if (editParams.productDetailList) {
 			$scope.detailList = editParams.productDetailList;
 			$scope.fileInfoList = editParams.fileInfoList;
+		}
+		if (editParams.imgUrl) {
+			$scope.showTitleImg = true;
 		}
 	}
 	angular.copy(winParams, $scope.winParams);
@@ -456,7 +461,7 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 	$scope.uploadFiles = function (files) {
         $scope.productImages = $scope.productImages.concat(files);
         if (files && files.length > 0) {
-        	// 编辑的时候，再次上传图片，会把之前的图片覆盖
+        	// 编辑的时候，再次上传图片，会把之前上传的图片覆盖
         	$scope.fileInfoList = [];
     	}
     };
@@ -466,6 +471,8 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
     $scope.uploadTitleFile = function(file) {
     	if (file && file.length > 0) {
     		$scope.productTitleImage = file;
+    		// 编辑的时候，再次上传图片，会把之前存在的图片覆盖
+        	$scope.showTitleImg = false;
     	}
     };
 	

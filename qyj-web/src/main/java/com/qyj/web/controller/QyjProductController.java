@@ -37,6 +37,7 @@ public class QyjProductController extends BaseController {
 		PageParam pageParam = this.initPageParam(request);
 
 		try {
+			pageParam.setOrderByCondition("create_time desc");
 			PageBean pageBean = productFacade.listProductPage(pageParam, null);
 			return new ResultBean("0000", "请求成功", pageBean);
 		} catch (Exception e) {

@@ -9,7 +9,7 @@ qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productCont
 		// 轮播时间间隔（毫秒）
 		$scope.slideInterval = 5000;
 		$scope.slideList = [];
-		$scope.filePathHeader = qyjApp.uploadImageHeader;
+		$scope.uploadFileHeader = qyjApp.uploadFileHeader;
 		
 		// 产品详情
 		$scope.tabList = [];

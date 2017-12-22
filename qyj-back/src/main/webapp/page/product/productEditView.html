@@ -50,6 +50,10 @@
 			<div class="row" style="border: 1px solid #ccc; min-height: 120px;margin-bottom: 20px;background-color: lightblue;">
 				<button ngf-select="uploadTitleFile($files)" accept="image/*">选择图片</button>
 				<br>
+				<div ng-show="showTitleImg" style="float:left;padding:10px;">
+					<img ngf-src="uploadPath + edit.imgUrl" class="img-responsive"
+							style="width: 200px; height: 200px; max-width: 500px;" />
+				</div>
 				<div ng-repeat="oneImage in productTitleImage" style="float:left;padding:10px;">
 					<img ngf-src="oneImage || data.defaultImage" class="img-responsive"
 							style="width: 200px; height: 200px; max-width: 500px;" />

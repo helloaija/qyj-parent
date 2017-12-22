@@ -3,7 +3,8 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate"]);
 	
 	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
-	qyjApp.uploadImageHeader = "http://localhost:8082/qyj-back/uploadFile/";
+	qyjApp.uploadFileHeader = "http://192.168.30.22:8082/qyj-back/uploadFile/";
+	qyjApp.uploadHeader = "http://192.168.30.22:8082/qyj-back/upload/";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {
