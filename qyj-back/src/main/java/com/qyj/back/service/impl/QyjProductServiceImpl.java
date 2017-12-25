@@ -202,7 +202,7 @@ public class QyjProductServiceImpl implements QyjProductService {
 		if (productEntity.getId() == null || productEntity.getId() == 0) {
 			productEntity.setCreateTime(nowDate);
 			productEntity.setCreateUser(sysUserBean.getId());
-			productEntity.setProductStatus(ProductStatusEnum.UNPUBLISHED.toString());
+			productEntity.setProductStatus(ProductStatusEnum.PUBLISH.toString());
 			
 			int insertResult = this.insert(productEntity);
 			logger.info("saveAllProductInfo insert productEntity, info={}, insertResult={}", productEntity.toString(), insertResult);

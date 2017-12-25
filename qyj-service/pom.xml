@@ -155,4 +155,107 @@
 		  <artifactId>slf4j-api</artifactId>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<resources>
+			<resource>
+				<targetPath>${project.build.directory}/classes</targetPath>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<!-- 利用container启动dubbo是，spring容器启动配置默认在/META-INF/srping目录下 -->
+			<resource>
+				<targetPath>${project.build.directory}/classes/META-INF/spring</targetPath>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>spring-context.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<targetPath>${project.build.directory}/classes</targetPath>
+				<directory>src/main/java</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+        
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>com.alibaba.dubbo.container.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.10</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- package assembly:single -->
+<!-- 	        <plugin>   -->
+<!-- 	            <groupId>org.apache.maven.plugins</groupId>   -->
+<!-- 	            <artifactId>maven-assembly-plugin</artifactId>   -->
+<!-- 	            <version>2.5.5</version>   -->
+<!-- 	            <configuration>   -->
+<!-- 	                <archive>   -->
+<!-- 	                    <manifest>   -->
+<!-- 	                        <mainClass>com.test.boot.Boot</mainClass>   -->
+<!-- 	                    </manifest>   -->
+<!-- 	                </archive>   -->
+<!-- 	                <descriptorRefs>   -->
+<!-- 	                    <descriptorRef>jar-with-dependencies</descriptorRef>   -->
+<!-- 	                </descriptorRefs>   -->
+<!-- 	            </configuration>   -->
+<!-- 	        </plugin>   -->
+
+<!-- 			<plugin> -->
+<!-- 		        <groupId>org.apache.maven.plugins</groupId> -->
+<!-- 		        <artifactId>maven-shade-plugin</artifactId> -->
+<!-- 		        <version>1.2.1</version> -->
+<!-- 		        <executions> -->
+<!-- 		            <execution> -->
+<!-- 		                <phase>package</phase> -->
+<!-- 		                <goals> -->
+<!-- 		                        <goal>shade</goal> -->
+<!-- 		                </goals> -->
+<!-- 		                    <configuration> -->
+<!-- 		                        <transformers> -->
+<!-- 		                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> -->
+<!-- 		                                <mainClass>com.li.App</mainClass> -->
+<!-- 		                            </transformer> -->
+<!-- 		                        </transformers> -->
+<!-- 		                    </configuration> -->
+<!-- 		            </execution> -->
+<!-- 		        </executions> -->
+<!-- 		     </plugin> -->
+		</plugins>
+	</build>
 </project>
