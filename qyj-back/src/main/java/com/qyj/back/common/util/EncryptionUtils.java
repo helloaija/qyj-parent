@@ -153,14 +153,14 @@ public class EncryptionUtils {
 	}
 
 	public static void main(String[] args) {
-		// String str = EncryptionUtils.getMD5("123456", null, 0);
+		 String str = EncryptionUtils.getMD5("abc123", null, 0);
 
-		String str = getDES("123456", 0);
-
-		System.out.println(str);
-
-		str = getDES(str, 1);
+//		str = getDES("123456", 0);
 
 		System.out.println(str);
+
+//		str = getDES(str, 1);
+
+//		System.out.println(str);
 	}
 }

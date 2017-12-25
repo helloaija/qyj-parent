@@ -8,12 +8,13 @@
 		<result column="product_type" jdbcType="VARCHAR" property="productType" />
 		<result column="product_status" jdbcType="VARCHAR" property="productStatus" />
 		<result column="number" jdbcType="INTEGER" property="number" />
+		<result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
 		<result column="create_user" jdbcType="BIGINT" property="createUser" />
 		<result column="create_time" jdbcType="DATE" property="createTime" />
 		<result column="update_user" property="updateUser" />
 		<result column="update_time" property="updateTime" />
 		<result column="version" jdbcType="INTEGER" property="version" />
-		<result column="img_url" property="imgUrl" />
+		
 	</resultMap>
 
 	<sql id="Base_Column_List">

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,8 @@ public class QyjProductBizImpl implements QyjProductBiz {
 	
 	@Autowired
 	private QyjProductDetailMapper productDetailMapper;
+	
+	private static final Logger logger = LoggerFactory.getLogger(QyjProductBizImpl.class);
 
 	/**
 	 * 根据主键删除产品信息
@@ -138,6 +142,9 @@ public class QyjProductBizImpl implements QyjProductBiz {
 
 		// 获取分页数据列表
 		List<QyjProductEntity> projectList = productMapper.listProduct(paramMap);
+		if (projectList != null && !projectList.isEmpty()) {
+			logger.info("listProjectPage projectList count:{}, frist ont:{}", projectList.size(), projectList.get(0).toString());
+		}
 
 		return new PageBean(pageParam.getCurrentPage(), pageParam.getPageSize(), totalCount, projectList);
 	}

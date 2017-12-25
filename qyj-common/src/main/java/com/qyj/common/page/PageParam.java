@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * 分页参数传递工具类
+ * 
  * @author CTF_stone
  */
 public class PageParam implements Serializable {
@@ -116,5 +117,12 @@ public class PageParam implements Serializable {
 	public void setOrderByCondition(String orderByCondition) {
 		this.orderByCondition = orderByCondition;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "PageParam [currentPage=" + currentPage + ", pageSize=" + pageSize + ", totalCount=" + totalCount
+				+ ", pageCount=" + pageCount + ", pageOffset=" + pageOffset + ", pageTail=" + pageTail
+				+ ", queryCondition=" + queryCondition + ", orderByCondition=" + orderByCondition + "]";
+	}
+
 }

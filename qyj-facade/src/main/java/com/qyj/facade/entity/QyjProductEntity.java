@@ -7,6 +7,7 @@ import com.qyj.common.entity.BaseEntity;
 
 /**
  * 产品信息实体类
+ * 
  * @author CTF_stone
  */
 public class QyjProductEntity extends BaseEntity {
@@ -22,7 +23,7 @@ public class QyjProductEntity extends BaseEntity {
 	private String productStatus;
 
 	private Integer number;
-	
+
 	/** 列表展示图片路径 */
 	private String imgUrl;
 
@@ -107,8 +108,8 @@ public class QyjProductEntity extends BaseEntity {
 	@Override
 	public String toString() {
 		return "QyjProductEntity [title=" + title + ", price=" + price + ", productType=" + productType
-				+ ", productStatus=" + productStatus + ", number=" + number + ", createUser=" + createUser
-				+ ", updateUser=" + updateUser + ", updateTime=" + updateTime + "]";
+				+ ", productStatus=" + productStatus + ", number=" + number + ", imgUrl=" + imgUrl + ", createUser="
+				+ createUser + ", updateUser=" + updateUser + ", updateTime=" + updateTime + "]";
 	}
 
 }

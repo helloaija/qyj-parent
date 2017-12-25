@@ -1,8 +1,8 @@
 define(["angular", "angular-ui-router", "oclazyload"], function() {
 	var qyjBackApp = angular.module("qyjBackApp", ["oc.lazyLoad", "ui.router"]);
 	
-	qyjBackApp.httpsHeader = "http://192.168.30.22:8082/qyj-back";
-	qyjBackApp.uploadHeader = "http://192.168.30.22:8082/qyj-back/uploadFile/";
+	qyjBackApp.httpsHeader = "http://localhost:8080/qyj-back";
+	qyjBackApp.uploadHeader = "http://localhost:8080/qyj-back/uploadFile/";
 	
 	qyjBackApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {

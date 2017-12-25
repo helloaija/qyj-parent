@@ -10,15 +10,13 @@
 <div class="container product-container" infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
 	<div ng-repeat="product in productList" class="product-list">
 		<a ui-sref="productContent({productId:{{product.id}}})" href="javascript:void(0);">
-			<div class="row">
-				<div class="col-xs-4">
-					<img src="{{uploadFileHeader + product.imgUrl}}" class="img-rounded" style="width:130px;height:130px;"/>
-<!-- <img src="https://img13.360buyimg.com/n3/jfs/t3361/206/1956093146/236604/f9a4f245/5837e160N6014925f.jpg" -->
-<!-- 						class="img-rounded"> -->
+			<div class="row" style="height:130px;">
+				<div class="col-xs-5" style="height:100%;">
+						<img src="{{uploadFileHeader + product.imgUrl}}" style="width:100%;height:100%;" />
 				</div>
-				<div class="col-xs-8">
-					<h5>{{product.title}}</h5>
-					<h6>￥{{product.price}}元</h6>
+				<div class="col-xs-7">
+					<h4>{{product.title}}</h4>
+<!-- 					<h6>￥{{product.price}}元</h6> -->
 				</div>
 			</div>
 		</a>

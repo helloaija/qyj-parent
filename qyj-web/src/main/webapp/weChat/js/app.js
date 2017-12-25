@@ -2,16 +2,22 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate"], function() {
 	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate"]);
 	
-	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
-	qyjApp.uploadFileHeader = "http://192.168.30.22:8082/qyj-back/uploadFile/";
-	qyjApp.uploadHeader = "http://192.168.30.22:8082/qyj-back/upload/";
+	qyjApp.httpsHeader = "http://39.108.108.147";
+	qyjApp.uploadFileHeader = "http://39.108.108.147:8081/qyj-back/uploadFile/";
+	qyjApp.uploadHeader = "http://39.108.108.147:8081/qyj-back/upload/";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {
 	   		// 定义路由
 	   		$stateProvider.state("home", {
 	   			url : "/home",
-	   			templateUrl : "../page/home.html"
+	   			templateUrl : "../page/home.html",
+	   			controller : "homeCtrl",
+	   			resolve : {
+	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load(['../js/controller/homeController.js']);
+	   				}]
+	   	        }
 	   		}).state("home.productList", {
 	   			url : "/productList",
 	   			// 产品列表页面

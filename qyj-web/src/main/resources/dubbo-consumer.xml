@@ -16,9 +16,9 @@
 
 	<!-- 加入url属性之后，就会直接访问对应地址的服务dubbo服务 -->
 	<!-- 用户服务接口 -->
-	<dubbo:reference id="SysUserFacade" interface="com.qyj.facade.SysUserFacade" check="false" url="dubbo://127.0.0.1:20880"/>
+	<dubbo:reference id="SysUserFacade" interface="com.qyj.facade.SysUserFacade" check="false" url="dubbo://39.108.108.147:20880"/>
 	<!-- 产品服务接口 -->
-	<dubbo:reference id="qyjProductFacade" interface="com.qyj.facade.QyjProductFacade" check="false" url="dubbo://127.0.0.1:20880"/>
+	<dubbo:reference id="qyjProductFacade" interface="com.qyj.facade.QyjProductFacade" check="false" url="dubbo://39.108.108.147:20880"/>
 	<!-- 新闻公告服务接口 -->
-	<dubbo:reference id="qyjNewsInfoFacade" interface="com.qyj.facade.QyjNewsInfoFacade" check="false" url="dubbo://127.0.0.1:20880"/>
+	<dubbo:reference id="qyjNewsInfoFacade" interface="com.qyj.facade.QyjNewsInfoFacade" check="false" url="dubbo://39.108.108.147:20880"/>
 </beans>
