@@ -8,7 +8,11 @@
 	response.setHeader("Content-Type" , "text/html");
 	
 	String rootPath = application.getRealPath( "/" );
+<<<<<<< HEAD
 	rootPath = "E:\\developmentEnvironment\\tomcat\\apache-tomcat-8.0.14\\upload";
+=======
+	rootPath = "D:\\DevelopmentEnvironment\\tomcat\\upload";
+>>>>>>> branch 'master' of https://github.com/helloaija/qyj-parent.git
 	
 	out.write( new ActionEnter( request, rootPath ).exec() );
 	
