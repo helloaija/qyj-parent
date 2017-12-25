@@ -13,7 +13,7 @@ qyjBackApp.filter("productTypeFilter", function() {
 }).filter("productStatusFilter", function() {
 	// 产品状态过滤器
 	return function(value) {
-		var productTypeMap = {'PUBLISHED': '已发布', 'UNPUBLISHED': '未发布'};
+		var productTypeMap = {'PUBLISH': '发布', 'PUTAWAY': '上架', "SOLDOUT" : "下架"};
 		return productTypeMap[value];
 	}
 }).filter("newsTypeFilter", function() {
@@ -25,7 +25,7 @@ qyjBackApp.filter("productTypeFilter", function() {
 }).filter("newsStatusFilter", function() {
 	// 新闻公告发布状态
 	return function(value) {
-		var newsStatusMap = {'PUBLISHED': '已发布', 'UNPUBLISHED': '未发布'};
+		var newsStatusMap = {'PUBLISH': '发布', 'PUTAWAY': '上架', "SOLDOUT" : "下架"};
 		return newsStatusMap[value];
 	}
 });

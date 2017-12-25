@@ -105,8 +105,17 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
             field : 'action',  
             displayName : "操作",  
             width : '12%',
-            cellTemplate : '<div><button type="button" class="btn btn-link" ng-click="grid.appScope.showEditProductWin(row.entity.id)">修改</button>' +
-            				'<button type="button" ng-click="grid.appScope.deleteProductInfo(row.entity.id)" class="btn btn-link">删除</button></div>',
+            cellTemplate : '<div>' +
+				            '<button type="button" class="btn btn-link"' + 
+							' ng-click="grid.appScope.showViewProductWin(row.entity.id)">详情</button>' +
+            				'<button type="button" class="btn btn-link" ng-if="row.entity.productStatus == \'PUBLISH\'"' + 
+            				' ng-click="grid.appScope.showEditProductWin(row.entity.id)">修改</button>' +
+            				'<button type="button" class="btn btn-link" ng-if="row.entity.productStatus == \'PUBLISH\'"' + 
+            				' ng-click="grid.appScope.setPutawayStatus(row.entity.id)">上架</button>' +
+            				'<button type="button" class="btn btn-link" ng-if="row.entity.productStatus == \'PUTAWAY\'"' +
+            				' ng-click="grid.appScope.setSoldoutStatus(row.entity.id)">下架</button>' +
+            				'<button type="button" class="btn btn-link" ng-if="row.entity.productStatus == \'PUBLISH\'"' +
+            				' ng-click="grid.appScope.deleteProductInfo(row.entity.id)">删除</button></div>',
 			// 是否显示列头部菜单按钮
 			enableColumnMenu : false,
 			enableHiding : false,
@@ -376,6 +385,15 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 		$scope.delProductId = productId;
 		return;
 	}
+	
+	// 查看产品
+	$scope.showViewProductWin = function(productId) {}
+	
+	// 上架产品
+	$scope.setPutawayStatus = function(productId) {}
+	
+	// 下架产品
+	$scope.setSoldoutStatus = function(productId) {}
 	
 	$scope.delProductDetail = function(uId, ele) {
 		// 删除dom节点

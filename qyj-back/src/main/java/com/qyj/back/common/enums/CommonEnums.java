@@ -3,21 +3,21 @@ package com.qyj.back.common.enums;
 public class CommonEnums {
 	
 	/**
-	 *  产品发布状态[PUBLISHED：已发布，UNPUBLISHED：未发布]
+	 *  产品发布状态[PUBLISH：发布，PUTAWAY：上架，SOLDOUT：下架]
 	 * @author shitl
 	 *
 	 */
 	public enum ProductStatusEnum {
-		PUBLISHED, UNPUBLISHED
+		PUBLISH, PUTAWAY, SOLDOUT
 	}
 	
 	/**
-	 * 新闻公告状态[PUBLISHED：已发布，UNPUBLISHED：未发布]
+	 * 新闻公告状态[PUBLISH：发布，PUTAWAY：上架，SOLDOUT：下架]
 	 * @author shitl
 	 *
 	 */
 	public enum NewsStatusEnum {
-		PUBLISHED, UNPUBLISHED
+		PUBLISH, PUTAWAY, SOLDOUT
 	}
 	
 	/**

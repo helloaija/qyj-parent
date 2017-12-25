@@ -108,7 +108,7 @@ public class QyjNewsInfoController extends BaseController {
 				newsInfoEntity.setCreateUser(userBean.getId());
 				newsInfoEntity.setVisitCount(0);
 				// 未发布状态
-				newsInfoEntity.setStatus(NewsStatusEnum.UNPUBLISHED.toString());
+				newsInfoEntity.setStatus(NewsStatusEnum.PUBLISH.toString());
 				int insertResult = newsInfoService.insert(newsInfoEntity);
 				logger.info("saveNewsInfoInfo insert NewsInfoEntity, info={}, result={}", newsInfoEntity.toString(),
 						insertResult);
