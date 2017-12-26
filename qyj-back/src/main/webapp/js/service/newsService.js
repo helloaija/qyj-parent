@@ -48,4 +48,24 @@ function newsService($http) {
               }
         });
     }
+    
+    // 更新新闻状态
+    this.updateNewsStatus = function (params) {
+        return $http({  
+            method: "POST",  
+            url: qyjBackApp.httpsHeader + "/admin/news/updateNewsStatus",
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            data : params,
+            transformRequest: transformRequest
+        });
+    }
+    
+    // 序列化参数方法
+    function transformRequest(obj) {
+    	var str = [];
+		for ( var s in obj) {
+			str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+		}
+		return str.join("&");   
+    }
 }

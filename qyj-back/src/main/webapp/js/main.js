@@ -4,9 +4,13 @@ require.config({
 		"jquery.slim" : "base/jquery.slim.min",
 		"popper" : "base/popper.min",
 		"angular" : "base/angular-1.6.7.min",
+		// ui-router路由
 		"angular-ui-router" : "base/angular-ui-router.min",
+		// 按需加载
 		"oclazyload" : "base/ocLazyLoad-1.1.0.min",
 		"angular-animate" : "base/angular-animate-1.6.7.min",
+		// 使用指令ng-bind-html需要引入
+		"angular-sanitize" : "base/angular-sanitize-1.6.7.min",
 		"angular-touch" : "base/angular-touch-1.6.7.min"
 	},
 	// 这个配置是你在引入依赖的时候的包名
@@ -35,6 +39,10 @@ require.config({
 		'angular-touch': {
 			deps: ['angular'],
 			exports : "angular-touch"
+	    },
+	    "angular-sanitize" : {
+	    	deps: ['angular'],
+			exports : "angular-sanitize"
 	    }
 	},
 	urlArgs: "bust=" + (new Date()).getTime()

@@ -1,0 +1,74 @@
+<style>
+#productInfoModal th {
+	text-align: right;
+}
+</style>
+
+<!--查看产品详情弹窗 -->
+<div class="modal-content" style="width: 1000px;" id="productInfoModal">
+	<div class="modal-header">
+		<h5 class="modal-title">产品详情</h5>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid bd-example-row">
+			<table class="table">
+				<tbody>
+					<tr>
+						<th scope="row">标题：</th>
+						<td colspan="5">{{product.title}}</td>
+					</tr>
+					<tr>
+						<th scope="row">类型：</th>
+						<td>{{product.productType | productTypeFilter}}</td>
+						<th scope="row">状态：</th>
+						<td>{{product.productStatus | productStatusFilter}}</td>
+						<th scope="row">数量：</th>
+						<td>{{product.number}}</td>
+					</tr>
+					<tr>
+						<th scope="row">价格：</th>
+						<td>{{product.price}}</td>
+						<th scope="row">单位：</th>
+						<td>{{product.productUnit}}</td>
+						<th scope="row">售出数量：</th>
+						<td>{{product.soldNumber}}</td>
+					</tr>
+					<tr>
+						<th scope="row">创建时间：</th>
+						<td>{{product.createTime}}</td>
+						<th scope="row">上架时间：</th>
+						<td>{{product.putawayTime}}</td>
+						<th scope="row">下架时间：</th>
+						<td>{{product.soldoutTime}}</td>
+					</tr>
+					<tr>
+						<th scope="row">展示图片：</th>
+						<td colspan="5"><img ngf-src="uploadFileHeader + product.imgUrl" class="img-responsive"
+							style="width: 200px; height: 200px; max-width: 500px;" /></td>
+					</tr>
+					<tr>
+						<td colspan="6">
+							<span style="font-weight: bold;text-align:right;width:125px;display:inline-block;">轮播图片：</span><br/>
+							<div ng-repeat="file in product.fileInfoList" style="float:left;padding:10px;">
+								<img ngf-src="uploadFileHeader + file.filePath" class="img-responsive"
+										style="width: 200px; height: 200px; max-width: 500px;" />
+							</div>
+						</td>
+					</tr>
+					<tr ng-repeat="detail in product.productDetailList" class="info">
+						<td colspan="6">
+							<span style="font-weight: bold;text-align:right;width:125px;display:inline-block;">标签名称：</span>
+							<span style="font-weight: bold;text-align:left;width:125px;display:inline-block;">{{detail.name}}</span>
+							<span style="font-weight: bold;text-align:right;width:125px;display:inline-block;">标签序号：</span>
+							<span style="font-weight: bold;text-align:left;width:125px;display:inline-block;">{{detail.detailIndex}}</span>
+							<div ng-bind-html="detail.content" style="padding: 0px 55px;border: 1px solid #ddd;"></div>	
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>

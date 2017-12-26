@@ -319,6 +319,16 @@ public class QyjProductServiceImpl implements QyjProductService {
 	 */
 	@Override
 	public int deleteProductInfo(Long productId) throws Exception {
+		// 查询产品
+		QyjProductEntity product = productMapper.selectByPrimaryKey(productId);
+		if (product == null) {
+			throw new Exception("id为" + productId + "的产品不存在！");
+		}
+		
+		if (!ProductStatusEnum.PUBLISH.toString().equals(product.getProductStatus())) {
+			throw new Exception("产品" + productId + "不是发布状态不能删除！");
+		}
+				
 		// 删除产品详情
 		productDetailMapper.delProductDetailByProductId(productId);
 		// 查找文件信息
@@ -333,12 +343,6 @@ public class QyjProductServiceImpl implements QyjProductService {
 			}
 			// 删除文件信息
 			fileInfoMapper.delFileByItemId(productId);
-		}
-		
-		// 查询产品
-		QyjProductEntity product = productMapper.selectByPrimaryKey(productId);
-		if (product == null) {
-			throw new Exception("id为" + productId + "的产品不存在！");
 		}
 		
 		if (!StringUtils.isEmpty(product.getImgUrl())) {
@@ -396,5 +400,87 @@ public class QyjProductServiceImpl implements QyjProductService {
 		}
 		
 		return productBean;
+	}
+	
+	/**
+	 * 更新产品状态
+	 * @param userBean
+	 * @param productId
+	 * @param productStatus
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Boolean updateProductStatus(SysUserBean userBean, Long productId, String productStatus) throws Exception {
+		if (productId == null) {
+			throw new Exception("产品id不能为空！");
+		}
+		if (StringUtils.isEmpty(productStatus)) {
+			throw new Exception("更新的产品状态不能为空！");
+		}
+		
+		// 查询产品
+		QyjProductEntity product = productMapper.selectByPrimaryKey(productId);
+		if (product == null) {
+			throw new Exception("不存在产品id为" + productId + "的产品！");
+		}
+		
+		// 上架
+		if (ProductStatusEnum.PUTAWAY.toString().equals(productStatus)) {
+			if (ProductStatusEnum.PUBLISH.toString().equals(product.getProductStatus())) {
+				Date curDate = new Date();
+				QyjProductEntity updateProduct = new QyjProductEntity();
+				updateProduct.setId(productId);
+				updateProduct.setUpdateTime(curDate);
+				updateProduct.setUpdateUser(userBean.getId());
+				updateProduct.setProductStatus(productStatus);
+				updateProduct.setVersion(product.getVersion());
+				// 上架时间
+				updateProduct.setPutawayTime(curDate);
+				int updateResult = productMapper.updateByPrimaryKeySelective(updateProduct);
+				
+				if (updateResult == 1) {
+					return Boolean.TRUE;
+				}
+				return Boolean.FALSE;
+			}
+			if (ProductStatusEnum.PUTAWAY.toString().equals(product.getProductStatus())) {
+				throw new Exception("产品" + productId + "已经上架！");
+			}
+			if (ProductStatusEnum.SOLDOUT.toString().equals(product.getProductStatus())) {
+				throw new Exception("产品" + productId + "已经下架！");
+			}
+			throw new Exception("产品" + productId + "更新上架状态失败！");
+		}
+		
+		// 下架
+		if (ProductStatusEnum.SOLDOUT.toString().equals(productStatus)) {
+			if (ProductStatusEnum.PUBLISH.toString().equals(product.getProductStatus())) {
+				throw new Exception("产品" + productId + "还没有上架！");
+			}
+			if (ProductStatusEnum.PUTAWAY.toString().equals(product.getProductStatus())) {
+				Date curDate = new Date();
+				QyjProductEntity updateProduct = new QyjProductEntity();
+				updateProduct.setId(productId);
+				updateProduct.setUpdateTime(curDate);
+				updateProduct.setUpdateUser(userBean.getId());
+				updateProduct.setProductStatus(productStatus);
+				updateProduct.setVersion(product.getVersion());
+				// 下架时间
+				updateProduct.setSoldoutTime(curDate);
+				int updateResult = productMapper.updateByPrimaryKeySelective(updateProduct);
+				
+				if (updateResult == 1) {
+					return Boolean.TRUE;
+				}
+				return Boolean.FALSE;
+			}
+			if (ProductStatusEnum.SOLDOUT.toString().equals(product.getProductStatus())) {
+				throw new Exception("产品" + productId + "已经下架！");
+			}
+			throw new Exception("产品" + productId + "更新下架状态失败！");
+		}
+		
+		throw new Exception("产品" + productId + "更新状态" + productStatus + "失败！");
 	}
 }

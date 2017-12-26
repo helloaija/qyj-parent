@@ -2,8 +2,6 @@ package com.qyj.back.service;
 
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.qyj.back.entity.QyjProductEntity;
@@ -92,4 +90,14 @@ public interface QyjProductService {
 	 * @return
 	 */
 	public QyjProductBean selectProductInfo(Long productId) throws Exception;
+	
+	/**
+	 * 更新产品状态
+	 * @param userBean
+	 * @param productId
+	 * @param productStatus
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean updateProductStatus(SysUserBean userBean, Long productId, String productStatus) throws Exception;
 }

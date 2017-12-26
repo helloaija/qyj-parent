@@ -35,7 +35,7 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
             displayName : '序号',
             enableColumnMenu : false,
             enableHiding : false, 
-            width : '5%',
+            width : '3%',
             cellTemplate : '<div>{{grid.appScope.getRowIndex(grid, row)}}</div>'
          }, {
 			field : 'title',
@@ -54,7 +54,7 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 			// 是否显示列头部菜单按钮
 			enableColumnMenu : false,
 			enableHiding : false,
-			width : '8%',
+			width : '6%',
 			suppressRemoveSort : true,
 			// 是否可编辑
 			enableCellEdit : false
@@ -91,11 +91,53 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 			// 是否可编辑
 			enableCellEdit : false
 		}, {
+			field : "productUnit",
+			displayName : "单位",
+			// 是否显示列头部菜单按钮
+			enableColumnMenu : false,
+			enableHiding : false,
+			width : '6%',
+			suppressRemoveSort : true,
+			// 是否可编辑
+			enableCellEdit : false
+		}, {
+			field : "soldNumber",
+			displayName : "已售数量",
+			// 是否显示列头部菜单按钮
+			enableColumnMenu : false,
+			enableHiding : false,
+			width : '6%',
+			suppressRemoveSort : true,
+			// 是否可编辑
+			enableCellEdit : false
+		}, {
+			field : "putawayTime",
+			displayName : "上架时间",
+			// 是否显示列头部菜单按钮
+			enableColumnMenu : false,
+			width : '10%',
+			enableHiding : false,
+			suppressRemoveSort : true,
+			// 是否可编辑
+			enableCellEdit : false,
+			cellFilter : 'date:"yyyy-MM-dd hh:mm:ss"'
+		}, {
+			field : "soldoutTime",
+			displayName : "下架时间",
+			// 是否显示列头部菜单按钮
+			enableColumnMenu : false,
+			width : '10%',
+			enableHiding : false,
+			suppressRemoveSort : true,
+			// 是否可编辑
+			enableCellEdit : false,
+			cellFilter : 'date:"yyyy-MM-dd hh:mm:ss"'
+		}, {
 			field : "createTime",
 			displayName : "创建时间",
 			// 是否显示列头部菜单按钮
 			enableColumnMenu : false,
-			width : '12%',
+			width : '10%',
 			enableHiding : false,
 			suppressRemoveSort : true,
 			// 是否可编辑
@@ -106,7 +148,7 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
             displayName : "操作",  
             width : '12%',
             cellTemplate : '<div>' +
-				            '<button type="button" class="btn btn-link"' + 
+				            '<button type="button" class="btn btn-link" ng-if="row.entity.productStatus != \'PUBLISH\'"' + 
 							' ng-click="grid.appScope.showViewProductWin(row.entity.id)">详情</button>' +
             				'<button type="button" class="btn btn-link" ng-if="row.entity.productStatus == \'PUBLISH\'"' + 
             				' ng-click="grid.appScope.showEditProductWin(row.entity.id)">修改</button>' +
@@ -292,7 +334,7 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 				$scope.gridOptions.paginationCurrentPage = curPage;
 			} else {
 				// 请求数据异常
-				alert(resultBean.resultMessage);
+				tipDialogService.showPromptDialog(resultBean.resultMessage);
 			}
 		}, function(response) {
 			console.log("responseError:" + response);
@@ -353,13 +395,13 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 			if (resultBean.resultCode == "0000") {
 				// 请求数据成功
 				if (!resultBean.result) {
-					alert("获取不到产品数据，id：" + productId);
+					tipDialogService.showPromptDialog("获取不到产品数据，id：" + productId);
 					return;
 				}
 				$scope.createProductWin(resultBean.result, {title : "编辑产品", operationType : "edit"});
 			} else {
 				// 请求数据异常
-				alert(resultBean.resultMessage);
+				tipDialogService.showPromptDialog(resultBean.resultMessage);
 			}
 		});
 	}
@@ -371,29 +413,79 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 				var resultBean = response.data;
 				if (resultBean.resultCode == "0000") {
 					// 请求数据成功
-					alert("删除成功");
+					tipDialogService.showPromptDialog("删除成功");
 					getPage(1, $scope.gridOptions.paginationPageSize);
 					return;
 				} else {
 					// 请求数据异常
-					alert(resultBean.resultMessage);
+					tipDialogService.showPromptDialog(resultBean.resultMessage);
 					return;
 				}
 			});
-			return;
 		}});
 		$scope.delProductId = productId;
-		return;
 	}
 	
 	// 查看产品
-	$scope.showViewProductWin = function(productId) {}
+	$scope.showViewProductWin = function(productId) {
+		productService.getProductInfo(productId).then(function(response) {
+			var resultBean = response.data;
+			if (resultBean.resultCode == "0000") {
+				// 请求数据成功
+				if (!resultBean.result) {
+					tipDialogService.showPromptDialog("获取不到产品数据，id：" + productId);
+					return;
+				}
+				
+				var viewWin = $uibModal.open({
+					templateUrl : '../page/product/productInfoView.html',
+					controller : 'productInfoCtrl',
+					backdrop : "static",
+					size : "md",
+					resolve : {
+						product : resultBean.result
+					}
+				});
+			} else {
+				// 请求数据异常
+				tipDialogService.showPromptDialog(resultBean.resultMessage);
+			}
+		});
+	}
 	
 	// 上架产品
-	$scope.setPutawayStatus = function(productId) {}
+	$scope.setPutawayStatus = function(productId) {
+		tipDialogService.showDialog({title : "提示", content : "确认上架？", ok : function() {
+			productService.updateProductStatus({productId : productId, productStatus : "PUTAWAY"}).then(function(response) {
+				var resultBean = response.data;
+				if (resultBean.resultCode == "0000") {
+					// 请求数据成功
+					tipDialogService.showPromptDialog("产品上架成功");
+					getPage(1, $scope.gridOptions.paginationPageSize);
+				} else {
+					// 请求数据异常
+					tipDialogService.showPromptDialog("产品上架失败：" + resultBean.resultMessage);
+				}
+			});
+		}});
+	}
 	
 	// 下架产品
-	$scope.setSoldoutStatus = function(productId) {}
+	$scope.setSoldoutStatus = function(productId) {
+		tipDialogService.showDialog({title : "提示", content : "确认上架？", ok : function() {
+			productService.updateProductStatus({productId : productId, productStatus : "SOLDOUT"}).then(function(response) {
+				var resultBean = response.data;
+				if (resultBean.resultCode == "0000") {
+					// 请求数据成功
+					tipDialogService.showPromptDialog("产品下架成功");
+					getPage(1, $scope.gridOptions.paginationPageSize);
+				} else {
+					// 请求数据异常
+					tipDialogService.showPromptDialog("产品下架失败：" + resultBean.resultMessage);
+				}
+			});
+		}});
+	}
 	
 	$scope.delProductDetail = function(uId, ele) {
 		// 删除dom节点
@@ -436,7 +528,7 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 /**
  * 产品编辑弹窗控制器
  */
-qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Upload, productService, editParams, winParams) {
+qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Upload, productService, tipDialogService, editParams, winParams) {
 	// 新增、编辑产品数据
 	$scope.edit = {};
 	// 弹窗参数
@@ -500,7 +592,7 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 			if ("edit" == winParams.operationType) {
 				$scope.productTitleImage.push(null);
 			} else {
-				alert("请选择列表展示图片！");
+				tipDialogService.showPromptDialog("请选择列表展示图片！");
 				return;
 			}
 		}
@@ -541,7 +633,7 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 				$uibModalInstance.close();
 			} else {
 				// 请求数据异常
-				alert(data.resultMessage);
+				tipDialogService.showPromptDialog(data.resultMessage);
 			}
         });
 	};
@@ -584,5 +676,14 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 				ueditor.setContent(detail.content);
 			}
 		});
+	}
+});
+
+// 产品详情控制器
+qyjBackApp.controller("productInfoCtrl", function($scope, $uibModalInstance, product) {
+	$scope.uploadFileHeader = qyjBackApp.uploadFileHeader;
+	$scope.product = product;
+	$scope.closeWin = function() {
+		$uibModalInstance.close();
 	}
 });

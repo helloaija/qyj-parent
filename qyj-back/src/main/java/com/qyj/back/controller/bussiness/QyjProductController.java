@@ -177,9 +177,6 @@ public class QyjProductController extends BaseController {
 	public ResultBean uploadImage(HttpServletResponse response, HttpServletRequest request,
 			MultipartHttpServletRequest files, @RequestParam("file") MultipartFile file) {
 		try {
-			System.out.println(request.getParameter("username"));
-			System.out.println(Utils.getWebAppPath());
-
 			String todayDir = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
 			// 图片保存文件夹地址
@@ -211,6 +208,30 @@ public class QyjProductController extends BaseController {
 			 return new ResultBean("0000", "保存成功", null);
 		} catch (Exception e) {
 			logger.error("saveAllProductInfo error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * 更新产品状态
+	 * @param productId 产品id
+	 * @param productStatus 产品状态
+	 * @param response
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/updateProductStatus")
+	public ResultBean updateProductStatus(Long productId, String productStatus, HttpServletResponse response, HttpServletRequest request) {
+		try {
+			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
+			Boolean result = productService.updateProductStatus(userBean, productId, productStatus);
+			if (result) {
+				return new ResultBean("0000", "成功", null);
+			}
+			return new ResultBean("0002", "更新状态失败", null);
+		} catch (Exception e) {
+			logger.error("updateProductStatus error", e);
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
 		}
 	}

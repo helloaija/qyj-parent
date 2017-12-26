@@ -1,8 +1,8 @@
-define(["angular", "angular-ui-router", "oclazyload"], function() {
-	var qyjBackApp = angular.module("qyjBackApp", ["oc.lazyLoad", "ui.router"]);
+define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], function() {
+	var qyjBackApp = angular.module("qyjBackApp", ["oc.lazyLoad", "ui.router", "ngSanitize"]);
 	
-	qyjBackApp.httpsHeader = "http://localhost:8080/qyj-back";
-	qyjBackApp.uploadFileHeader = "http://localhost:8080/qyj-back/uploadFile/";
+	qyjBackApp.httpsHeader = "http://localhost:8082/qyj-back";
+	qyjBackApp.uploadFileHeader = "http://localhost:8082/qyj-back/uploadFile/";
 	
 	qyjBackApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {
@@ -88,9 +88,11 @@ define(["angular", "angular-ui-router", "oclazyload"], function() {
 	    	   name : "ui.grid",
 	    	   files : ["../js/base/ui-grid-4.0.8.min.js"]
 	       }, {
+	    	   // ui-bootstrap组件
 	    	   name : "ui.bootstrap",
 	    	   files : ["../js/base/ui-bootstrap-tpls-2.5.0.min.js"]
 	       }, {
+	    	   // 文件上传
 	    	   name : "ng-file-upload",
 	    	   files : ["../js/base/ng-file-upload.min.js",
                         "../js/base/ng-file-upload-shim.min.js",]

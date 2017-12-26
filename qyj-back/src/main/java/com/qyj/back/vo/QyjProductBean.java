@@ -10,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 产品信息实体类
- * 
  * @author CTF_stone
  */
 public class QyjProductBean implements Serializable {
@@ -20,38 +19,67 @@ public class QyjProductBean implements Serializable {
 	/** 主键ID **/
 	private Long id;
 
-	/** 版本号 **/
-	private Integer version = 0;
-
+	/** 产品标题 */
 	private String title;
 
+	/** 单位价格 */
 	private BigDecimal price;
 
+	/** 产品类型 */
 	private String productType;
 
+	/** 产品状态 */
 	private String productStatus;
 
+	/** 产品库存 */
 	private Integer number;
-	
+
+	/** 上架时间 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date putawayTime;
+
+	/** 下架时间 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date soldoutTime;
+
+	/** 已售数量 */
+	private Integer soldNumber;
+
+	/** 产品数量单位 */
+	private String productUnit;
+
 	/** 列表展示图片路径 */
 	private String imgUrl;
 
+	/** 版本号 **/
+	private Integer version = 0;
+
+	/** 创建人id */
 	private Long createUser;
 
 	/** 创建时间 **/
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
+	/** 更新人id */
 	private Long updateUser;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
-
+	
 	/** 产品详情列表数据 */
 	List<QyjProductDetailBean> productDetailList = new ArrayList<QyjProductDetailBean>();
 	
 	/** 文件列表数据 */
 	List<QyjFileInfoBean> fileInfoList = new ArrayList<QyjFileInfoBean>();
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getTitle() {
 		return title;
@@ -93,12 +121,68 @@ public class QyjProductBean implements Serializable {
 		this.number = number;
 	}
 
+	public Date getPutawayTime() {
+		return putawayTime;
+	}
+
+	public void setPutawayTime(Date putawayTime) {
+		this.putawayTime = putawayTime;
+	}
+
+	public Date getSoldoutTime() {
+		return soldoutTime;
+	}
+
+	public void setSoldoutTime(Date soldoutTime) {
+		this.soldoutTime = soldoutTime;
+	}
+
+	public Integer getSoldNumber() {
+		return soldNumber;
+	}
+
+	public void setSoldNumber(Integer soldNumber) {
+		this.soldNumber = soldNumber;
+	}
+
+	public String getProductUnit() {
+		return productUnit;
+	}
+
+	public void setProductUnit(String productUnit) {
+		this.productUnit = productUnit;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
 	public Long getCreateUser() {
 		return createUser;
 	}
 
 	public void setCreateUser(Long createUser) {
 		this.createUser = createUser;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 	public Long getUpdateUser() {
@@ -117,30 +201,6 @@ public class QyjProductBean implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-
 	public List<QyjProductDetailBean> getProductDetailList() {
 		return productDetailList;
 	}
@@ -157,20 +217,13 @@ public class QyjProductBean implements Serializable {
 		this.fileInfoList = fileInfoList;
 	}
 
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-
 	@Override
 	public String toString() {
-		return "QyjProductBean [id=" + id + ", version=" + version + ", title=" + title + ", price=" + price
-				+ ", productType=" + productType + ", productStatus=" + productStatus + ", number=" + number
-				+ ", createUser=" + createUser + ", createTime=" + createTime + ", updateUser=" + updateUser
-				+ ", updateTime=" + updateTime + "]";
+		return "QyjProductEntity [id=" + id + ", title=" + title + ", price=" + price + ", productType=" + productType
+				+ ", productStatus=" + productStatus + ", number=" + number + ", putawayTime=" + putawayTime
+				+ ", soldoutTime=" + soldoutTime + ", soldNumber=" + soldNumber + ", productUnit=" + productUnit
+				+ ", imgUrl=" + imgUrl + ", version=" + version + ", createUser=" + createUser + ", createTime="
+				+ createTime + ", updateUser=" + updateUser + ", updateTime=" + updateTime + "]";
 	}
 
 }

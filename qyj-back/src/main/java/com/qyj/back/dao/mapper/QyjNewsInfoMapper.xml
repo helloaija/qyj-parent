@@ -11,6 +11,8 @@
 		<result column="visit_count" jdbcType="INTEGER" property="visitCount" />
 		<result column="create_user" jdbcType="BIGINT" property="createUser" />
 		<result column="create_time" property="createTime" />
+		<result column="update_user" property="updateUser" />
+		<result column="update_time" property="updateTime" />
 	</resultMap>
 	
 	<resultMap extends="baseResultMap" id="resultMapWithBLOBs"
@@ -20,7 +22,7 @@
 	
 	<sql id="baseColumnList">
 		id, title, type, status, description, order_num, visit_count,
-		create_user, create_time
+		create_user, create_time, update_user, update_time
 	</sql>
 	
 	<sql id="blobColumnList">
@@ -38,44 +40,52 @@
 	
 	<insert id="insert" parameterType="com.qyj.back.entity.QyjNewsInfoEntity">
 		insert into qyj_news_info (title, type, status, description, order_num,
-			visit_count, create_user, create_time, content)
+			visit_count, create_user, create_time, content, update_user, update_time)
 		values (#{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
 			#{status,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
 			#{orderNum,jdbcType=INTEGER}, #{visitCount,jdbcType=INTEGER},
 			#{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
-			#{content,jdbcType=LONGVARCHAR})
+			#{content,jdbcType=LONGVARCHAR}, #{updateUser}, #{updateTime})
 	</insert>
 	
 	<update id="updateByPrimaryKeySelective" parameterType="com.qyj.back.entity.QyjNewsInfoEntity">
 		update qyj_news_info
 		<set>
-			<if test="title != null">
-				title = #{title,jdbcType=VARCHAR},
-			</if>
-			<if test="type != null">
-				type = #{type,jdbcType=VARCHAR},
-			</if>
-			<if test="status != null">
-				status = #{status,jdbcType=VARCHAR},
-			</if>
-			<if test="description != null">
-				description = #{description,jdbcType=VARCHAR},
-			</if>
-			<if test="orderNum != null">
-				order_num = #{orderNum,jdbcType=INTEGER},
-			</if>
-			<if test="visitCount != null">
-				visit_count = #{visitCount,jdbcType=INTEGER},
-			</if>
-			<if test="createUser != null">
-				create_user = #{createUser,jdbcType=BIGINT},
-			</if>
-			<if test="createTime != null">
-				create_time = #{createTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="content != null">
-				content = #{content,jdbcType=LONGVARCHAR},
-			</if>
+			<trim  suffixOverrides="," >
+				<if test="title != null">
+					title = #{title,jdbcType=VARCHAR},
+				</if>
+				<if test="type != null">
+					type = #{type,jdbcType=VARCHAR},
+				</if>
+				<if test="status != null">
+					status = #{status,jdbcType=VARCHAR},
+				</if>
+				<if test="description != null">
+					description = #{description,jdbcType=VARCHAR},
+				</if>
+				<if test="orderNum != null">
+					order_num = #{orderNum,jdbcType=INTEGER},
+				</if>
+				<if test="visitCount != null">
+					visit_count = #{visitCount,jdbcType=INTEGER},
+				</if>
+				<if test="createUser != null">
+					create_user = #{createUser,jdbcType=BIGINT},
+				</if>
+				<if test="createTime != null">
+					create_time = #{createTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="content != null">
+					content = #{content,jdbcType=LONGVARCHAR},
+				</if>
+				<if test="updateUser != null">
+					update_user = #{updateUser},
+				</if>
+				<if test="updateTime != null">
+					update_time = #{updateTime},
+				</if>
+			</trim>
 		</set>
 		where id = #{id,jdbcType=BIGINT}
 	</update>
@@ -85,7 +95,8 @@
 			type = #{type,jdbcType=VARCHAR}, status = #{status,jdbcType=VARCHAR},
 			description = #{description,jdbcType=VARCHAR}, order_num = #{orderNum,jdbcType=INTEGER},
 			visit_count = #{visitCount,jdbcType=INTEGER}, create_user = #{createUser,jdbcType=BIGINT},
-			create_time = #{createTime,jdbcType=TIMESTAMP}, content = #{content,jdbcType=LONGVARCHAR}
+			create_time = #{createTime,jdbcType=TIMESTAMP}, content = #{content,jdbcType=LONGVARCHAR},
+			update_user = #{updateUser}, update_time = #{updateTime}
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 	

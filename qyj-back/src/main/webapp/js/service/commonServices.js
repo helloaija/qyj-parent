@@ -9,10 +9,15 @@ qyjBackApp.controller('tipDialogCtrl', function ($scope, $uibModalInstance, item
 	$scope.title = items.title;
 	// 提示内容
 	$scope.tipContent = items.content;
+	// 按钮
+	$scope.buttons = items.buttons;
 	
 	// 确认
 	$scope.ok = function() {
-		items.ok();
+		if (angular.isFunction(items.ok)) {
+			items.ok();
+		}
+		
 		$uibModalInstance.close();
 	};
 
@@ -23,7 +28,26 @@ qyjBackApp.controller('tipDialogCtrl', function ($scope, $uibModalInstance, item
 	};
 }).service('tipDialogService', ["$uibModal", 
     function($uibModal) {
+		// 打开选择对话框
 	    this.showDialog = function (item) {
+	    	// 显示确认和取消按钮
+	    	item.buttons = {ok : true, cancel : true};
+	    	openDialog(item);
+	    };
+	    
+	    // 打开提示对话框
+	    this.showPromptDialog = function(msg) {
+	    	var item = {};
+	    	item.title = "提示";
+	    	item.content = msg;
+	    	// 显示确认按钮
+	    	item.buttons = {ok : true, cancel : false};
+	    	item.ok = null;
+	    	openDialog(item);
+	    }
+	    
+	    // 弹出对话框方法
+	    function openDialog(item) {
 	    	var modalInstance = $uibModal.open({
 	            templateUrl : '../page/common/tipDialog.html',
 	            controller : 'tipDialogCtrl', // specify controller for modal

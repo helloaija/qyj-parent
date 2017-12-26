@@ -103,8 +103,13 @@ function newsCtrl($scope, $filter, i18nService, $uibModal, newsService, tipDialo
 					field : 'action',
 					displayName : "操作",
 					width : '12%',
-					cellTemplate : '<div><button type="button" class="btn btn-link" ng-click="grid.appScope.showEditNewsInfoWin(row.entity.id)">修改</button>'
-							+ '<button type="button" ng-click="grid.appScope.deleteNewsInfo(row.entity.id)" class="btn btn-link">删除</button></div>',
+					cellTemplate : '<div>' +
+								'<button type="button" class="btn btn-link" ng-click="grid.appScope.showEditNewsInfoWin(row.entity.id)">修改</button>' + 
+								'<button type="button" class="btn btn-link" ng-if="row.entity.status == \'PUBLISH\'"' + 
+	            				' ng-click="grid.appScope.setPutawayStatus(row.entity.id)">上架</button>' +
+	            				'<button type="button" class="btn btn-link" ng-if="row.entity.status == \'PUTAWAY\'"' +
+	            				' ng-click="grid.appScope.setSoldoutStatus(row.entity.id)">下架</button>' +
+								'<button type="button" ng-click="grid.appScope.deleteNewsInfo(row.entity.id)" class="btn btn-link">删除</button></div>',
 					// 是否显示列头部菜单按钮
 					enableColumnMenu : false,
 					enableHiding : false,
@@ -324,6 +329,40 @@ function newsCtrl($scope, $filter, i18nService, $uibModal, newsService, tipDialo
 				alert(resultBean.resultMessage);
 			}
 		});
+	}
+	
+	// 上架新闻
+	$scope.setPutawayStatus = function(newsId) {
+		tipDialogService.showDialog({title : "提示", content : "确认上架？", ok : function() {
+			newsService.updateNewsStatus({newsId : newsId, newsStatus : "PUTAWAY"}).then(function(response) {
+				var resultBean = response.data;
+				if (resultBean.resultCode == "0000") {
+					// 请求数据成功
+					tipDialogService.showPromptDialog("新闻上架成功");
+					getPage(1, $scope.gridOptions.paginationPageSize);
+				} else {
+					// 请求数据异常
+					tipDialogService.showPromptDialog("新闻上架失败：" + resultBean.resultMessage);
+				}
+			});
+		}});
+	}
+	
+	// 下架新闻
+	$scope.setSoldoutStatus = function(newsId) {
+		tipDialogService.showDialog({title : "提示", content : "确认上架？", ok : function() {
+			newsService.updateNewsStatus({newsId : newsId, newsStatus : "SOLDOUT"}).then(function(response) {
+				var resultBean = response.data;
+				if (resultBean.resultCode == "0000") {
+					// 请求数据成功
+					tipDialogService.showPromptDialog("新闻下架成功");
+					getPage(1, $scope.gridOptions.paginationPageSize);
+				} else {
+					// 请求数据异常
+					tipDialogService.showPromptDialog("新闻下架失败：" + resultBean.resultMessage);
+				}
+			});
+		}});
 	}
 };
 

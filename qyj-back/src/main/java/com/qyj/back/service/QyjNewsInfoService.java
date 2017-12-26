@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.qyj.back.entity.QyjNewsInfoEntity;
+import com.qyj.back.vo.SysUserBean;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 
@@ -71,4 +72,14 @@ public interface QyjNewsInfoService {
 	 * @throws Exception
 	 */
 	PageBean listNewsInfoPage(PageParam pageParam, Map<String, Object> paramMap) throws Exception;
+
+	/**
+	 * 更新新闻状态
+	 * @param userBean
+	 * @param newsId
+	 * @param newsStatus
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean updateNewsStatus(SysUserBean userBean, Long newsId, String newsStatus) throws Exception;
 }

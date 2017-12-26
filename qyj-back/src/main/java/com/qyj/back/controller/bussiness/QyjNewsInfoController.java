@@ -154,4 +154,28 @@ public class QyjNewsInfoController extends BaseController {
 		}
 	}
 	
+	/**
+	 * 更新新闻状态
+	 * @param newsId 产品id
+	 * @param newsStatus 产品状态
+	 * @param response
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/updateNewsStatus")
+	public ResultBean updateNewsStatus(Long newsId, String newsStatus, HttpServletResponse response, HttpServletRequest request) {
+		try {
+			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
+			Boolean result = newsInfoService.updateNewsStatus(userBean, newsId, newsStatus);
+			if (result) {
+				return new ResultBean("0000", "成功", null);
+			}
+			return new ResultBean("0002", "更新状态失败", null);
+		} catch (Exception e) {
+			logger.error("updateNewsStatus error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
+	
 }

@@ -14,11 +14,15 @@
 		<result column="update_user" property="updateUser" />
 		<result column="update_time" property="updateTime" />
 		<result column="version" jdbcType="INTEGER" property="version" />
+		<result column="putaway_time" property="putawayTime" />
+		<result column="soldout_time" property="soldoutTime" />
+		<result column="sold_number" property="soldNumber" />
+		<result column="product_unit" property="productUnit" />
 	</resultMap>
 
 	<sql id="allColumns">
-		id, title, price, product_type, product_status, number, img_url,
-		create_user, create_time, update_user, update_time, version
+		id, title, price, product_type, product_status, number, putaway_time, soldout_time, sold_number, product_unit,
+		img_url, create_user, create_time, update_user, update_time, version
 	</sql>
 
 	<!-- 根据主键查找产品 -->
@@ -37,13 +41,10 @@
 		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
 	      	SELECT LAST_INSERT_ID() AS id
 	    </selectKey>
-		insert into qyj_product (title, price, product_type, product_status, number, img_url,
-			create_user, create_time, update_user, update_time)
-		values (#{title,jdbcType=VARCHAR},
-			#{price,jdbcType=DECIMAL}, #{productType,jdbcType=VARCHAR},
-			#{productStatus,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{imgUrl},
-			#{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
-			#{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
+		insert into qyj_product (title, price, product_type, product_status, number, putaway_time, soldout_time, sold_number,
+			product_unit, img_url, create_user, create_time, update_user, update_time)
+		values (#{title,jdbcType=VARCHAR}, #{price}, #{productType}, #{productStatus}, #{number}, #{putaway_time}, #{soldout_time},
+			#{sold_number}, #{product_unit}, #{imgUrl}, #{createUser}, #{createTime}, #{updateUser}, #{updateTime})
 	</insert>
 
 	<insert id="insertSelective" parameterType="com.qyj.back.entity.QyjProductEntity">
@@ -66,6 +67,9 @@
 			</if>
 			<if test="number != null">
 				number,
+			</if>
+			<if test="product_unit != null and product_unit != ''">
+				product_unit,
 			</if>
 			<if test="imgUrl != null and imgUrl != ''">
 				img_url,
@@ -101,6 +105,9 @@
 			</if>
 			<if test="number != null">
 				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="product_unit != null and product_unit != ''">
+				#{product_unit},
 			</if>
 			<if test="imgUrl != null and imgUrl != ''">
 				#{imgUrl},
@@ -138,6 +145,18 @@
 			<if test="number != null">
 				number = #{number,jdbcType=INTEGER},
 			</if>
+			<if test="putawayTime != null">
+				putaway_time = #{putawayTime},
+			</if>
+			<if test="soldoutTime != null">
+				soldout_time = #{soldoutTime},
+			</if>
+			<if test="soldNumber != null">
+				sold_number = #{soldNumber},
+			</if>
+			<if test="productUnit != null and productUnit != ''">
+				product_unit = #{productUnit},
+			</if>
 			<if test="imgUrl != null and imgUrl != ''">
 				img_url = #{imgUrl},
 			</if>
@@ -164,6 +183,10 @@
 			product_type = #{productType,jdbcType=VARCHAR},
 			product_status = #{productStatus,jdbcType=VARCHAR},
 			number = #{number,jdbcType=INTEGER},
+			putaway_time = #{putawayTime},
+			soldout_time = #{soldoutTime},
+			sold_number = #{soldNumber},
+			product_unit = #{productUnit},
 			img_url = #{imgUrl},
 			create_user = #{createUser,jdbcType=BIGINT},
 			create_time = #{createTime,jdbcType=TIMESTAMP},

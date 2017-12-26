@@ -10,7 +10,7 @@ qyjBackApp.service('productService', ["$http",
 		// 请求获取产品分页数据
 	    this.loadProductList = function (data) {
 	        return $http({  
-	            method: "POST",  
+	            method: "GET",  
 	            url: qyjBackApp.httpsHeader + "/admin/product/listProductPage",  
 	            params : data
 	        });
@@ -19,7 +19,7 @@ qyjBackApp.service('productService', ["$http",
 	    // 根据主键查询产品信息
 	    this.getProductInfo = function (productId) {
 	        return $http({  
-	            method: "POST",  
+	            method: "GET",  
 	            url: qyjBackApp.httpsHeader + "/admin/product/getProductInfo",  
 	            params : {productId : productId}
 	        });
@@ -51,6 +51,23 @@ qyjBackApp.service('productService', ["$http",
 	            url: qyjBackApp.httpsHeader + "/admin/product/uploadImage",  
 	            params : data,
 	            file: data.image
+	        });
+	    }
+	    
+	    // 更新产品状态
+	    this.updateProductStatus = function (data) {
+	    	return $http({  
+	            method: "POST",  
+	            url: qyjBackApp.httpsHeader + "/admin/product/updateProductStatus",
+	            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	            data : data,
+	            transformRequest: function(obj) {
+	                var str = [];    
+	                for (var s in obj) {
+	                  str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));    
+	                }    
+	                return str.join("&");
+	              }
 	        });
 	    }
 	}

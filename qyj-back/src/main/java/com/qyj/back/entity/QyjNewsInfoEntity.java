@@ -1,5 +1,6 @@
 package com.qyj.back.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,7 +9,9 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 新闻资讯实体类
  * @author CTF_stone
  */
-public class QyjNewsInfoEntity {
+public class QyjNewsInfoEntity implements Serializable {
+	private static final long serialVersionUID = -5879129681942289931L;
+	
 	private Long id;
 	/** 标题 */
 	private String title;
@@ -34,6 +37,13 @@ public class QyjNewsInfoEntity {
 	/** 创建时间 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
+	
+	/** 更新人id */
+	private Long updateUser;
+
+	/** 更新时间 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date updateTime;
 
 	/** 内容 */
 	private String content;
@@ -110,6 +120,22 @@ public class QyjNewsInfoEntity {
 		this.createTime = createTime;
 	}
 
+	public Long getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(Long updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
 	public String getContent() {
 		return content;
 	}
@@ -122,6 +148,8 @@ public class QyjNewsInfoEntity {
 	public String toString() {
 		return "QyjNewsInfoEntity [id=" + id + ", title=" + title + ", type=" + type + ", status=" + status
 				+ ", description=" + description + ", orderNum=" + orderNum + ", visitCount=" + visitCount
-				+ ", createUser=" + createUser + ", createTime=" + createTime + ", content=" + content + "]";
+				+ ", createUser=" + createUser + ", createTime=" + createTime + ", updateUser=" + updateUser
+				+ ", updateTime=" + updateTime + "]";
 	}
+
 }
