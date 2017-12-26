@@ -1,6 +1,4 @@
 var qyjBackApp = angular.module("qyjBackApp");
-//qyjBackApp.requires.push("textAngular");
-//angular.injector(["textAngular"]);
 
 // 定义控制器
 qyjBackApp.controller("newsCtrl", newsCtrl).controller("newsEditCtrl", newsEditCtrl);

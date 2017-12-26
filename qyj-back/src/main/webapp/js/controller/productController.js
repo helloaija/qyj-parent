@@ -448,7 +448,7 @@ qyjBackApp.controller('productEditCtrl', function ($scope, $uibModalInstance, Up
 	// 列表展示图片是否展示
 	$scope.showTitleImg = false;
 	// 图片路径前缀
-	$scope.uploadPath = qyjBackApp.uploadHeader;
+	$scope.uploadPath = qyjBackApp.uploadFileHeader;
 	
 	if ("edit" == winParams.operationType) {
 		angular.copy(editParams, $scope.edit);
