@@ -17,7 +17,7 @@
 	<dubbo:protocol name="dubbo" port="20880" />
 		
 	<!-- 用户服务接口 -->
-	<dubbo:service interface="com.qyj.facade.SysUserFacade" ref="SysUserFacade" />
+	<dubbo:service interface="com.qyj.facade.QyjUserFacade" ref="qyjUserFacade" />
 	<!-- 产品服务接口 -->
 	<dubbo:service interface="com.qyj.facade.QyjProductFacade" ref="qyjProductFacade" />
 	<!-- 新闻公告服务接口 -->

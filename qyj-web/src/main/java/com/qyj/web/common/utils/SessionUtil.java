@@ -104,8 +104,33 @@ public class SessionUtil {
 		return RedisUtil.getString(redisKey);
 	}
 	
+	/**
+	 * 保存用户登录信息
+	 * @param request
+	 * @param key
+	 * @param userBean
+	 */
 	public static void setUserSttr(HttpServletRequest request, String key, QyjUserBean userBean) {
 		setObjectAttr(request, key, userBean, TIMEOUT_USER, TimeUnit.SECONDS);
+	}
+	
+	/**
+	 * 获取登录用户信息，如果用户存在就延长用户信息保存时间
+	 * @param request
+	 * @param key
+	 * @return
+	 */
+	public static QyjUserBean getUserStrr(HttpServletRequest request, String key) {
+		Object userObject = getObject(request, key);
+		if (userObject == null) {
+			return null;
+		}
+		
+		QyjUserBean userBean = (QyjUserBean) userObject;
+		
+		setObjectAttr(request, key, userBean, TIMEOUT_USER, TimeUnit.SECONDS);
+		
+		return userBean;
 	}
 	
 	/**
