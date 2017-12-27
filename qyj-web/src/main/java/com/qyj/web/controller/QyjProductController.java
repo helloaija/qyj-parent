@@ -24,7 +24,7 @@ public class QyjProductController extends BaseController {
 
 	@Autowired
 	private QyjProductFacade productFacade;
-
+	
 	/**
 	 * 获取产品分页数据信息
 	 * @param request

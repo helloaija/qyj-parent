@@ -66,5 +66,6 @@
 	<!-- proxy-target-class默认"false",更改为"ture"使用CGLib动态代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
-	<import resource="dubbo-consumer.xml" />
+	<import resource="classpath*:dubbo-consumer.xml" />
+	<import resource="classpath*:spring-redis.xml"/>
 </beans>
