@@ -6,6 +6,9 @@ var qyjApp = angular.module("qyjApp");
  */
 qyjApp.controller("loginCtrl", [ "$scope",
     function($scope) {
+		$scope.doLogin = function() {
+			alert("login");
+		};
 	} 
 ]);
 

@@ -4,9 +4,35 @@
 			<h4>登录</h4>	
 		</div>
 		<div style="margin-top: -31px; float: left;">
-			<a href="javascript:history.back(-1);">
-				&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="color: white;">返回</span>
+			<a href="javascript:window.history.back(-1);" class="index_more fl">
+				&nbsp;&nbsp;<img class="tui" src="../image/common/houtei.png" height="22">
 			</a>
 		</div>
+	</div>
+</div>
+
+<div class="panel-default" style="margin-top: 55px;">
+	<div class="panel-body header-body" style="padding: 0 20px;">
+		<form class="bs-example bs-example-form" data-example-id="input-group-sizing">
+			<div class="input-group input-group-lg">
+				<span class="glyphicon glyphicon-user input-group-addon" style="top: 0px;" aria-hidden="true"></span>
+				<input type="text" class="form-control" placeholder="请输入手机号码" style="background-color: linen;"
+					aria-describedby="sizing-addon1">
+			</div>
+			<br>
+			<div class="input-group input-group-lg">
+				<span class="glyphicon glyphicon-lock input-group-addon" style="top: 0px;" aria-hidden="true"></span>
+				<input type="password" class="form-control" placeholder="请输入密码" style="background-color: linen;"
+					aria-describedby="sizing-addon1">
+			</div>
+			<br>
+			<div class="input-group input-group-lg" style="width: 100%;">
+				<button type="button" class="btn btn-default" ng-click="doLogin()"
+					style="width: 100%;background-color: #eee;">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+			</div>
+			<div class="input-group input-group-lg" style="width: 100%;">
+				<a style="float:right;">注册账户</a>
+			</div>
+		</form>
 	</div>
 </div>

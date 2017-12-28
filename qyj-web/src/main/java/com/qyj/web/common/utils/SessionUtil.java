@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import com.qyj.facade.vo.QyjUserBean;
+import com.qyj.web.common.constant.CommonConstant;
 
 public class SessionUtil {
 	
@@ -110,8 +111,8 @@ public class SessionUtil {
 	 * @param key
 	 * @param userBean
 	 */
-	public static void setUserSttr(HttpServletRequest request, String key, QyjUserBean userBean) {
-		setObjectAttr(request, key, userBean, TIMEOUT_USER, TimeUnit.SECONDS);
+	public static void setUserSttr(HttpServletRequest request, QyjUserBean userBean) {
+		setObjectAttr(request, CommonConstant.SESSION_USER, userBean, TIMEOUT_USER, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -120,15 +121,15 @@ public class SessionUtil {
 	 * @param key
 	 * @return
 	 */
-	public static QyjUserBean getUserStrr(HttpServletRequest request, String key) {
-		Object userObject = getObject(request, key);
+	public static QyjUserBean getUserStrr(HttpServletRequest request) {
+		Object userObject = getObject(request, CommonConstant.SESSION_USER);
 		if (userObject == null) {
 			return null;
 		}
 		
 		QyjUserBean userBean = (QyjUserBean) userObject;
 		
-		setObjectAttr(request, key, userBean, TIMEOUT_USER, TimeUnit.SECONDS);
+		setUserSttr(request, userBean);
 		
 		return userBean;
 	}
