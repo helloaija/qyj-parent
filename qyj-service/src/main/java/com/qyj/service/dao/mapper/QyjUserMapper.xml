@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.service.dao.QyjUserMapper">
+	<resultMap id="baseResultMap" type="com.qyj.facade.entity.QyjUserEntity">
+		<id column="id" property="id" />
+		<result column="user_name" property="userName" />
+		<result column="phone_num" property="phoneNum" />
+		<result column="password" property="password" />
+		<result column="status" property="status" />
+		<result column="login_ip" property="loginIp" />
+		<result column="login_time" property="loginTime" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		
+	</resultMap>
+
+	<!-- 基本字段 -->
+	<sql id="baseColumns">
+		id, user_name, phone_num, password, status, login_ip, login_time,
+		create_time, update_time
+	</sql>
+
+	<!-- 根据手机号码获取用户 -->
+	<select id="getUserByPhoneNum" parameterType="java.lang.String" resultMap="baseResultMap">
+		select <include refid="baseColumns" />
+		from qyj_user where phone_num = #{phoneNum}
+	</select>
+	
+	<!-- 插入用户 -->
+	<insert id="insertUser" parameterType="com.qyj.facade.entity.QyjUserEntity">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+	      	SELECT LAST_INSERT_ID() AS id
+	    </selectKey>
+		insert into qyj_product (user_name, phone_num, password, status, login_ip, login_time,
+				create_time, update_time)
+		values (#{userName}, #{phoneNum}, #{password}, #{status}, #{loginIp}, #{loginTime}, #{createTime}, #{updateTime})
+	</insert>
+
+	<!-- 更新用户 -->
+	<update id="updateUser" parameterType="com.qyj.facade.entity.QyjUserEntity">
+		update qyj_product set 
+			<trim prefix="" suffixOverrides=",">
+				<if test="userName != null and userName != ''">
+					user_name = #{userName}
+				</if>
+				<if test="phoneNum != null and phoneNum != ''">
+					phone_num = #{phoneNum}
+				</if>
+				<if test="password != null and password != ''">
+					password = #{password}
+				</if>
+				<if test="status != null and status != ''">
+					status = #{status}
+				</if>
+				<if test="loginIp != null and loginIp != ''">
+					login_ip = #{loginIp}
+				</if>
+				<if test="loginTime != null">
+					login_time = #{loginTime}
+				</if>
+				<if test="updateTime != null and updateTime != ''">
+					update_time = #{updateTime}
+				</if>
+			</trim>
+		where id = #{id}
+	</update>
+</mapper>
