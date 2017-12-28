@@ -2,7 +2,7 @@ package com.qyj.service.dao;
 
 import com.qyj.facade.entity.QyjUserEntity;
 
-public interface QyjUserMapper {
+public interface QyjUserMapper { 
 	
 	/**
 	 * 根据登录手机号码获取用户
