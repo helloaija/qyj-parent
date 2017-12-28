@@ -2,9 +2,9 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate"], function() {
 	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate"]);
 	
-	qyjApp.httpsHeader = "http://39.108.108.147";
-	qyjApp.uploadFileHeader = "http://39.108.108.147:8081/qyj-back/uploadFile/";
-	qyjApp.uploadHeader = "http://39.108.108.147:8081/qyj-back/upload/";
+	qyjApp.httpsHeader = "http://localhost:8082/qyj-web";
+	qyjApp.uploadFileHeader = "http://localhost:8082/qyj-back/uploadFile/";
+	qyjApp.uploadHeader = "http://localhost:8082/qyj-back/upload/";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {
@@ -63,6 +63,15 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   											'../js/service/productContentService.js']);
 	   				}]
 	   			}
+	   		}).state("login", {
+	   			url : "/login",
+	   			templateUrl : "../page/login/login.html",
+	   			controller : "loginCtrl",
+	   			resolve : {
+	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load(['../js/controller/loginController.js']);
+	   				}]
+	   	        }
 	   		});
 	   		
 	   		// 定义请求过滤器
