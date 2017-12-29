@@ -7,7 +7,8 @@ require.config({
 		"angular-ui-router" : "base/angular-ui-router-0.4.3.min",
 		"oclazyload" : "base/ocLazyLoad-1.1.0.min",
 		"angular-sanitize" : "base/angular-sanitize-1.6.7.min",
-		"angular-animate" : "base/angular-animate-1.6.7.min"
+		"angular-animate" : "base/angular-animate-1.6.7.min",
+		"ionic-citypicker" : "base/ionic-citypicker.min"
 	},
 	// 这个配置是你在引入依赖的时候的包名
 	shim : {
@@ -35,6 +36,10 @@ require.config({
 	    "angular-animate" : {
 	    	deps: ['angular'],
 			exports : "angular-animate"
+	    },
+	    "ionic-citypicker" : {
+	    	deps: ['angular'],
+			exports : "ionic-citypicker"
 	    }
 	},
 	urlArgs: "bust=" + (new Date()).getTime()

@@ -1,6 +1,6 @@
 
-define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate"], function() {
-	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate"]);
+define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate", 'ionic-citypicker'], function() {
+	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate", "ionic-citypicker"]);
 	
 	qyjApp.httpsHeader = "http://localhost:8082/qyj-web";
 	qyjApp.uploadFileHeader = "http://localhost:8082/qyj-back/uploadFile/";
@@ -91,6 +91,30 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   					                         ]);
 	   				}]
 	   	        }
+	   		}).state("address", {
+	   			url : "/address",
+	   			// 登录地址列表
+	   			templateUrl : "../page/account/addressList.html"
+	   		}).state("addressEdit", {
+	   			url : "/addressEdit",
+	   			// 地址编辑
+	   			templateUrl : "../page/account/addressEdit.html",
+	   			controller : "addressEditCtrl",
+	   			resolve : {
+	   				addressEditCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load([
+	   					                         '../js/controller/addressController.js'
+	   					                         ]);
+	   				}]
+	   	        }
+	   		}).state("shoppingTrolley", {
+	   			url : "/shoppingTrolley",
+	   			// 购物车
+	   			templateUrl : "../page/account/shoppingTrolley.html"
+	   		}).state("orderList", {
+	   			url : "/orderList",
+	   			// 订单列表
+	   			templateUrl : "../page/account/orderList.html"
 	   		});
 	   		
 	   		// 定义请求过滤器
@@ -138,8 +162,13 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	    	   files : ["../js/base/ui-bootstrap.min.js",
 	    	            "../js/base/ui-bootstrap-tpls-2.5.0.min.js"]
 	       }, {
+	    	   // 滚动加载
 	    	   name : "ng-infinite-scroll",
 	    	   files : ["../js/base/ng-infinite-scroll-1.0.0.min.js"]
+	       }, {
+	    	   // 城市选择器
+	    	   name : "ionic-citypicker",
+	    	   files : ["../js/base/ionic-citypicker.min.js"]
 	       }],
 	       debug: true
 	   })
