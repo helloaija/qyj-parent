@@ -2,17 +2,16 @@
 var qyjApp = angular.module("qyjApp");
 
 /**
- * service-登录页面
+ * service-用户账户
  */
-qyjApp.service('loginService', ["$http",
+qyjApp.service('accountService', ["$http",
     function($http) {
-		// 登录
-	    this.doLogin = function(params) {
+		// 获取登录用户账户信息
+	    this.getLoginUserInfo = function() {
 	        return $http({  
 	            method: "POST",  
-	            url: qyjApp.httpsHeader + "/wechat/freedom/login/doLogin",
-	            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-	            data : params,
+	            url: qyjApp.httpsHeader + "/wechat/restrict/account/getLoginUserInfo",
+	            headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
 	            transformRequest: transformRequest
 	        });
 	    }

@@ -40,6 +40,17 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   					                      '../js/service/newsService.js']);
 	   				}]
 	   			}
+	   		}).state("home.account", {
+	   			url : "/account", 
+	   			// 新闻公告列表页面
+	   			templateUrl : "../page/account/accountIndex.html",
+	   			controller : "accountController",
+	   			resolve : {
+	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load(['../js/controller/accountController.js',
+	   					                         "../js/service/accountService.js"]);
+	   				}]
+	   			}
 	   		}).state("newsContent", {
 	   			url : "/newsContent?newsInfoId",
 	   			// 新闻公告内容
@@ -65,11 +76,15 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			}
 	   		}).state("login", {
 	   			url : "/login",
+	   			// 登录页
 	   			templateUrl : "../page/login/login.html",
 	   			controller : "loginCtrl",
 	   			resolve : {
 	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(['../js/controller/loginController.js']);
+	   					return $ocLazyLoad.load(["../js/filter/commonFilter.js",
+	   					                         '../js/controller/loginController.js',
+	   					                         "../js/service/loginService.js"
+	   					                         ]);
 	   				}]
 	   	        }
 	   		});
@@ -91,7 +106,6 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   					'responseError' : function(response) {
 	   						console.log('responseError:' + response);
 	   						if (response.status === 401 || response.status === 403) {
-	   							alert("登录过期，请重新登录！");
 	   							$location.path("/login");
 	   						} else if (response.status === 500) {
 	               				$location.path('/500.html');

@@ -11,19 +11,22 @@
 	</div>
 </div>
 
+<!-- 提示信息 -->
+<p ng-class="{'bg-danger':tipMsg}" class="text-center">&nbsp;{{tipMsg}}&nbsp;</p>
 <div class="panel-default" style="margin-top: 55px;">
 	<div class="panel-body header-body" style="padding: 0 20px;">
 		<form class="bs-example bs-example-form" data-example-id="input-group-sizing">
 			<div class="input-group input-group-lg">
 				<span class="glyphicon glyphicon-user input-group-addon" style="top: 0px;" aria-hidden="true"></span>
 				<input type="text" class="form-control" placeholder="请输入手机号码" style="background-color: linen;"
-					aria-describedby="sizing-addon1">
+					aria-describedby="sizing-addon1" ng-focus="tipMsg = ''" ng-model="loginParam.phoneNum"
+					onkeyup="this.value=this.value.replace(/[^\d]/g,'');" maxlength="11">
 			</div>
 			<br>
 			<div class="input-group input-group-lg">
 				<span class="glyphicon glyphicon-lock input-group-addon" style="top: 0px;" aria-hidden="true"></span>
 				<input type="password" class="form-control" placeholder="请输入密码" style="background-color: linen;"
-					aria-describedby="sizing-addon1">
+					aria-describedby="sizing-addon1" ng-focus="tipMsg = ''" ng-model="loginParam.password">
 			</div>
 			<br>
 			<div class="input-group input-group-lg" style="width: 100%;">

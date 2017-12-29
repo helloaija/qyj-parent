@@ -17,14 +17,17 @@ public class QyjUserBizImpl implements QyjUserBiz {
 
 	/**
 	 * 根据用户手机号获取用户
-	 * 
 	 * @param phoneNum
 	 * @return
 	 * @throws Exception
 	 */
 	@Override
 	public QyjUserBean getUserByPhoneNum(String phoneNum) throws Exception {
+
 		QyjUserEntity userEntity = userMapper.getUserByPhoneNum(phoneNum);
+		if (userEntity == null) {
+			return null;
+		}
 
 		QyjUserBean userBean = new QyjUserBean();
 
@@ -35,7 +38,6 @@ public class QyjUserBizImpl implements QyjUserBiz {
 
 	/**
 	 * 插入用户
-	 * 
 	 * @param userBean
 	 * @return
 	 * @throws Exception
@@ -51,7 +53,6 @@ public class QyjUserBizImpl implements QyjUserBiz {
 
 	/**
 	 * 更新用户
-	 * 
 	 * @param userBean
 	 * @return
 	 * @throws Exception

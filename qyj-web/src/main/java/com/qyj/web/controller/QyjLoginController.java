@@ -1,8 +1,5 @@
 package com.qyj.web.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.qyj.common.page.PageBean;
-import com.qyj.common.page.PageParam;
 import com.qyj.common.page.ResultBean;
 import com.qyj.common.utils.EncryptionUtils;
 import com.qyj.facade.QyjUserFacade;
