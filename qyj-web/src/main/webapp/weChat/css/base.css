@@ -1,3 +1,7 @@
+html {
+	 background: #f6f6f6;
+}
+
 body {
 	max-width: 640px;
     margin: 0 auto;
@@ -26,6 +30,7 @@ body {
 
 /* 下方导航 */
 .footer {
+	background: white;
 	height: 44px;
 	margin: 0 auto;
 	bottom: 0; width : 100%;
@@ -54,8 +59,11 @@ body {
 /* 产品列表容器 */
 .product-container {
 	max-width: 640px;
+	background: #f6f6f6;
 }
 /* 产品列表 */
 .product-list {
-	border-bottom: 1px solid #ddd;
+/* 	border-bottom: 1px solid #ddd; */
+	background: #ffffff;
+	margin-bottom: 5px;
 }

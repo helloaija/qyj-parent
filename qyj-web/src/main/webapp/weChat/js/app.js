@@ -11,10 +11,14 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   		// 定义路由
 	   		$stateProvider.state("home", {
 	   			url : "/home",
-	   			templateUrl : "../page/home.html",
+	   			templateUrl : "../page/home.html"
+	   		}).state("home.index", {
+	   			url : "/index",
+	   			// 产品列表页面
+	   			templateUrl : "../page/home/homeContent.html",
 	   			controller : "homeCtrl",
 	   			resolve : {
-	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   				homeCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load(['../js/controller/homeController.js']);
 	   				}]
 	   	        }
@@ -35,7 +39,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			templateUrl : "../page/news/newsList.html",
 	   			controller : "newsCtrl",
 	   			resolve : {
-	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   				newsCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load(["ng-infinite-scroll", '../js/controller/newsController.js',
 	   					                      '../js/service/newsService.js']);
 	   				}]
@@ -46,7 +50,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			templateUrl : "../page/account/accountIndex.html",
 	   			controller : "accountController",
 	   			resolve : {
-	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   				accountController : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load(['../js/controller/accountController.js',
 	   					                         "../js/service/accountService.js"]);
 	   				}]
@@ -68,7 +72,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			templateUrl : "../page/product/productContent.html",
 	   			controller : "productContentCtrl",
 	   			resolve : {
-	   				newsContentCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   				productContentCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load(["ui-bootstrap",
 	   											'../js/controller/productContentController.js',
 	   											'../js/service/productContentService.js']);
@@ -80,7 +84,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			templateUrl : "../page/login/login.html",
 	   			controller : "loginCtrl",
 	   			resolve : {
-	   				productCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   				loginCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load(["../js/filter/commonFilter.js",
 	   					                         '../js/controller/loginController.js',
 	   					                         "../js/service/loginService.js"

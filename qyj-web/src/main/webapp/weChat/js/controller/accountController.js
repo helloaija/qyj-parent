@@ -9,7 +9,7 @@ qyjApp.controller("accountController", [ "$scope", "accountService",
 		accountService.getLoginUserInfo().then(function(response) {
 			var resultBean = response.data;
 			if (resultBean && resultBean.result) {
-				alert(resultBean.result.phoneNum);
+//				alert(resultBean.result.phoneNum);
 			}
 		});
 	} 
