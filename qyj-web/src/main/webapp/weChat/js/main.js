@@ -8,7 +8,8 @@ require.config({
 		"oclazyload" : "base/ocLazyLoad-1.1.0.min",
 		"angular-sanitize" : "base/angular-sanitize-1.6.7.min",
 		"angular-animate" : "base/angular-animate-1.6.7.min",
-		"ionic-citypicker" : "base/ionic-citypicker.min"
+		"citypicker" : "base/picker.min",
+		"cityData" : "base/city"
 	},
 	// 这个配置是你在引入依赖的时候的包名
 	shim : {
@@ -37,17 +38,16 @@ require.config({
 	    	deps: ['angular'],
 			exports : "angular-animate"
 	    },
-	    "ionic-citypicker" : {
-	    	deps: ['angular'],
-			exports : "ionic-citypicker"
+	    "citypicker" : {
+	    	deps: ["cityData"],
+			exports : "citypicker"
 	    }
 	},
 	urlArgs: "bust=" + (new Date()).getTime()
 });
 
-define(['angular', 'app'], function(angular) {
+define(['angular', 'app'], function(angular, app) {
 	'use strict';
-	
 	// 使用bootstrap方法启动Angular应用 
 	angular.element(document).ready(function() {
 		console.log("angular.bootstrap...");
