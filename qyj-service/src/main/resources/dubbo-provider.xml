@@ -22,5 +22,7 @@
 	<dubbo:service interface="com.qyj.facade.QyjProductFacade" ref="qyjProductFacade" />
 	<!-- 新闻公告服务接口 -->
 	<dubbo:service interface="com.qyj.facade.QyjNewsInfoFacade" ref="qyjNewsInfoFacade" />
+	<!-- 地址服务接口 -->
+	<dubbo:service interface="com.qyj.facade.QyjAddressFacade" ref="qyjAddressFacade" />
 
 </beans>

@@ -3,42 +3,74 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 地址列表管理
  */
-qyjApp.controller("addressCtrl", [ "$scope", 
-    function($scope) {
-		
+qyjApp.controller("addressCtrl", [ "$scope", "addressService",
+    function($scope, addressService) {
+		$scope.addressList = null;
+		addressService.listAddress().then(function(response) {
+			var resultBean = response.data;
+			// 获取成功
+			if ("0000" == resultBean.resultCode) {
+				$scope.addressList = resultBean.result;
+			}
+		});
 	} 
 ]);
 
 /**
  * 编辑地址
  */
-qyjApp.controller("addressEditCtrl", ["$scope",
-    function($scope) {
-//		var area1 = new LArea();
-//	    area1.init({
-//	        'trigger': '#demo1', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
-//	        'valueTo': '#value1', //选择完毕后id属性输出到该位置
-//	        'keys': {
-//	            id: 'id',
-//	            name: 'name'
-//	        }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
-//	        'type': 1, //数据源类型
-//	        'data': LAreaData //数据源
-//	    });
-//	    area1.value=[1,13,3];//控制初始位置，注意：该方法并不会影响到input的value
-//	    
-//	    var area2 = new LArea();
-//	    area2.init({
-//	        'trigger': '#demo2',
-//	        'valueTo': '#value2',
-//	        'keys': {
-//	            id: 'value',
-//	            name: 'text'
-//	        },
-//	        'type': 2,
-//	        'data': [provs_data, citys_data, dists_data]
-//	    });
-//	    area2.value=["广东省","深圳市","南山区"];
-//	    area2.value=[24,5,2];
+qyjApp.controller("addressEditCtrl", ["$scope", "$stateParams", "$state", "addressService",
+    function($scope, $stateParams, $state, addressService) {
+		$scope.address = null;
+		addressService.getAddressById($stateParams.addressId).then(function(response) {
+			var resultBean = response.data;
+			// 获取成功
+			if ("0000" == resultBean.resultCode) {
+				$scope.address = resultBean.result;
+				$scope.address.area = resultBean.result.province + " " + resultBean.result.city + " " + resultBean.result.county;
+			} else {
+				alert(resultBean.resultMessage);
+			}
+		});
+		
+		// 保存地址
+		$scope.saveAddress = function() {
+			console.log(JSON.stringify($scope.address));
+			$scope.address.area = document.getElementById("addressArea").value;
+			if ($scope.address.area == null || $scope.address.area == "") {
+				alert("请输入省区市");
+				return;
+			}
+			var areas = $scope.address.area.split(" ");
+			$scope.address.province = areas[0];
+			$scope.address.city = areas[1];
+			$scope.address.county = areas[2];
+			if ($scope.address.name == null || $scope.address.name == "") {
+				alert("请输入名字");
+				return;
+			}
+			if ($scope.address.phone == null || $scope.address.phone == "") {
+				alert("请输入电话号码");
+				return;
+			}
+			if ($scope.address.province == null || $scope.address.province == "") {
+				alert("请选择省市区");
+				return;
+			}
+			if ($scope.address.detail == null || $scope.address.detail == "") {
+				alert("请输入详细地址");
+				return;
+			}
+			
+			addressService.saveAddress($scope.address).then(function(response) {
+				var resultBean = response.data;
+				// 保存成功
+				if ("0000" == resultBean.resultCode) {
+					$state.go("address");
+				} else {
+					alert(resultBean.resultMessage);
+				}
+			});
+		};
 	} 
 ]);

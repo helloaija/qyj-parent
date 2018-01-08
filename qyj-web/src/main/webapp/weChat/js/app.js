@@ -94,15 +94,21 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   		}).state("address", {
 	   			url : "/address",
 	   			// 登录地址列表
-	   			templateUrl : "../page/account/addressList.html"
+	   			templateUrl : "../page/account/addressList.html",
+	   			controller : "addressCtrl",
+	   			resolve : {
+	   				addressCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load(["../js/service/addressService.js", '../js/controller/addressController.js']);
+	   				}]
+	   			}
 	   		}).state("addressEdit", {
-	   			url : "/addressEdit",
+	   			url : "/addressEdit?addressId",
 	   			// 地址编辑
 	   			templateUrl : "../page/account/addressEdit.html",
 	   			controller : "addressEditCtrl",
 	   			resolve : {
 	   				addressEditCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(['../js/directive/directives.js', '../js/controller/addressController.js']);
+	   					return $ocLazyLoad.load(['../js/directive/directives.js', "../js/service/addressService.js", '../js/controller/addressController.js']);
 	   				}]
 	   	        }
 	   		}).state("shoppingTrolley", {

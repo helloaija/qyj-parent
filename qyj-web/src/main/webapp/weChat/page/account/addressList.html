@@ -12,25 +12,11 @@
 </div>
 
 <div>
-	<div>
-		<a ui-sref="addressEdit" href="javascript:void(0);" class="list-group-item" 
+	<div ng-repeat="address in addressList">
+		<a ui-sref="addressEdit({addressId:{{address.id}}})" href="javascript:void(0);" class="list-group-item" 
 				style="margin-bottom: 0px; border: blue;border-bottom: 1px solid #ddd;"> 
-			<span>石同乐</span>|<span>18376917796</span><br/>
-			<span>广西南宁市隆安县</span>
-		</a>
-	</div>
-	<div>
-		<a ui-sref="addressEdit" href="javascript:void(0);" class="list-group-item" 
-				style="margin-bottom: 0px; border: blue;border-bottom: 1px solid #ddd;"> 
-			<span>石同乐</span>|<span>18376917796</span><br/>
-			<span>广西南宁市隆安县</span>
-		</a>
-	</div>
-	<div>
-		<a ui-sref="addressEdit" href="javascript:void(0);" class="list-group-item" 
-				style="margin-bottom: 0px; border: blue;border-bottom: 1px solid #ddd;"> 
-			<span>石同乐</span>|<span>18376917796</span><br/>
-			<span>广西南宁市隆安县</span>
+			<span>{{address.name}}</span>|<span>{{address.phone}}</span><br/>
+			<span>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.county}}&nbsp;{{address.detail}}</span>
 		</a>
 	</div>
 </div>

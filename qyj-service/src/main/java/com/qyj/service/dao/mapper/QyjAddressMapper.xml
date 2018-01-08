@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.service.dao.QyjAddressMapper">
+	<resultMap id="baseResultMap" type="com.qyj.facade.entity.QyjAddressEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="province" jdbcType="VARCHAR" property="province" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="county" jdbcType="VARCHAR" property="county" />
+		<result column="detail" jdbcType="VARCHAR" property="detail" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="is_default" property="isDefault" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	
+	<sql id="baseColumnList">
+		id, user_id, province, city, county, detail, phone, name, is_default,
+		create_time, update_time
+	</sql>
+	
+	<!-- 根据主键获取地址 -->
+	<select id="getAddressById" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_address where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 根据用户id获取地址列表 -->
+	<select id="listAddressByUserId" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_address where user_id = #{userId,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 根据主键删除地址 -->
+	<delete id="deleteAddressById" parameterType="java.lang.Long">
+		delete from qyj_address
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<!-- 新增地址 -->
+	<insert id="insertAddress" parameterType="com.qyj.facade.entity.QyjAddressEntity">
+		insert into qyj_address (user_id, province, city, county, detail,
+			phone, name, is_default, create_time, update_time)
+		values (#{userId,jdbcType=BIGINT}, #{province,jdbcType=VARCHAR},
+			#{city,jdbcType=VARCHAR}, #{county,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR},
+			#{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{isDefault,jdbcType=INTEGER},
+			#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<!-- 更新对应id的地址 -->
+	<update id="updateAddressById" parameterType="com.qyj.facade.entity.QyjAddressEntity">
+		update qyj_address
+		<set>
+			<if test="province != null">
+				province = #{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="county != null">
+				county = #{county,jdbcType=VARCHAR},
+			</if>
+			<if test="detail != null">
+				detail = #{detail,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				is_default = #{isDefault,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT} and user_id = #{userId}
+	</update>
+</mapper>
