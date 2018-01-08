@@ -8,8 +8,7 @@ require.config({
 		"oclazyload" : "base/ocLazyLoad-1.1.0.min",
 		"angular-sanitize" : "base/angular-sanitize-1.6.7.min",
 		"angular-animate" : "base/angular-animate-1.6.7.min",
-		"citypicker" : "base/picker.min",
-		"cityData" : "base/city"
+		"angular-touch" : "base/angular-touch.min"
 	},
 	// 这个配置是你在引入依赖的时候的包名
 	shim : {
@@ -38,9 +37,9 @@ require.config({
 	    	deps: ['angular'],
 			exports : "angular-animate"
 	    },
-	    "citypicker" : {
-	    	deps: ["cityData"],
-			exports : "citypicker"
+	    "angular-touch" : {
+	    	deps: ['angular'],
+			exports : "angular-touch"
 	    }
 	},
 	urlArgs: "bust=" + (new Date()).getTime()

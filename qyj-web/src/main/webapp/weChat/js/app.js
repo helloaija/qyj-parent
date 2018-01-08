@@ -1,10 +1,10 @@
 
-define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate"], function(angular) {
-	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate"]);
+define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate", "angular-touch"], function(angular) {
+	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate", "ngTouch"]);
 	
-	qyjApp.httpsHeader = "http://localhost:8080/qyj-web";
-	qyjApp.uploadFileHeader = "http://localhost:8080/qyj-back/uploadFile/";
-	qyjApp.uploadHeader = "http://localhost:8080/qyj-back/upload/";
+	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
+	qyjApp.uploadFileHeader = "http://192.168.30.22:8082/qyj-back/uploadFile/";
+	qyjApp.uploadHeader = "http://192.168.30.22:8082/qyj-back/upload/";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider",
         function($stateProvider, $httpProvider) {
@@ -102,7 +102,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			controller : "addressEditCtrl",
 	   			resolve : {
 	   				addressEditCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load([/*"LArea", */'../js/directive/directives.js', '../js/controller/addressController.js']);
+	   					return $ocLazyLoad.load(['../js/directive/directives.js', '../js/controller/addressController.js']);
 	   				}]
 	   	        }
 	   		}).state("shoppingTrolley", {
@@ -163,19 +163,6 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	    	   // 滚动加载
 	    	   name : "ng-infinite-scroll",
 	    	   files : ["../js/base/ng-infinite-scroll-1.0.0.min.js"]
-	       }, {
-	    	   // 城市选择器
-	    	   name : "citypicker",
-	    	   files : ["../js/base/picker.min.js", "../js/base/city.js"]
-	       }, {
-	    	   // 城市选择器
-	    	   name : "city-picker",
-	    	   files : ["../js/base/city-picker.data.js", "../js/base/city-picker.js"]
-	       }, {
-	    	   // 城市选择器
-	    	   name : "LArea",
-	    	   files : ["../css/LArea.min.css", "../js/base/LArea.js",
-	    		   		"../js/base/LAreaData1.js", "../js/base/LAreaData2.js"]
 	       }],
 	       debug: true
 	   })
