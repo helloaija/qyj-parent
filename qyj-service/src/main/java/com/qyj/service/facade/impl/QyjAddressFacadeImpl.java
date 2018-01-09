@@ -67,4 +67,16 @@ public class QyjAddressFacadeImpl implements QyjAddressFacade {
 	public Boolean updateAddressById(QyjAddressBean addressBean) throws Exception {
 		return addressBiz.updateAddressById(addressBean);
 	}
+	
+	/**
+	 * 根据地址id和用户id删除地址
+	 * @param id
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Boolean deleteAddressById(Long id, Long userId) throws Exception {
+		return addressBiz.deleteAddressById(id, userId);
+	}
 }

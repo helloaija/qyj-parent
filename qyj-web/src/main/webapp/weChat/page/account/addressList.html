@@ -8,6 +8,9 @@
 				&nbsp;&nbsp;<img class="tui" src="../image/common/houtei.png" height="22">
 			</a>
 		</div>
+		<a style="margin: -37px 10px 0 0; float:right;" ui-sref="addressEdit" href="javascript:void(0);">
+			<h5 style="color: white;">新增</h5>
+		</a>
 	</div>
 </div>
 
@@ -15,7 +18,8 @@
 	<div ng-repeat="address in addressList">
 		<a ui-sref="addressEdit({addressId:{{address.id}}})" href="javascript:void(0);" class="list-group-item" 
 				style="margin-bottom: 0px; border: blue;border-bottom: 1px solid #ddd;"> 
-			<span>{{address.name}}</span>|<span>{{address.phone}}</span><br/>
+			<span>{{address.name}}</span>|<span>{{address.phone}}</span>
+			<span ng-if="address.isDefault" style="position: absolute;right: 5px;font-size: 10px;color:#00D24C;border: 1px solid #00D24C;">默认地址</span><br/>
 			<span>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.county}}&nbsp;{{address.detail}}</span>
 		</a>
 	</div>

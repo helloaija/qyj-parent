@@ -1,10 +1,12 @@
 html {
 	 background: #f6f6f6;
+	 height : 100%;
 }
 
 body {
 	max-width: 640px;
     margin: 0 auto;
+    height : 100%;
 }
 
 

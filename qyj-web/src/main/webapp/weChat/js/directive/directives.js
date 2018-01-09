@@ -248,12 +248,20 @@ qyjApp.directive('cityPicker', function ($compile) {
 		        			'</div>' +
 			            '</div>';
 		        	
-		        	var compileFn = $compile(angular.element(scope.picker.mainDiv).find("#province"))(scope);
+		        	// 遮罩层
+		        	scope.picker.shade = document.createElement("div");
+		        	angular.element(scope.picker.shade).css({
+		        		"position":"absolute", "top":"0", "bottom":"0px", "left":"0", "background":"#000", 
+		        		"opacity":"0.7", "width":"100%", "z-index":"100"});
+		        	
+		        	var mainDivDom = angular.element(scope.picker.mainDiv);
+		        	mainDivDom.css({"position":"absolute", "bottom":"0px", "width": "99%", "z-index":"200", "background":"white"});
+		        	var compileFn = $compile(mainDivDom.find("#province"))(scope);
 		        	console.log(compileFn);
 		        	
 		        	var interval = null;
 		        	// 省份
-		        	var provinceDiv = angular.element(scope.picker.mainDiv).find("#province");
+		        	var provinceDiv = mainDivDom.find("#province");
 		        	// 省份移动结束
 		        	provinceDiv.bind("touchend", function() {
 		        		if (interval) {
@@ -292,7 +300,7 @@ qyjApp.directive('cityPicker', function ($compile) {
 		        	});
 		        	
 		        	// 城市
-		        	var cityDiv = angular.element(scope.picker.mainDiv).find("#city");
+		        	var cityDiv = mainDivDom.find("#city");
 		        	// 城市移动结束
 		        	cityDiv.bind("touchend", function() {
 		        		if (interval) {
@@ -331,7 +339,7 @@ qyjApp.directive('cityPicker', function ($compile) {
 		        	});
 		        	
 		        	// 县区
-		        	var countyDiv = angular.element(scope.picker.mainDiv).find("#county");
+		        	var countyDiv = mainDivDom.find("#county");
 		        	// 县区移动结束
 		        	countyDiv.bind("touchend", function() {
 		        		if (interval) {
@@ -365,24 +373,29 @@ qyjApp.directive('cityPicker', function ($compile) {
 		        		}, 100);
 		        	});
 		        	
+		        	var addressEdit = document.getElementById("addressEdit");
+		        	
 		        	// 取消
-		        	angular.element(scope.picker.mainDiv).find("#selectCancel").bind("click", function() {
+		        	mainDivDom.find("#selectCancel").bind("click", function() {
 		        		// 销毁选择器
-		        		document.getElementById("addressEdit").removeChild(scope.picker.mainDiv);
+		        		addressEdit.removeChild(scope.picker.mainDiv);
+		        		addressEdit.removeChild(scope.picker.shade);
 		        	});
 		        	
 		        	// 确定
-		        	angular.element(scope.picker.mainDiv).find("#selectSure").bind("click", function() {
+		        	mainDivDom.find("#selectSure").bind("click", function() {
 		        		// 设值
 		        		iElem[0].value = scope.province + " " + scope.city + " " + scope.county;
 		        		// 销毁选择器
-		        		document.getElementById("addressEdit").removeChild(scope.picker.mainDiv);
+		        		addressEdit.removeChild(scope.picker.mainDiv);
+		        		addressEdit.removeChild(scope.picker.shade);
 		        	});
 		        	
 
 		        	// 点击打开地区选择
 					iElem.on("click", function() {
-						document.getElementById("addressEdit").appendChild(scope.picker.mainDiv);
+						addressEdit.appendChild(scope.picker.mainDiv);
+						addressEdit.appendChild(scope.picker.shade);
 						var value = iElem[0].value;
 						if (!value) {
 							value = "北京市 北京市 东城区";

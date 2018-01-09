@@ -2,6 +2,8 @@ package com.qyj.service.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.qyj.facade.entity.QyjAddressEntity;
 
 /**
@@ -27,9 +29,10 @@ public interface QyjAddressMapper {
 	/**
 	 * 根据主键删除地址
 	 * @param id
+	 * @param userId 对应用户id
 	 * @return
 	 */
-	int deleteAddressById(Long id);
+	int deleteAddressById(@Param("id")Long id, @Param("userId")Long userId);
 
 	/**
 	 * 新增地址
@@ -44,4 +47,11 @@ public interface QyjAddressMapper {
 	 * @return
 	 */
 	int updateAddressById(QyjAddressEntity record);
+	
+	/**
+	 * 更新用户下的地址为非默认地址
+	 * @param userId
+	 * @return
+	 */
+	int updateDefaultAddress(@Param("userId")Long userId);
 }

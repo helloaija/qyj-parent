@@ -41,4 +41,13 @@ public interface QyjAddressFacade {
 	 * @throws Exception
 	 */
 	public Boolean updateAddressById(QyjAddressBean addressBean) throws Exception;
+	
+	/**
+	 * 根据地址id和用户id删除地址
+	 * @param id
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean deleteAddressById(Long id, Long userId) throws Exception;
 }

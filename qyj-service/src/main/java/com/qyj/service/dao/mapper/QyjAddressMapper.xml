@@ -31,9 +31,8 @@
 	</select>
 	
 	<!-- 根据主键删除地址 -->
-	<delete id="deleteAddressById" parameterType="java.lang.Long">
-		delete from qyj_address
-		where id = #{id,jdbcType=BIGINT}
+	<delete id="deleteAddressById">
+		delete from qyj_address where id = #{id} and user_id = #{userId}
 	</delete>
 	
 	<!-- 新增地址 -->
@@ -79,5 +78,10 @@
 			</if>
 		</set>
 		where id = #{id,jdbcType=BIGINT} and user_id = #{userId}
+	</update>
+	
+	<!-- 更新用户下的地址为非默认地址 -->
+	<update id="updateDefaultAddress">
+		update qyj_address set is_default = '0' where user_id = #{userId}
 	</update>
 </mapper>

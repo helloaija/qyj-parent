@@ -108,7 +108,8 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			controller : "addressEditCtrl",
 	   			resolve : {
 	   				addressEditCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(['../js/directive/directives.js', "../js/service/addressService.js", '../js/controller/addressController.js']);
+	   					return $ocLazyLoad.load(["ui-bootstrap", '../js/directive/directives.js', "../js/service/commonServices.js",
+	   					                         "../js/service/addressService.js", '../js/controller/addressController.js']);
 	   				}]
 	   	        }
 	   		}).state("shoppingTrolley", {

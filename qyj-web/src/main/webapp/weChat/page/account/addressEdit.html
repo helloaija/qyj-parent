@@ -1,15 +1,15 @@
 <div class="panel-default">
 	<div class="panel-body header-body header-fixed">
 		<div>
-			<h4>编辑地址</h4>
+			<h4>{{title}}</h4>
 		</div>
 		<div style="margin-top: -31px; float: left;">
 			<a href="javascript:window.history.back(-1);" class="index_more fl">
 				&nbsp;&nbsp;<img class="tui" src="../image/common/houtei.png" height="22">
 			</a>
 		</div>
-		<div style="margin: -37px 10px 0 0; float:right;" ng-click="saveAddress()">
-			<h5>保存</h5>
+		<div style="margin: -37px 10px 0 0; float:right;" ng-click="delAddress()" ng-if="address.id">
+			<h5>删除</h5>
 		</div>
 	</div>
 </div>
@@ -17,24 +17,31 @@
 <div id="addressEdit">
 	<div>
 		<div class="input-group" style="width:100%">
-		  	<span class="input-group-addon" style="width:23%">名   字</span>
+		  	<span class="input-group-addon" style="width:23%;border-radius: 0px;">名   字</span>
 		  	<input type="text" class="form-control" placeholder="名字" aria-describedby="sizing-addon2"
-		  		 style="width:100%" ng-model="address.name">
+		  		 style="width:100%;border-radius: 0px;" ng-model="address.name">
 		</div>
 		<div class="input-group" style="width:100%">
-		  	<span class="input-group-addon" style="width:23%">手机号码</span>
+		  	<span class="input-group-addon" style="width:23%;border-radius: 0px;">手机号码</span>
 		  	<input type="text" class="form-control" placeholder="手机号码" aria-describedby="sizing-addon2"
-		  		 style="width:100%" ng-model="address.phone">
+		  		 style="width:100%;border-radius: 0px;" ng-model="address.phone">
 		</div>
 		<div class="input-group" style="width:100%">
-		  	<span class="input-group-addon" style="width:23%">省  市  区</span>
+		  	<span class="input-group-addon" style="width:23%;border-radius: 0px;">省  市  区</span>
 		  	<input type="text" id="addressArea" city-picker class="form-control" placeholder="省 市 区" aria-describedby="sizing-addon2"
-		  		  style="width:100%" ng-model="address.area">
+		  		  style="width:100%;border-radius: 0px;" ng-model="address.area">
 		</div>
 		<div class="input-group" style="width:100%">
-		  	<span class="input-group-addon" style="width:23%">详细地址</span>
+		  	<span class="input-group-addon" style="width:23%;border-radius: 0px;">详细地址</span>
 		  	<input type="text" class="form-control" placeholder="详细地址" aria-describedby="sizing-addon2"
-		  		  style="width:100%" ng-model="address.detail">
+		  		  style="width:100%;border-radius: 0px;" ng-model="address.detail">
+		</div>
+		<div class="input-group" style="width:100%;margin-top:5px;padding-left:10px;">
+		  	<input type="checkbox" aria-label="Checkbox for following text input" ng-model="address.isDefault">设为默认地址
+		</div>
+		<div class="input-group" style="width: 100%;margin-top:20px;">
+			<button type="button" class="btn btn-default" ng-click="saveAddress()"
+				style="width: 100%;background-color: #eee;">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
 		</div>
 	</div>
 </div>

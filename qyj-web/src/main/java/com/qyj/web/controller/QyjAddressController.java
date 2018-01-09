@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,11 @@ public class QyjAddressController {
 				return new ResultBean("0002", "用户未登录", null);
 			}
 			
+			if (StringUtils.isEmpty(addressBean.getName()) || StringUtils.isEmpty(addressBean.getPhone()) 
+					|| StringUtils.isEmpty(addressBean.getCounty()) || StringUtils.isEmpty(addressBean.getDetail())) {
+				return new ResultBean("0002", "相关参数为空", null);
+			}
+			
 			// 必须是操作已登录账户
 			addressBean.setUserId(userBean.getId());
 			Date curDate = new Date();
@@ -116,6 +122,34 @@ public class QyjAddressController {
 			
 			return new ResultBean("0000", "保存地址成功", null);
 		} catch (Exception e) {
+			logger.error("saveAddress error", e);
+			return new ResultBean("0001", e.getMessage(), null);
+		}
+	}
+	
+	/**
+	 * 通过地址id删除地址
+	 * @param addressId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/restrict/address/delAddressById")
+	public ResultBean delAddressById(Long addressId, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			if (userBean == null) {
+				return new ResultBean("0002", "用户未登录", null);
+			}
+			
+			if (addressFacade.deleteAddressById(addressId, userBean.getId())) {
+				return new ResultBean("0000", "删除地址成功", null);
+			}
+			
+			return new ResultBean("0002", "删除地址失败！", null);
+		} catch (Exception e) {
+			logger.error("delAddressById error", e);
 			return new ResultBean("0001", e.getMessage(), null);
 		}
 	}

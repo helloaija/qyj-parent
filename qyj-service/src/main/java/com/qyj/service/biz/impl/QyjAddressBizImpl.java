@@ -79,6 +79,11 @@ public class QyjAddressBizImpl implements QyjAddressBiz {
 			throw new Exception("需要更新的地址用户id为空！");
 		}
 		
+		// 如果这条新增的地址是默认地址，把其他的地址设为非默认
+		if (addressBean.getIsDefault() != null && addressBean.getIsDefault()) {
+			addressMapper.updateDefaultAddress(addressBean.getUserId());
+		}
+				
 		QyjAddressEntity addressEntity = new QyjAddressEntity();
 		BeanUtils.copyProperties(addressBean, addressEntity);
 		// 更新地址
@@ -108,12 +113,43 @@ public class QyjAddressBizImpl implements QyjAddressBiz {
 			throw new Exception("需要更新的地址用户id为空！");
 		}
 		
+		// 如果这条更新的地址是默认地址，把其他的地址设为非默认
+		if (addressBean.getIsDefault() != null && addressBean.getIsDefault()) {
+			addressMapper.updateDefaultAddress(addressBean.getUserId());
+		}
+		
 		QyjAddressEntity addressEntity = new QyjAddressEntity();
 		BeanUtils.copyProperties(addressBean, addressEntity);
 		// 更新地址
 		int result = addressMapper.updateAddressById(addressEntity);
 		if (result <= 0) {
 			throw new Exception("没有需要更新的记录！");
+		}
+		
+		return Boolean.TRUE;
+	}
+	
+	/**
+	 * 根据地址id和用户id删除地址
+	 * @param id
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Boolean deleteAddressById(Long id, Long userId) throws Exception {
+		if (id == null) {
+			throw new Exception("删除的地址id为空！");
+		}
+		if (userId == null) {
+			throw new Exception("登录用户id为空！");
+		}
+		
+		// 删除地址
+		int result = addressMapper.deleteAddressById(id, userId);
+		
+		if (result != 1) {
+			throw new Exception("删除地址失败");
 		}
 		
 		return Boolean.TRUE;

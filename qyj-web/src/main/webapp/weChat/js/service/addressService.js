@@ -34,6 +34,17 @@ qyjApp.service('addressService', ["$http",
 	            transformRequest: transformRequest
 	        });
 	    }
+	    
+	    // 根据id删除地址
+	    this.delAddressById = function(addressId) {
+	        return $http({  
+	            method: "POST",  
+	            url: qyjApp.httpsHeader + "/wechat/restrict/address/delAddressById",
+	            headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
+	            data: {'addressId' : addressId},
+	            transformRequest: transformRequest
+	        });
+	    }
 		
 		// 序列化参数方法
 	    function transformRequest(obj) {
