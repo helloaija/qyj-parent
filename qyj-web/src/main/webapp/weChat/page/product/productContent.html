@@ -1,4 +1,15 @@
-<div>
+
+<style>
+	#detailTab img {
+		max-width: 100%;
+	}
+	.nav>li>a:focus, .nav>li>a:hover {
+    	text-decoration: none;
+    	background-color: burlywood;
+	}
+</style>
+
+<div style="overflow-x: hidden;overflow-y: auto;">
 	<div uib-carousel active="active" interval="slideInterval"
 		no-wrap="noWrapSlides">
 		<div uib-slide ng-repeat="slide in slideList" index="$index">
@@ -8,16 +19,29 @@
 	
 	<div class="container">
 		<h3>{{product.title}}</h3>
-<!-- 		<h3><strong style="color:red;">￥{{product.price}}</strong><small><s>￥100</s></small></h3> -->
+		<h3><strong style="color:red;">￥{{product.price}}</strong><small><s>￥100</s></small></h3>
 	</div>
 	
 	<hr class="hr-default">
 	
-	<div>
+	<div id="detailTab">
 		<uib-tabset active="activeForm">
-			<uib-tab ng-repeat="tab in tabList" heading="{{tab.name}}" index="$index">
+			<uib-tab name="detailTab" classes="detailTab" ng-repeat="tab in tabList" heading="{{tab.name}}" index="$index">
 				<div ng-bind-html="tab.content"></div>
 			</uib-tab>
 		</uib-tabset>
 	</div>
 </div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom" style="min-height: 0;">
+	<ul class="nav nav-pills">
+		<li role="presentation" style="width:40%;border-radius: 0px;">&nbsp;</li>
+		<li role="presentation" style="width:25%;background: darkcyan;border-radius: 0px;">
+			<a ui-sref="home.newsList" style="color: white;">立即购买</a>
+		</li>
+		<li role="presentation" ng-click="addToTrolley()"
+			style="width:30%;background: burlywood;border-radius: 0px;margin-left:0px;">
+			<a href="javascript:void(0);" style="color: white;">加入购物车</a>
+		</li>
+	</ul>
+</nav>

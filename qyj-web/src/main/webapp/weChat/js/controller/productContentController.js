@@ -24,5 +24,10 @@ qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productCont
 	   			$scope.slideList = resultBean.result.fileInfoList;
 	   		}
 	   	});
+		
+		// 加入购物车
+		$scope.addToTrolley = function() {
+			alert("加入购物车成功");
+		};
 	}
 ]);
