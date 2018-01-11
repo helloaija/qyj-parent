@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-public class ComminUtils {
+public class CommonUtils {
 
 	/**
 	 * 判断集合是否为空
@@ -143,5 +143,13 @@ public class ComminUtils {
 	 */
 	public static Long getUid(int number) {
 		return Long.parseLong(new SimpleDateFormat("yyMMddHHmmss").format(new Date()) + getRandom(number));
+	}
+	
+	/**
+	 * 12位时间加上六位随机数
+	 * @return
+	 */
+	public static Long getUid() {
+		return getUid(6);
 	}
 }

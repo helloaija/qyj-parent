@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.service.dao.QyjOrderGoodsMapper">
+	<resultMap id="baseResultMap" type="com.qyj.facade.entity.QyjOrderGoodsEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="order_id" jdbcType="BIGINT" property="orderId" />
+		<result column="product_id" jdbcType="BIGINT" property="productId" />
+		<result column="price" jdbcType="DECIMAL" property="price" />
+		<result column="number" jdbcType="INTEGER" property="number" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		id, user_id, order_id, product_id, price, number, create_time
+	</sql>
+	
+	<!-- 查询条件 -->
+	<sql id="condition">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="orderId != null">
+			and order_id = #{orderId}
+		</if>
+	</sql>
+
+	<!-- 根据查询条件获取订单商品 -->
+	<select id="listOrderGoodsByModel" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_order_goods where 1 = 1 <include refid="condition"/>
+	</select>
+	
+	<!-- 批量插入订单商品 -->
+	<insert id="insertOrderGoodsList" parameterType="java.util.List">
+		insert into qyj_order_goods (user_id, order_id, product_id, price, number, create_time) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.userId}, #{item.orderId}, #{item.productId}, #{item.price}, #{item.number}, #{item.createTime})
+		</foreach>
+	</insert>
+</mapper>

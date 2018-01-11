@@ -3,8 +3,8 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 地址列表管理
  */
-qyjApp.controller("addressCtrl", [ "$scope", "addressService",
-    function($scope, addressService) {
+qyjApp.controller("addressCtrl", [ "$scope", "addressService", "$stateParams",
+    function($scope, addressService, $stateParams) {
 		$scope.addressList = null;
 		addressService.listAddress().then(function(response) {
 			var resultBean = response.data;
@@ -13,6 +13,16 @@ qyjApp.controller("addressCtrl", [ "$scope", "addressService",
 				$scope.addressList = resultBean.result;
 			}
 		});
+		
+		// 是否是用来选择的（选择收货地址）
+		var isSelect = $stateParams.isSelect;
+		$scope.selectAddress = function(addressId) {
+			if (isSelect) {
+				sessionStorage.setItem("addressId", addressId);
+				// 选择完返回上一个页面
+				window.history.back(-1);
+			}
+		};
 	} 
 ]);
 
@@ -76,7 +86,7 @@ qyjApp.controller("addressEditCtrl", ["$scope", "$stateParams", "$state", "addre
 				var resultBean = response.data;
 				// 保存成功
 				if ("0000" == resultBean.resultCode) {
-					$state.go("address");
+					window.history.back(-1);
 				} else {
 					alert(resultBean.resultMessage);
 				}
@@ -97,7 +107,7 @@ qyjApp.controller("addressEditCtrl", ["$scope", "$stateParams", "$state", "addre
 						return;
 					}
 					if ("0000" == resultBean.resultCode) {
-						$state.go("address");
+						window.history.back(-1);
 					} else {
 						alert(resultBean.resultMessage);
 					}

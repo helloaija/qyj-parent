@@ -56,8 +56,7 @@
 		</property>
 	</bean>
 	<aop:config>
-		<aop:advisor advice-ref="druid-stat-interceptor"
-			pointcut-ref="druid-stat-pointcut" />
+		<aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
 	</aop:config>
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -77,10 +76,11 @@
 			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception" />
 			<tx:method name="edit*" propagation="REQUIRED" rollback-for="Exception" />
 			<tx:method name="add*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:advisor pointcut="execution(* service..*.*(..))" advice-ref="txAdvice" />
+		<aop:advisor pointcut="execution(* com.qyj.service.biz.*.*(..))" advice-ref="txAdvice" />
 	</aop:config>
 	<!-- ================= 事务配置 End =================== -->
 

@@ -25,6 +25,11 @@ qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productCont
 	   		}
 	   	});
 		
+		// 去除订单详情缓存的地址id、购买数量、买家留言
+		sessionStorage.removeItem("addressId");
+		sessionStorage.removeItem("goodsNumber");
+		sessionStorage.removeItem("buyerMessage");
+		
 		// 加入购物车
 		$scope.addToTrolley = function() {
 			alert("加入购物车成功");

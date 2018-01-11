@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.QyjProductFacade;
+import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.facade.vo.QyjProductBean;
 import com.qyj.service.biz.QyjProductBiz;
 
@@ -32,6 +33,7 @@ public class QyjProductFacadeImpl implements QyjProductFacade {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public PageBean listProductPage(PageParam pageParam, Map<String, Object> paramMap) throws Exception {
 		logger.info("listProductPage params,pageParam={},paramMap={}", pageParam, paramMap);
 		return productBiz.listProjectPage(pageParam, paramMap);
@@ -43,8 +45,20 @@ public class QyjProductFacadeImpl implements QyjProductFacade {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public QyjProductBean getProductInfoById(Long productId) throws Exception {
 		return productBiz.getProductInfoById(productId);
+	}
+	
+	/**
+	 * 保存订单
+	 * @param orderBean
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Boolean saveOrder(QyjOrderBean orderBean) throws Exception {
+		return productBiz.saveOrder(orderBean);
 	}
 
 }

@@ -1,3 +1,37 @@
+<style>
+	.minus {
+		border: 1px solid #dbdbdb;
+		display:block;
+		width:25px;
+		height:25px;
+		float:left;
+		text-align:center;
+	}
+	.add {
+		border: 1px solid #dbdbdb;
+		display:block;
+		width:25px;
+		height:25px;
+		float:left;
+		text-align:center;
+		line-height: 2rem;
+	}
+	.goodsnum {
+		font-size: 0.33rem;
+		border-top: 1px solid #dbdbdb;
+		border-bottom: 1px solid #dbdbdb;
+		display:block;
+		width:45px;
+		height:25px;
+		float:left;
+		text-align:center;
+		line-height: 2rem;
+	}
+	.nav>li>a:focus, .nav>li>a:hover {
+    	text-decoration: none;
+    	background-color: darkcyan;
+	}
+</style>
 <div class="panel-default">
 	<div class="panel-body header-body header-fixed">
 		<div>
@@ -11,34 +45,52 @@
 	</div>
 </div>
 
-<div>
-	<div>
-		<div class="input-group" style="width:100%">
-		  	<span class="input-group-addon" style="width:23%;border-radius: 0px;">名   字</span>
-		  	<input type="text" class="form-control" placeholder="名字" aria-describedby="sizing-addon2"
-		  		 style="width:100%;border-radius: 0px;" ng-model="address.name">
-		</div>
-		<div class="input-group" style="width:100%">
-		  	<span class="input-group-addon" style="width:23%;border-radius: 0px;">手机号码</span>
-		  	<input type="text" class="form-control" placeholder="手机号码" aria-describedby="sizing-addon2"
-		  		 style="width:100%;border-radius: 0px;" ng-model="address.phone">
-		</div>
-		<div class="input-group" style="width:100%">
-		  	<span class="input-group-addon" style="width:23%;border-radius: 0px;">省  市  区</span>
-		  	<input type="text" id="addressArea" city-picker class="form-control" placeholder="省 市 区" aria-describedby="sizing-addon2"
-		  		  style="width:100%;border-radius: 0px;" ng-model="address.area">
-		</div>
-		<div class="input-group" style="width:100%">
-		  	<span class="input-group-addon" style="width:23%;border-radius: 0px;">详细地址</span>
-		  	<input type="text" class="form-control" placeholder="详细地址" aria-describedby="sizing-addon2"
-		  		  style="width:100%;border-radius: 0px;" ng-model="address.detail">
-		</div>
-		<div class="input-group" style="width:100%;margin-top:5px;padding-left:10px;">
-		  	<input type="checkbox" aria-label="Checkbox for following text input" ng-model="address.isDefault">设为默认地址
-		</div>
-		<div class="input-group" style="width: 100%;margin-top:20px;">
-			<button type="button" class="btn btn-default" ng-click="saveAddress()"
-				style="width: 100%;background-color: #eee;">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
-		</div>
+<div style="background:#fff;">
+	<a ui-sref="address({isSelect:true})" href="javascript:void(0);" class="list-group-item" 
+			style="margin-bottom: 0px; border: blue;"> 
+		<span>{{address.name}}</span>|<span>{{address.phone}}</span><br/>
+		<span>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.county}}&nbsp;{{address.detail}}</span>
+	</a>
+</div>
+
+<div style="background:#fff;margin-top:5px;color: #555;padding: 10px 15px;">
+	<div>商品详情</div>
+</div>
+<hr style="margin: 0 0 0 0;"/>
+<div style="background:#fff;color: #555;padding: 10px 15px;">
+	<div>皇帝柑</div>
+	<div style="display:inline-block;width: 100%;">
+		<span style="color: red;">￥{{product.price}}</span>
+	</div>
+	<hr style="margin: 10px 0;"/>
+	<div style="display:inline-block;width: 100%;">
+		<span style="float:left;">数量</span>
+		<div style="float:right;">
+			<span>
+				<i class="minus" ng-click="minusNumber();">-</i>
+				<i class="goodsnum">{{goodsNumber}}</i>
+				<i class="add" ng-click="addNumber();">+</i>
+			</span>
+    	</div>
+	</div>
+	<div style="display:inline-block;width: 100%;">
+		<span style="float:left;">商品总价</span>
+		<div style="float:right;">
+			<span style="color: red;">￥{{product.price * goodsNumber}}</span>
+    	</div>
+	</div>
+	<hr style="margin: 10px 0;"/>
+	<div style="display:inline-block;width: 100%;">
+		<span style="float:left;width:20%;">卖家留言</span>
+		<input style="width:78%;border: none;" placeholder="选填、30字以内" ng-change="changeBuyerMessage()" ng-model="buyerMessage">
 	</div>
 </div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom" style="min-height: 0;">
+	<ul class="nav nav-pills">
+		<li role="presentation" style="width:70%;border-radius: 0px;">合计&nbsp;<span style="color: red;">￥{{totalAmount}}</span></li>
+		<li role="presentation"  ng-click="saveProductOrder()" style="width:25%;background: darkcyan;border-radius: 0px;">
+			<a href="javascript:void(0);" style="color: white;">去支付</a>
+		</li>
+	</ul>
+</nav>

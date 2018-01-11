@@ -5,6 +5,7 @@ import java.util.Map;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.entity.QyjProductEntity;
+import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.facade.vo.QyjProductBean;
 
 /**
@@ -78,4 +79,12 @@ public interface QyjProductBiz {
 	 * @throws Exception
 	 */
 	QyjProductBean getProductInfoById(Long productId) throws Exception;
+	
+	/**
+	 * 保存订单
+	 * @param orderBean
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean saveOrder(QyjOrderBean orderBean) throws Exception;
 }

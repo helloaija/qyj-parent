@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.qyj.facade.vo.QyjUserBean;
-import com.qyj.web.common.utils.ComminUtils;
+import com.qyj.web.common.utils.CommonUtils;
 import com.qyj.web.common.utils.SessionUtil;
 
 /**
@@ -65,7 +65,7 @@ public class RestrictInterceptor implements HandlerInterceptor {
 				response.sendError(401, "session timeout.");
 				return false;
 			}
-			response.sendRedirect(ComminUtils.getPath(request) + "/weChat/page/index.html#!/login");
+			response.sendRedirect(CommonUtils.getPath(request) + "/weChat/page/index.html#!/login");
 			return false;
 		}
 		return true;

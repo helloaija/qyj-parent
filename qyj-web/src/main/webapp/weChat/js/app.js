@@ -92,7 +92,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   				}]
 	   	        }
 	   		}).state("address", {
-	   			url : "/address",
+	   			url : "/address?isSelect",
 	   			// 登录地址列表
 	   			templateUrl : "../page/account/addressList.html",
 	   			controller : "addressCtrl",
@@ -120,6 +120,16 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			url : "/orderList",
 	   			// 订单列表
 	   			templateUrl : "../page/account/orderList.html"
+	   		}).state("confirmOrder", {
+	   			url : "/confirmOrder?productId",
+	   			// 确认订单页面
+	   			templateUrl : "../page/product/confirmOrder.html",
+	   			controller : "confirmOrderCtrl",
+	   			resolve : {
+	   				addressEditCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load(["../js/service/confirmOrderService.js", '../js/controller/confirmOrderController.js']);
+	   				}]
+	   	        }
 	   		});
 	   		
 	   		// 定义请求过滤器

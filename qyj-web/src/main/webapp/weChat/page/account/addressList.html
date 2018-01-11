@@ -16,11 +16,18 @@
 
 <div>
 	<div ng-repeat="address in addressList">
-		<a ui-sref="addressEdit({addressId:{{address.id}}})" href="javascript:void(0);" class="list-group-item" 
-				style="margin-bottom: 0px; border: blue;border-bottom: 1px solid #ddd;"> 
-			<span>{{address.name}}</span>|<span>{{address.phone}}</span>
-			<span ng-if="address.isDefault" style="position: absolute;right: 5px;font-size: 10px;color:#00D24C;border: 1px solid #00D24C;">默认地址</span><br/>
-			<span>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.county}}&nbsp;{{address.detail}}</span>
-		</a>
+		
+		<div class="list-group-item" style="margin-bottom: 0px; border: blue;border-bottom: 1px solid #ddd;display: inline-block;width:100%;">
+			<div style="width:93%;float:left;" ng-click="selectAddress(address.id)">
+				<span>{{address.name}}</span>|<span>{{address.phone}}</span>
+				<span ng-if="address.isDefault" style="/* position: absolute;right: 5px; */font-size: 10px;color:#00D24C;border: 1px solid #00D24C;">默认地址</span><br/>
+				<span>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.county}}&nbsp;{{address.detail}}</span>
+			</div>
+			<div style="width:6%;float:left;">
+				<a ui-sref="addressEdit({addressId:{{address.id}}})" href="javascript:void(0);">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true" style="color: grey;"></span>
+				</a>
+			</div>
+		</div>
 	</div>
 </div>

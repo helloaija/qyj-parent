@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	
-	<div class="container">
+	<div class="container" style="background:#fff;">
 		<h3>{{product.title}}</h3>
 		<h3><strong style="color:red;">￥{{product.price}}</strong><small><s>￥100</s></small></h3>
 	</div>
@@ -37,7 +37,7 @@
 	<ul class="nav nav-pills">
 		<li role="presentation" style="width:40%;border-radius: 0px;">&nbsp;</li>
 		<li role="presentation" style="width:25%;background: darkcyan;border-radius: 0px;">
-			<a ui-sref="home.newsList" style="color: white;">立即购买</a>
+			<a ui-sref="confirmOrder({'productId':product.id})" style="color: white;">立即购买</a>
 		</li>
 		<li role="presentation" ng-click="addToTrolley()"
 			style="width:30%;background: burlywood;border-radius: 0px;margin-left:0px;">

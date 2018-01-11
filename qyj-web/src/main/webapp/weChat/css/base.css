@@ -7,6 +7,7 @@ body {
 	max-width: 640px;
     margin: 0 auto;
     height : 100%;
+    background: #f6f6f6;
 }
 
 
@@ -68,4 +69,8 @@ body {
 /* 	border-bottom: 1px solid #ddd; */
 	background: #ffffff;
 	margin-bottom: 5px;
+}
+
+.img-max img {
+	max-width: 100%;
 }
