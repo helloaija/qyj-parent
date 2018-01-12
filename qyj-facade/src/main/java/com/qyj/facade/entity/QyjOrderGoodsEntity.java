@@ -1,5 +1,6 @@
 package com.qyj.facade.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,8 +9,10 @@ import java.util.Date;
  * @author CTF_stone
  *
  */
-public class QyjOrderGoodsEntity {
-    private Long id;
+public class QyjOrderGoodsEntity implements Serializable {
+	private static final long serialVersionUID = 8335627734647848869L;
+
+	private Long id;
 
     /** 用户id */
     private Long userId;

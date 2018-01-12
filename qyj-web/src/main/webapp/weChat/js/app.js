@@ -120,7 +120,13 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   		}).state("orderList", {
 	   			url : "/orderList",
 	   			// 订单列表
-	   			templateUrl : "weChat/page/account/orderList.html"
+	   			templateUrl : "weChat/page/account/orderList.html",
+	   			controller : "orderListCtrl",
+	   			resolve : {
+	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load(["weChat/js/service/orderService.js", 'weChat/js/controller/orderController.js']);
+	   				}]
+	   	        }
 	   		}).state("confirmOrder", {
 	   			url : "/confirmOrder?productId",
 	   			// 确认订单页面

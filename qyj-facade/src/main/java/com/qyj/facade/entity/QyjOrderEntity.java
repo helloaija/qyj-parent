@@ -1,13 +1,19 @@
 package com.qyj.facade.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import com.qyj.facade.vo.QyjOrderGoodsBean;
 
 /**
  * 订单
  * @author CTF_stone
  */
-public class QyjOrderEntity {
+public class QyjOrderEntity implements Serializable {
+	private static final long serialVersionUID = 5232642360843500904L;
+
 	private Long id;
 
 	/** 用户id */
@@ -48,6 +54,9 @@ public class QyjOrderEntity {
 
 	/** 更新时间 */
 	private Date updateTime;
+	
+	/** 订单商品列表 */
+	List<QyjOrderGoodsBean> orderGoodsList = null;
 
 	public Long getId() {
 		return id;
@@ -159,6 +168,14 @@ public class QyjOrderEntity {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public List<QyjOrderGoodsBean> getOrderGoodsList() {
+		return orderGoodsList;
+	}
+
+	public void setOrderGoodsList(List<QyjOrderGoodsBean> orderGoodsList) {
+		this.orderGoodsList = orderGoodsList;
 	}
 
 	@Override

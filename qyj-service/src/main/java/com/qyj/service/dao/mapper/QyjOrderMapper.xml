@@ -104,4 +104,49 @@
 		</set>
 		where id = #{id,jdbcType=BIGINT}
 	</update>
+	
+	<!-- 关联商品 -->
+	<resultMap id="goodsRelationMap" type="com.qyj.facade.entity.QyjOrderEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+		<result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+		<result column="modify_amount" jdbcType="DECIMAL" property="modifyAmount" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+		<result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+		<result column="buyer_address" jdbcType="VARCHAR" property="buyerAddress" />
+		<result column="buyer_message" jdbcType="VARCHAR" property="buyerMessage" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+		<result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		
+		<!--关联订单产品表-->
+		<collection property="orderGoodsList" column="id" select="com.qyj.service.dao.QyjOrderGoodsMapper.listOrderGoodsByOrderId"/>
+	</resultMap>
+	
+	<!-- 统计订单 -->
+	<select id="countOrder" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from qyj_order
+		<where>
+			<include refid="condition" />
+		</where>
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		</if>
+	</select>
+	
+	<!-- 获取订单列表 -->
+	<select id="listOrder" parameterType="java.util.Map" resultMap="goodsRelationMap">
+		select <include refid="baseColumnList" /> from qyj_order
+		<where>
+			<include refid="condition" />
+		</where>
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		    ${pageParam.orderByCondition}
+		    ${pageParam.limit}
+		</if>
+	</select>
 </mapper>

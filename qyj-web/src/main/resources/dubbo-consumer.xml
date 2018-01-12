@@ -23,4 +23,6 @@
 	<dubbo:reference id="qyjNewsInfoFacade" interface="com.qyj.facade.QyjNewsInfoFacade" check="false" url="dubbo://127.0.0.1:20880"/>
 	<!-- 地址服务接口 -->
 	<dubbo:reference id="qyjAddressFacade" interface="com.qyj.facade.QyjAddressFacade" check="false" url="dubbo://127.0.0.1:20880"/>
+	<!-- 订单服务接口 -->
+	<dubbo:reference id="qyjOrderFacade" interface="com.qyj.facade.QyjOrderFacade" check="false" url="dubbo://127.0.0.1:20880"/>
 </beans>

@@ -1,6 +1,7 @@
 package com.qyj.service.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.qyj.facade.entity.QyjOrderEntity;
 
@@ -37,4 +38,18 @@ public interface QyjOrderMapper {
      * @return
      */
     int updateOrder(QyjOrderEntity orderEntity);
+    
+    /**
+	 * 根据条件统计订单数量
+	 * @param paramMap
+	 * @return
+	 */
+	Integer countOrder(Map<String, Object> paramMap);
+
+	/**
+	 * 根据条件获取订单列表数据
+	 * @param paramMap
+	 * @return
+	 */
+	List<QyjOrderEntity> listOrder(Map<String, Object> paramMap);
 }

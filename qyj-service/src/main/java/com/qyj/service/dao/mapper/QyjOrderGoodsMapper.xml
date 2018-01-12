@@ -27,6 +27,11 @@
 			and order_id = #{orderId}
 		</if>
 	</sql>
+	
+	<!-- 根据订单获取订单商品 -->
+	<select id="listOrderGoodsByOrderId" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_order_goods where order_id = #{orderId}
+	</select>
 
 	<!-- 根据查询条件获取订单商品 -->
 	<select id="listOrderGoodsByModel" parameterType="java.lang.Long" resultMap="baseResultMap">

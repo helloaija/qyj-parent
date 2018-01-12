@@ -12,6 +12,13 @@ import com.qyj.facade.entity.QyjOrderGoodsEntity;
 public interface QyjOrderGoodsMapper {
 	
 	/**
+	 * 根据订单id查询订单商品
+	 * @param orderGoods
+	 * @return
+	 */
+	List<QyjOrderGoodsEntity> listOrderGoodsByOrderId(Long orderId);
+	
+	/**
 	 * 根据查询条件查询订单商品
 	 * @param orderGoods
 	 * @return
