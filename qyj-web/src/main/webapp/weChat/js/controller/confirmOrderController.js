@@ -4,8 +4,8 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 订单确认
  */
-qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "confirmOrderService",
-    function($scope, $stateParams, confirmOrderService) {
+qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "$state", "confirmOrderService",
+    function($scope, $stateParams, $state, confirmOrderService) {
 		// 产品
 		$scope.product = null;
 		// 收货地址
@@ -14,6 +14,8 @@ qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "confirmOrderS
 		$scope.goodsNumber = 1;
 		// 买家留言
 		$scope.buyerMessage = "";
+		// 显示支付窗口
+		$scope.showPayDialog = false;
 		
 		// 获取地址id
 		var addressId = sessionStorage.getItem("addressId");
@@ -61,7 +63,7 @@ qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "confirmOrderS
 		// 买家留言change事件
 		$scope.changeBuyerMessage = function() {
 			sessionStorage.setItem("buyerMessage", $scope.buyerMessage);
-		}
+		};
 		
 		// 保存订单
 		$scope.saveProductOrder = function() {
@@ -74,18 +76,30 @@ qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "confirmOrderS
 			orderParams.buyerPhone = $scope.address.phone;
 			orderParams.buyerAddress = $scope.address.province + $scope.address.city + $scope.address.county + $scope.address.detail;
 			orderParams.buyerMessage = $scope.buyerMessage;
-//			orderParams["orderGoodsList[0]"] = {};
 			orderParams["orderGoodsList[0].productId"] = $scope.product.id;
 			orderParams["orderGoodsList[0].number"] = $scope.goodsNumber;
 			confirmOrderService.saveProductOrder(orderParams).then(function(response) {
 				var resultBean = response.data;
 				if ("0000" == resultBean.resultCode) {
-					alert("保存订单成功");
+					// 保存订单成功，打开支付对话框
+					$scope.showPayDialog = true;
 				} else {
 					alert(resultBean.resultMessage);
 				}
 			});
-		}
+		};
+		
+		// 取消支付
+		$scope.cancelPay = function() {
+			// 在当前历史记录上跳转
+			$state.go("payResult", {result:JSON.stringify({code: -1, message: '支付失败'})}, {location:'replace'});
+		};
+		
+		// 确认支付
+		$scope.surePay = function() {
+			// 在当前历史记录上跳转
+			$state.go("payResult", {result:JSON.stringify({code: 0, message: "支付成功"})}, {location:'replace'});
+		};
 	} 
 ]);
 

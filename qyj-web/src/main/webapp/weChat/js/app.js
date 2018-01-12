@@ -131,6 +131,16 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   					return $ocLazyLoad.load(["weChat/js/service/confirmOrderService.js", 'weChat/js/controller/confirmOrderController.js']);
 	   				}]
 	   	        }
+	   		}).state("payResult", {
+	   			url : "/payResult?result",
+	   			// 支付结果页面
+	   			templateUrl : "weChat/page/product/payResult.html",
+	   			controller : "payResultCtrl",
+	   			resolve : {
+	   				payResultCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load(['weChat/js/controller/payResultController.js']);
+	   				}]
+	   	        }
 	   		});
 	   		
 	   		// 定义请求过滤器
