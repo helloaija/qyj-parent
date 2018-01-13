@@ -8,10 +8,11 @@ qyjApp.service('orderService', ["$http",
     function($http) {
 	
 		// 获取订单列表
-	    this.listOrderPage = function() {
+	    this.listOrderPage = function(params) {
 	        return $http({  
 	            method: "GET",  
-	            url: qyjApp.httpsHeader + "/wechat/restrict/order/listOrderPage"
+	            url: qyjApp.httpsHeader + "/wechat/restrict/order/listOrderPage",
+	            params : params
 	        });
 	    }
     

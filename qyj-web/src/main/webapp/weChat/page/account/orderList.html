@@ -2,44 +2,66 @@
 	.hr-top {
 		border-top: 1px solid #eee;
 	}
+	.active {
+		color: darksalmon;
+	}
 </style>
-<div class="panel-default">
-	<div class="panel-body header-body header-fixed">
-		<div>
-			<h4>我的订单</h4>
-		</div>
-		<div style="margin-top: -31px; float: left;">
-			<a href="javascript:window.history.back(-1);" class="index_more fl">
-				&nbsp;&nbsp;<img class="tui" src="weChat/image/common/houtei.png" height="22">
-			</a>
-		</div>
-	</div>
-</div>
-
-<div ng-repeat="order in orderList">
-	<div class="clearfix" style="background:#fff;margin-top:8px;padding: 10px 15px;;width: 100%;">
-		<span style="float:left;">订单日期 {{order.createTime}}</span>
-		<span style="float:right;">未支付</span>
-	</div>
-	<hr style="margin: 0 0 0 0;"/>
-	<div style="background:#fff;padding: 10px 15px;width: 100%;">
-		<div ng-repeat="goods in order.orderGoodsList">
-			<div class="clearfix" ng-class="{true:'',false:'hr-top'}[$index==0]">
-				<div>{{goods.productTitle}}</div>
-				<div>
-					<span style="float:left;">￥{{goods.price}}</span>
-					<span style="float:right;">x{{goods.number}}</span>
-				</div>
+<nav class="navbar-default navbar-fixed-top">
+	<div class="panel-default">
+		<div class="panel-body header-body header-fixed">
+			<div>
+				<h4>我的订单</h4>
+			</div>
+			<div style="margin-top: -31px; float: left;">
+				<a href="javascript:window.history.back(-1);" class="index_more fl">
+					&nbsp;&nbsp;<img class="tui" src="weChat/image/common/houtei.png" height="22">
+				</a>
 			</div>
 		</div>
 	</div>
-	<hr class="clearfix" style="margin: 0 0 0 0;"/>
-	<div class="clearfix" style="background:#fff;padding: 10px 15px;;width: 100%;">
-		<span style="float:right;">共 {{order.totalNumber}} 件商品，总金额￥{{order.modifyAmount}}</span>
+</nav>
+<nav class="navbar-default navbar-fixed-top" style="background:#fff;margin-top:40px;height:25px;border-bottom: 1px solid #f6f6f6;">
+	<div class="tr" style="display: inline-block;width: 100%;margin-top: 3px;font-size: small;">
+		<div ng-click="tapChange('ALL')" ng-class="{true:'active',false:''}[tabState=='ALL']" 
+			class="col-xs-3 text-center" style="border-right: 1px solid #eee;">全部</div>
+		<div ng-click="tapChange('UNPAY')" ng-class="{true:'active',false:''}[tabState=='UNPAY']" 
+			class="col-xs-3 text-center" style="border-right: 1px solid #eee;">待付款</div>
+		<div ng-click="tapChange('UNTAKE')" ng-class="{true:'active',false:''}[tabState=='UNTAKE']" 
+			class="col-xs-3 text-center" style="border-right: 1px solid #eee;">待收货</div>
+		<div ng-click="tapChange('END')" ng-class="{true:'active',false:''}[tabState=='END']" class="col-xs-3 text-center">已完成</div>
 	</div>
-	<hr style="margin: 0 0 0 0;"/>
-	<div class="clearfix" style="background:#fff;padding: 10px 15px;;width: 100%;">
-		<span style="float:right;">取消订单 去付款</span>
-	</div>
-</div>
+</nav>
 
+
+<div infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1' style="font-size: small;margin-top: 65px;">
+	<div ng-repeat="order in orderList">
+		<div class="clearfix" style="background:#fff;margin-top:8px;padding: 8px 15px;width: 100%;font-weight: 600;">
+			<span style="float:left;">订单日期 {{order.createTime | showTimeFilter}}</span>
+			<span style="float:right;color: burlywood;">{{order.status | orderStatusFilter}}</span>
+		</div>
+		<hr style="margin: 0 0 0 0;"/>
+		<div style="background:#fff;padding: 8px 15px;width: 100%;">
+			<div ng-repeat="goods in order.orderGoodsList">
+				<div class="clearfix" ng-class="{true:'',false:'hr-top'}[$index==0]">
+					<div>{{goods.productTitle}}</div>
+					<div>
+						<span style="float:left;color :red;">{{goods.price | currency : '￥'}}</span>
+						<span style="float:right;">× {{goods.number}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr class="clearfix" style="margin: 0 0 0 0;"/>
+		<div class="clearfix" style="background:#fff;padding: 8px 15px;;width: 100%;">
+			<span style="float:right;">共 {{order.totalNumber}} 件商品，总金额<span style="color :red;">{{order.modifyAmount | currency : '￥'}}</span></span>
+		</div>
+		<hr style="margin: 0 0 0 0;"/>
+		<div class="clearfix" style="background:#fff;padding: 8px 15px;;width: 100%;">
+			<a class="btn btn-default pull-right" href="#" role="button" style="font-size: small;padding: 5px 12px;color: darksalmon;border-color: darksalmon;">去付款</a>
+			<button class="btn btn-default pull-right" style="margin-right:10px;font-size: small;padding: 5px 12px;" type="submit">取消订单</button>
+		</div>
+	</div>
+	
+	<div ng-show='isBusy' style="height: 30px; text-align: center;">加载中...</div>
+	<div ng-show='isLoadFinish' style="height: 30px; text-align: center;">没有更多数据了</div>
+</div>

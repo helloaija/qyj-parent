@@ -124,7 +124,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			controller : "orderListCtrl",
 	   			resolve : {
 	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(["weChat/js/service/orderService.js", 'weChat/js/controller/orderController.js']);
+	   					return $ocLazyLoad.load(["ng-infinite-scroll", "weChat/js/service/orderService.js", 'weChat/js/controller/orderController.js']);
 	   				}]
 	   	        }
 	   		}).state("confirmOrder", {

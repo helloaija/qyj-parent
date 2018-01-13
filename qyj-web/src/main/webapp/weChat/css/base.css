@@ -22,7 +22,7 @@ body {
 .header-fixed {
 	margin: 0 auto;
 	background: #4c6db4;
-/* 	height: 44px; */
+	height: 40px;
 	text-align: center;
 	color: #fff;
 }

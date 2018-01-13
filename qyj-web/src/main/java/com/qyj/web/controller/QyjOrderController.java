@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,22 @@ public class QyjOrderController extends BaseController {
 			return new ResultBean("0002", "用户未登录", null);
 		}
 		
+		// 加载的订单状态
+		String state = request.getParameter("state");
 		PageParam pageParam = this.initPageParam(request);
+		
+		if ("UNPAY".equals(state)) {
+			pageParam.setQueryCondition(" and status = 'UNPAY' ");
+		} else if ("UNSEND".equals(state)) {
+			pageParam.setQueryCondition(" and status = 'UNSEND' ");
+		} else if ("UNTAKE".equals(state)) {
+			pageParam.setQueryCondition(" and (status = 'UNSEND' or status = 'UNTAKE') ");
+		} else if ("END".equals(state)) {
+			pageParam.setQueryCondition(" and status = 'END' ");
+		} else {
+			pageParam.setQueryCondition(" and status in ('UNPAY', 'UNSEND', 'UNTAKE', 'END') ");
+		}
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userId", userBean.getId());
 		try {
