@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
+import com.qyj.facade.vo.QyjOrderBean;
 
 /**
  * 服务层接口-我的订单
@@ -19,4 +20,12 @@ public interface QyjOrderBiz {
 	 * @throws Exception
 	 */
 	PageBean listOrderPage(PageParam pageParam, Map<String, Object> paramMap) throws Exception;
+	
+	/**
+	 * 更新订单
+	 * @param orderBean
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean updateOrder(QyjOrderBean orderBean) throws Exception;
 }

@@ -18,6 +18,7 @@ qyjApp.controller("orderListCtrl", [ "$scope", "orderService",
 		// 当前tab
 		$scope.tabState = "ALL";
 		
+		// 加载分页数据
 		$scope.nextPage = function() {
    			if ($scope.isLoadFinish) {
    				return;
@@ -64,7 +65,20 @@ qyjApp.controller("orderListCtrl", [ "$scope", "orderService",
    			$scope.orderList = [];
    			currentPage = 1;
    			$scope.nextPage();
-   			
+   		}
+   		
+   		// 取消订单
+   		$scope.cancelOrder = function(orderId) {
+   			orderService.cancelOrder(orderId).then(function(response) {
+   				var resultBean = response.data;
+   				// 取消订单成功
+   				if ("0000" == resultBean.resultCode) {
+   					// 重新加载数据
+   					$scope.tapChange($scope.tabState);
+   				} else {
+   					alert(resultBean.resultMessage);
+   				}
+   			});
    		}
 	} 
 ]).filter("orderStatusFilter", function() {

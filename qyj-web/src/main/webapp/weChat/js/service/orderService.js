@@ -16,12 +16,14 @@ qyjApp.service('orderService', ["$http",
 	        });
 	    }
     
-		// 根据id获取地址
-	    this.getAddressById = function(addressId) {
+		// 取消订单
+	    this.cancelOrder = function(orderId) {
 	        return $http({  
-	            method: "GET",  
-	            url: qyjApp.httpsHeader + "/wechat/restrict/address/getAddressById",
-	            params: {'addressId' : addressId}
+	        	method: "POST",  
+	            url: qyjApp.httpsHeader + "/wechat/restrict/order/cancelOrder",
+	            headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
+	            data: {orderId : orderId},
+	            transformRequest: transformRequest
 	        });
 	    }
 	    

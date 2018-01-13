@@ -103,6 +103,12 @@
 			</if>
 		</set>
 		where id = #{id,jdbcType=BIGINT}
+			<if test="userId != null">
+				and user_id = #{userId}
+			</if>
+			<if test="status != null and status == 'CANCEL'">
+				and status = 'UNPAY'
+			</if>
 	</update>
 	
 	<!-- 关联商品 -->

@@ -6,12 +6,14 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.entity.QyjOrderEntity;
+import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.service.biz.QyjOrderBiz;
 import com.qyj.service.dao.QyjOrderMapper;
 
@@ -62,4 +64,25 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 		return new PageBean(pageParam.getCurrentPage(), pageParam.getPageSize(), totalCount, projectList);
 	}
 
+	/**
+	 * 更新订单
+	 * @param orderBean
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Boolean updateOrder(QyjOrderBean orderBean) throws Exception {
+		if (orderBean == null) {
+			throw new Exception("更新订单为空");
+		}
+		
+		QyjOrderEntity orderEntity = new QyjOrderEntity();
+		BeanUtils.copyProperties(orderBean, orderEntity);
+		
+		// 更新订单
+		if (orderMapper.updateOrder(orderEntity) <= 0) {
+			throw new Exception("没有更新任何订单");
+		}
+		return Boolean.TRUE;
+	} 
 }

@@ -31,11 +31,11 @@ public class CommonEnums {
 	}
 	
 	/**
-	 * 订单状态[UNPAY：待支付，UNSEND：代发货，UNTAKE：待收货，END：已结束]
+	 * 订单状态[UNPAY：待支付，UNSEND：代发货，UNTAKE：待收货，END：已结束， CANCEL：取消]
 	 * @author shitl
 	 *
 	 */
 	public enum OrderStateEnum {
-		UNPAY, UNSEND, UNTAKE, END
+		UNPAY, UNSEND, UNTAKE, END, CANCEL
 	}
 }

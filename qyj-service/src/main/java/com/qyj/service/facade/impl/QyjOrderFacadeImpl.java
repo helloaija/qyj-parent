@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.QyjOrderFacade;
+import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.service.biz.QyjOrderBiz;
 
 /**
@@ -24,6 +25,7 @@ public class QyjOrderFacadeImpl implements QyjOrderFacade {
 	private QyjOrderBiz orderBiz;
 	
 	private static final Logger logger = LoggerFactory.getLogger(QyjNewsInfoFacadeImpl.class);
+	
 	/**
 	 * 获取订单分页数据
 	 * @param pageParam
@@ -35,6 +37,18 @@ public class QyjOrderFacadeImpl implements QyjOrderFacade {
 	public PageBean listOrderPage(PageParam pageParam, Map<String, Object> paramMap) throws Exception {
 		logger.info("listOrderPage params,pageParam={},paramMap={}", pageParam, paramMap);
 		return orderBiz.listOrderPage(pageParam, paramMap);
+	}
+	
+	/**
+	 * 更新订单
+	 * @param orderBean
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Boolean updateOrder(QyjOrderBean orderBean) throws Exception {
+		logger.info("updateOrder orderBean", orderBean.toString());
+		return orderBiz.updateOrder(orderBean);
 	}
 
 }
