@@ -22,6 +22,9 @@ public class QyjOrderGoodsEntity implements Serializable {
 
     /** 产品id */
     private Long productId;
+    
+    /** 产品名称 */
+    private String productTitle;
 
     /** 产品单价 */
     private BigDecimal price;
@@ -64,7 +67,15 @@ public class QyjOrderGoodsEntity implements Serializable {
         this.productId = productId;
     }
 
-    public BigDecimal getPrice() {
+    public String getProductTitle() {
+		return productTitle;
+	}
+
+	public void setProductTitle(String productTitle) {
+		this.productTitle = productTitle;
+	}
+
+	public BigDecimal getPrice() {
         return price;
     }
 

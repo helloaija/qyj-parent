@@ -248,6 +248,8 @@ public class QyjProductBizImpl implements QyjProductBiz {
 			}
 			// 获取商品价格
 			orderGoodsBean.setPrice(productEntity.getPrice());
+			// 产品标题
+			orderGoodsBean.setProductTitle(productEntity.getTitle());
 			if (productEntity.getPrice() != null) {
 				// 计算总价
 				totalPrice = totalPrice.add(productEntity.getPrice()).multiply(new BigDecimal(orderGoodsBean.getNumber()));

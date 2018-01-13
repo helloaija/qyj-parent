@@ -8,7 +8,8 @@
 	response.setHeader("Content-Type" , "text/html");
 	
 	String rootPath = application.getRealPath( "/" );
-	rootPath = "E:\\developmentEnvironment\\tomcat\\apache-tomcat-8.0.14\\upload";
+	rootPath = "D:\\DevelopmentEnvironment\\tomcat\\tomcat-8.0.28_dubbo_8082\\upload";
+	
 	out.write( new ActionEnter( request, rootPath ).exec() );
 	
 %>

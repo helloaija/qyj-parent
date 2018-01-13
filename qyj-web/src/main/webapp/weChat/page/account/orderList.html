@@ -1,3 +1,8 @@
+<style>
+	.hr-top {
+		border-top: 1px solid #eee;
+	}
+</style>
 <div class="panel-default">
 	<div class="panel-body header-body header-fixed">
 		<div>
@@ -10,3 +15,31 @@
 		</div>
 	</div>
 </div>
+
+<div ng-repeat="order in orderList">
+	<div class="clearfix" style="background:#fff;margin-top:8px;padding: 10px 15px;;width: 100%;">
+		<span style="float:left;">订单日期 {{order.createTime}}</span>
+		<span style="float:right;">未支付</span>
+	</div>
+	<hr style="margin: 0 0 0 0;"/>
+	<div style="background:#fff;padding: 10px 15px;width: 100%;">
+		<div ng-repeat="goods in order.orderGoodsList">
+			<div class="clearfix" ng-class="{true:'',false:'hr-top'}[$index==0]">
+				<div>{{goods.productTitle}}</div>
+				<div>
+					<span style="float:left;">￥{{goods.price}}</span>
+					<span style="float:right;">x{{goods.number}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr class="clearfix" style="margin: 0 0 0 0;"/>
+	<div class="clearfix" style="background:#fff;padding: 10px 15px;;width: 100%;">
+		<span style="float:right;">共 {{order.totalNumber}} 件商品，总金额￥{{order.modifyAmount}}</span>
+	</div>
+	<hr style="margin: 0 0 0 0;"/>
+	<div class="clearfix" style="background:#fff;padding: 10px 15px;;width: 100%;">
+		<span style="float:right;">取消订单 去付款</span>
+	</div>
+</div>
+

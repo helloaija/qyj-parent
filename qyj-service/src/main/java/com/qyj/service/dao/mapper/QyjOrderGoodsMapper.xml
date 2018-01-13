@@ -6,13 +6,14 @@
 		<result column="user_id" jdbcType="BIGINT" property="userId" />
 		<result column="order_id" jdbcType="BIGINT" property="orderId" />
 		<result column="product_id" jdbcType="BIGINT" property="productId" />
+		<result column="product_title" property="productTitle" />
 		<result column="price" jdbcType="DECIMAL" property="price" />
 		<result column="number" jdbcType="INTEGER" property="number" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 	</resultMap>
 
 	<sql id="baseColumnList">
-		id, user_id, order_id, product_id, price, number, create_time
+		id, user_id, order_id, product_id, product_title, price, number, create_time
 	</sql>
 	
 	<!-- 查询条件 -->
@@ -40,9 +41,9 @@
 	
 	<!-- 批量插入订单商品 -->
 	<insert id="insertOrderGoodsList" parameterType="java.util.List">
-		insert into qyj_order_goods (user_id, order_id, product_id, price, number, create_time) values
+		insert into qyj_order_goods (user_id, order_id, product_id, product_title, price, number, create_time) values
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.userId}, #{item.orderId}, #{item.productId}, #{item.price}, #{item.number}, #{item.createTime})
+			(#{item.userId}, #{item.orderId}, #{item.productId}, #{item.productTitle}, #{item.price}, #{item.number}, #{item.createTime})
 		</foreach>
 	</insert>
 </mapper>
