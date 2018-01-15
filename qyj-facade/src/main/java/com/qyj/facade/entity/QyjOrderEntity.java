@@ -2,9 +2,13 @@ package com.qyj.facade.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+
+import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.facade.vo.QyjOrderGoodsBean;
 
 /**
@@ -56,7 +60,7 @@ public class QyjOrderEntity implements Serializable {
 	private Date updateTime;
 	
 	/** 订单商品列表 */
-	List<QyjOrderGoodsBean> orderGoodsList = null;
+	List<QyjOrderGoodsEntity> orderGoodsList = null;
 
 	public Long getId() {
 		return id;
@@ -170,11 +174,11 @@ public class QyjOrderEntity implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public List<QyjOrderGoodsBean> getOrderGoodsList() {
+	public List<QyjOrderGoodsEntity> getOrderGoodsList() {
 		return orderGoodsList;
 	}
 
-	public void setOrderGoodsList(List<QyjOrderGoodsBean> orderGoodsList) {
+	public void setOrderGoodsList(List<QyjOrderGoodsEntity> orderGoodsList) {
 		this.orderGoodsList = orderGoodsList;
 	}
 
@@ -185,5 +189,25 @@ public class QyjOrderEntity implements Serializable {
 				+ ", buyerPhone=" + buyerPhone + ", buyerAddress=" + buyerAddress + ", buyerMessage=" + buyerMessage
 				+ ", createTime=" + createTime + ", payTime=" + payTime + ", finishTime=" + finishTime + ", updateTime="
 				+ updateTime + "]";
+	}
+	
+	public QyjOrderBean toBean() {
+		QyjOrderBean orderBean = new QyjOrderBean();
+		BeanUtils.copyProperties(this, orderBean);
+		
+//		if (this.getOrderGoodsList() != null && !this.getOrderGoodsList().isEmpty()) {
+//			QyjOrderGoodsBean goodsBean = null;
+//			for (QyjOrderGoodsEntity goodsEntity : this.getOrderGoodsList()) {
+//				goodsBean = new QyjOrderGoodsBean();
+//				BeanUtils.copyProperties(goodsEntity, goodsBean);
+//				if (orderBean.getOrderGoodsList() == null) {
+//					orderBean.setOrderGoodsList(new ArrayList<QyjOrderGoodsBean>());
+//				}
+//				
+//				orderBean.getOrderGoodsList().add(goodsBean);
+//			}
+//		}
+		
+		return orderBean;
 	}
 }
