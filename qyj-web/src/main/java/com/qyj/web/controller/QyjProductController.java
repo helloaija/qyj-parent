@@ -157,7 +157,7 @@ public class QyjProductController extends BaseController {
 			orderBean.setUserId(userBean.getId());
 			
 			if (productFacade.saveOrder(orderBean)) {
-				return new ResultBean("0000", "保存订单成功！", null);
+				return new ResultBean("0000", "保存订单成功！", orderBean);
 			}
 			return new ResultBean("0002", "保存订单失败！", null);
 		} catch (Exception e) {

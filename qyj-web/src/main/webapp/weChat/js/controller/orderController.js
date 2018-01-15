@@ -81,26 +81,53 @@ qyjApp.controller("orderListCtrl", [ "$scope", "orderService",
    			});
    		}
 	} 
-]).controller("orderDetailCtrl", ["$scope", "$stateParams", "orderService",
+]).controller("orderDetailCtrl", ["$scope", "$stateParams", "$state", "orderService",
     // 订单详情控制器
-    function($scope, $stateParams, orderService) {
+    function($scope, $stateParams, $state, orderService) {
 		$scope.order = {};
+		// 显示支付窗口
+		$scope.showPayDialog = false;
 		// 获取订单数据
 		orderService.getOrderById($stateParams.orderId).then(function(response) {
+			var resultBean = response.data;
+			// 获取订单数据成功
+			if ("0000" == resultBean.resultCode) {
+				// 重新加载数据
+				$scope.order = resultBean.result;
+			} else {
+				alert(resultBean.resultMessage);
+			}
+		});
+		
+		// 去支付
+		$scope.toPay = function() {
+			$scope.showPayDialog = true;
+		};
+		
+		// 取消支付
+		$scope.cancelPay = function() {
+			// 在当前历史记录上跳转
+			$state.go("payResult", {result:JSON.stringify({code: -1, message: '支付失败'})}, {location:'replace'});
+		};
+		
+		// 确认支付
+		$scope.surePay = function() {
+			orderService.confirmPayOrder($stateParams.orderId).then(function(response) {
 				var resultBean = response.data;
-				// 获取订单数据成功
+				// 支付成功
 				if ("0000" == resultBean.resultCode) {
-					// 重新加载数据
-					$scope.order = resultBean.result;
+					// 在当前历史记录上跳转
+					$state.go("payResult", {result:JSON.stringify({code: 0, message: "支付成功"})}, {location:'replace'});
 				} else {
 					alert(resultBean.resultMessage);
 				}
 			});
+		};
 	}
 ]).filter("orderStatusFilter", function() {
 	// 订单状态
 	return function(status) {
-		var statusObj = {"UNPAY" : "待支付", "UNSEND": "代发货", "UNTAKE":"待收货", "END": "已结束"};
+		var statusObj = {"UNPAY" : "待支付", "UNSEND": "待发货", "UNTAKE":"待收货", "END": "已结束"};
 		return statusObj[status];
     }  
 }).filter("showTimeFilter", function() {

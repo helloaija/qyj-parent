@@ -2,9 +2,9 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate", "angular-touch"], function(angular) {
 	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate", "ngTouch"]);
 	
-	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
-	qyjApp.uploadFileHeader = "http://192.168.30.22:8082/qyj-back/uploadFile/";
-	qyjApp.uploadHeader = "http://192.168.30.22:8082/qyj-back/upload/";
+	qyjApp.httpsHeader = "http://192.168.1.103:8080/qyj-web";
+	qyjApp.uploadFileHeader = "http://192.168.1.103:8080/qyj-back/uploadFile/";
+	qyjApp.uploadHeader = "http://192.168.30.1.103:8080/qyj-back/upload/";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider", "$urlRouterProvider",
         function($stateProvider, $httpProvider, $urlRouterProvider) {
@@ -144,7 +144,8 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   			controller : "confirmOrderCtrl",
 	   			resolve : {
 	   				addressEditCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(["weChat/js/service/confirmOrderService.js", 'weChat/js/controller/confirmOrderController.js']);
+	   					return $ocLazyLoad.load(["weChat/js/service/orderService.js", "weChat/js/service/confirmOrderService.js",
+	   											'weChat/js/controller/confirmOrderController.js']);
 	   				}]
 	   	        }
 	   		}).state("payResult", {

@@ -10,7 +10,8 @@ import java.util.List;
  * @author CTF_stone
  */
 public class QyjOrderBean implements Serializable {
-	private static final long serialVersionUID = -2974876456763349212L;
+
+	private static final long serialVersionUID = 5525427361307362076L;
 
 	private Long id;
 

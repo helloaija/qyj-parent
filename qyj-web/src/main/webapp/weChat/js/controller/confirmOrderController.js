@@ -4,8 +4,9 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 订单确认
  */
-qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "$state", "confirmOrderService",
-    function($scope, $stateParams, $state, confirmOrderService) {
+qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "$state", "confirmOrderService", "orderService",
+    function($scope, $stateParams, $state, confirmOrderService, orderService) {
+		$scope.order = {};
 		// 产品
 		$scope.product = null;
 		// 收货地址
@@ -81,6 +82,8 @@ qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "$state", "con
 			confirmOrderService.saveProductOrder(orderParams).then(function(response) {
 				var resultBean = response.data;
 				if ("0000" == resultBean.resultCode) {
+					// 保存成功的订单信息
+					$scope.order = resultBean.result;
 					// 保存订单成功，打开支付对话框
 					$scope.showPayDialog = true;
 				} else {
@@ -97,8 +100,16 @@ qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "$state", "con
 		
 		// 确认支付
 		$scope.surePay = function() {
-			// 在当前历史记录上跳转
-			$state.go("payResult", {result:JSON.stringify({code: 0, message: "支付成功"})}, {location:'replace'});
+			orderService.confirmPayOrder($scope.order.id).then(function(response) {
+				var resultBean = response.data;
+				// 支付成功
+				if ("0000" == resultBean.resultCode) {
+					// 在当前历史记录上跳转
+					$state.go("payResult", {result:JSON.stringify({code: 0, message: "支付成功"})}, {location:'replace'});
+				} else {
+					alert(resultBean.resultMessage);
+				}
+			});
 		};
 	} 
 ]);

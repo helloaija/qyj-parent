@@ -152,5 +152,42 @@ public class QyjOrderController extends BaseController {
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
 		}
 	}
+	
+	/**
+	 * 确认支付
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/restrict/order/confirmPayOrder")
+	public ResultBean confirmPayOrder(Long orderId, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			if (userBean == null) {
+				return new ResultBean("0002", "用户未登录", null);
+			}
+			
+			if (orderId == null) {
+				return new ResultBean("0002", "支付订单id为空，支付失败", null);
+			}
+			
+			QyjOrderBean orderBean = new QyjOrderBean();
+			orderBean.setId(orderId);
+			orderBean.setUserId(userBean.getId());
+			orderBean.setStatus(OrderStateEnum.UNSEND.toString());
+			orderBean.setUpdateTime(new Date());
+			orderBean.setPayTime(new Date());
+			
+			if (!orderFacade.updateOrder(orderBean)) {
+				return new ResultBean("0002", "支付订单失败", null);
+			}
+			
+			return new ResultBean("0000", "请求成功", null);
+		} catch (Exception e) {
+			logger.error("confirmPayOrder error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
 
 }

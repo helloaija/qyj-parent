@@ -4,6 +4,22 @@
 		padding: 8px 15px;
 		width: 100%;
 	}
+	
+	.order-text {
+		color: #777;
+	}
+	
+	.currency-text {
+		color : #F00;
+	}
+	
+	.top-default {
+		margin-top : 8px;
+	}
+	
+	.hr-top {
+		border-top: 1px solid #eee;
+	}
 </style>
 
 <nav class="navbar-default navbar-fixed-top">
@@ -21,22 +37,65 @@
 	</div>
 </nav>
 
-<div style="margin-top: 40px;">
+<div style="padding-top: 40px;">
 	<div class="content-default">
-		<div>订单编号：123521525</div>
-		<div>订单日期：2018-01-15</div>
-		<div>订单金额：￥300</div>
+		<div><span class="order-text">订单编号：</span>123521525</div>
+		<div><span class="order-text">订单日期：</span>2018-01-15</div>
+		<div><span class="order-text">订单金额：</span><span class="currency-text">{{order.modifyAmount | currency : '￥'}}</span></div>
 	</div>
 	
-	<div class="content-default">
-<!-- 		<div ng-repeat="goods in order.orderGoodsList"> -->
+	<div class="content-default top-default">
+		<div ng-repeat="goods in order.orderGoodsList">
 			<div class="clearfix" ng-class="{true:'',false:'hr-top'}[$index==0]">
-				<div>{{'产品'}}</div>
+				<div>{{goods.productTitle}}</div>
 				<div>
-					<span style="float:left;color :red;">{{100 | currency : '￥'}}</span>
-					<span style="float:right;">× {{10}}</span>
+					<span class="currency-text" style="float:left;color :red;">{{goods.price | currency : '￥'}}</span>
+					<span class="order-text" style="float:right;">× {{goods.number}}</span>
 				</div>
 			</div>
-<!-- 		</div> -->
+		</div>
+	</div>
+	
+	<div class="content-default top-default">
+		<div class="clearfix">
+			<div>{{order.buyerName}}&nbsp;|&nbsp;{{order.buyerPhone}}</div>
+			<div>
+				<span class="order-text">{{order.buyerAddress}}</span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="content-default top-default">
+		<div class="clearfix">
+			<span class="currency-text" style="float:right;">{{0 | currency : '￥'}}</span>
+			<span class="order-text" style="float:left;">运费</span>
+		</div>
+	</div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom" style="min-height: 0;" ng-if="order.status=='UNPAY'">
+	<ul class="nav nav-pills">
+		<li role="presentation" style="width:70%;border-radius: 0px;">合计&nbsp;
+			<span class="currency-text">{{order.modifyAmount | currency : '￥'}}</span>
+		</li>
+		<li role="presentation" ng-click="toPay()" style="width:25%;background: darkcyan;border-radius: 0px;">
+			<a href="javascript:void(0);" style="color: white;">去支付</a>
+		</li>
+	</ul>
+</nav>
+
+<div ng-show="showPayDialog" style="position:absolute;top:0;bottom:0px;left:0;background:#000;opacity:0.7;width:100%;z-index:2000;"></div>
+<div ng-show="showPayDialog" style="position:absolute;bottom:0px;width: 100%;z-index:3000;background:white;">
+	<div class="text-center">
+		<span ng-click="cancelPay()" style="float: left;margin-left: 10px;">╳</span>
+		<h4>确认付款</h4>
+	</div>
+	<hr/>
+	<div class="text-center">
+		<h3>{{order.modifyAmount | currency : '￥'}}</h3>
+	</div>
+	<hr/>
+	<div class="text-center">
+		<h4 ng-click="surePay()">确认支付</h4>
 	</div>
 </div>

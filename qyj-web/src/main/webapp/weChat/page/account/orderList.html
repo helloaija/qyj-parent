@@ -5,6 +5,13 @@
 	.active {
 		color: darksalmon;
 	}
+	a { 
+		text-decoration:none; 
+		color:#333; 
+	} 
+	.order-text {
+		color: #777;
+	}
 </style>
 <nav class="navbar-default navbar-fixed-top">
 	<div class="panel-default">
@@ -40,25 +47,29 @@
 			<span style="float:right;color: burlywood;">{{order.status | orderStatusFilter}}</span>
 		</div>
 		<hr style="margin: 0 0 0 0;"/>
-		<div style="background:#fff;padding: 8px 15px;width: 100%;">
-			<div ng-repeat="goods in order.orderGoodsList">
-				<div class="clearfix" ng-class="{true:'',false:'hr-top'}[$index==0]">
-					<div>{{goods.productTitle}}</div>
-					<div>
-						<span style="float:left;color :red;">{{goods.price | currency : '￥'}}</span>
-						<span style="float:right;">× {{goods.number}}</span>
+		<a ui-sref="orderDetail({orderId:order.id})">
+			<div style="background:#fff;padding: 8px 15px;width: 100%;">
+				<div ng-repeat="goods in order.orderGoodsList">
+					<div class="clearfix" ng-class="{true:'',false:'hr-top'}[$index==0]">
+						<div>{{goods.productTitle}}</div>
+						<div>
+							<span style="float:left;color :red;">{{goods.price | currency : '￥'}}</span>
+							<span class='order-text pull-right'>× {{goods.number}}</span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</a>
 		<hr class="clearfix" style="margin: 0 0 0 0;"/>
 		<div class="clearfix" style="background:#fff;padding: 8px 15px;;width: 100%;">
 			<span style="float:right;">共 {{order.totalNumber}} 件商品，总金额<span style="color :red;">{{order.modifyAmount | currency : '￥'}}</span></span>
 		</div>
-		<hr style="margin: 0 0 0 0;"/>
-		<div class="clearfix" style="background:#fff;padding: 8px 15px;;width: 100%;">
-			<a class="btn btn-default pull-right" ui-sref="orderDetail({orderId:order.id})" role="button" style="font-size: small;padding: 5px 12px;color: darksalmon;border-color: darksalmon;">去付款</a>
-			<button ng-click="cancelOrder(order.id)" class="btn btn-default pull-right" style="margin-right:10px;font-size: small;padding: 5px 12px;" type="submit">取消订单</button>
+		<div ng-if="order.status=='UNPAY'">
+			<hr style="margin: 0 0 0 0;"/>
+			<div class="clearfix" style="background:#fff;padding: 8px 15px;;width: 100%;">
+				<a class="btn btn-default pull-right" ui-sref="orderDetail({orderId:order.id})" role="button" style="font-size: small;padding: 5px 12px;color: darksalmon;border-color: darksalmon;">去付款</a>
+				<button ng-click="cancelOrder(order.id)" class="btn btn-default pull-right" style="margin-right:10px;font-size: small;padding: 5px 12px;" type="submit">取消订单</button>
+			</div>
 		</div>
 	</div>
 	

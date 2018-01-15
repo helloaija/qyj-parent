@@ -106,7 +106,8 @@
 			<if test="userId != null">
 				and user_id = #{userId}
 			</if>
-			<if test="status != null and status == 'CANCEL'">
+			<!-- 未支付订单可以进行取消订单、支付操作 -->
+			<if test="status != null and (status == 'CANCEL' or status == 'UNSEND')">
 				and status = 'UNPAY'
 			</if>
 	</update>
