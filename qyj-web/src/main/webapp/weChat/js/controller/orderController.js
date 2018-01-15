@@ -2,7 +2,7 @@
 var qyjApp = angular.module("qyjApp");
 
 /**
- * 首页-登录页控制器
+ * 控制器-我的订单
  */
 qyjApp.controller("orderListCtrl", [ "$scope", "orderService", 
     function($scope, orderService) {
@@ -81,6 +81,22 @@ qyjApp.controller("orderListCtrl", [ "$scope", "orderService",
    			});
    		}
 	} 
+]).controller("orderDetailCtrl", ["$scope", "$stateParams", "orderService",
+    // 订单详情控制器
+    function($scope, $stateParams, orderService) {
+		$scope.order = {};
+		// 获取订单数据
+		orderService.getOrderById($stateParams.orderId).then(function(response) {
+				var resultBean = response.data;
+				// 获取订单数据成功
+				if ("0000" == resultBean.resultCode) {
+					// 重新加载数据
+					$scope.order = resultBean.result;
+				} else {
+					alert(resultBean.resultMessage);
+				}
+			});
+	}
 ]).filter("orderStatusFilter", function() {
 	// 订单状态
 	return function(status) {

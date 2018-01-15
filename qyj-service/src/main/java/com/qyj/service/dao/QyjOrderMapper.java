@@ -24,6 +24,13 @@ public interface QyjOrderMapper {
 	 * @return
 	 */
     List<QyjOrderEntity> listOrderByModel(QyjOrderEntity orderEntity);
+    
+    /**
+	 * 根据查询条件获取关联商品的订单列表
+	 * @param OrderEntity
+	 * @return
+	 */
+    List<QyjOrderEntity> listOrderAndGoodsByModel(QyjOrderEntity orderEntity);
 
     /**
      * 插入订单

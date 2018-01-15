@@ -1,5 +1,6 @@
 package com.qyj.service.facade.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -25,6 +26,17 @@ public class QyjOrderFacadeImpl implements QyjOrderFacade {
 	private QyjOrderBiz orderBiz;
 	
 	private static final Logger logger = LoggerFactory.getLogger(QyjNewsInfoFacadeImpl.class);
+	
+	/**
+	 * 根据查询条件查询关联商品的订单
+	 * @param queryBean
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<QyjOrderBean> listOrderAndGoodsByModel(QyjOrderBean queryBean) throws Exception {
+		return orderBiz.listOrderAndGoodsByModel(queryBean);
+	}
 	
 	/**
 	 * 获取订单分页数据

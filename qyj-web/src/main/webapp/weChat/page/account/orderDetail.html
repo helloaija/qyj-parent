@@ -1,0 +1,42 @@
+<style>
+	.content-default {
+		background:#fff;
+		padding: 8px 15px;
+		width: 100%;
+	}
+</style>
+
+<nav class="navbar-default navbar-fixed-top">
+	<div class="panel-default">
+		<div class="panel-body header-body header-fixed">
+			<div>
+				<h4>订单详情</h4>
+			</div>
+			<div style="margin-top: -31px; float: left;">
+				<a href="javascript:window.history.back(-1);" class="index_more fl">
+					&nbsp;&nbsp;<img class="tui" src="weChat/image/common/houtei.png" height="22">
+				</a>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div style="margin-top: 40px;">
+	<div class="content-default">
+		<div>订单编号：123521525</div>
+		<div>订单日期：2018-01-15</div>
+		<div>订单金额：￥300</div>
+	</div>
+	
+	<div class="content-default">
+<!-- 		<div ng-repeat="goods in order.orderGoodsList"> -->
+			<div class="clearfix" ng-class="{true:'',false:'hr-top'}[$index==0]">
+				<div>{{'产品'}}</div>
+				<div>
+					<span style="float:left;color :red;">{{100 | currency : '￥'}}</span>
+					<span style="float:right;">× {{10}}</span>
+				</div>
+			</div>
+<!-- 		</div> -->
+	</div>
+</div>

@@ -1,5 +1,6 @@
 package com.qyj.service.biz.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,35 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 	
 	@Autowired
 	private QyjOrderMapper orderMapper;
+	
+	/**
+	 * 根据查询条件查询关联商品的订单
+	 * @param queryBean
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<QyjOrderBean> listOrderAndGoodsByModel(QyjOrderBean queryBean) throws Exception {
+		if (queryBean == null) {
+			throw new Exception("查询queryBean为空");
+		}
+		
+		QyjOrderEntity queryEntity = new QyjOrderEntity();
+		BeanUtils.copyProperties(queryBean, queryEntity);
+		
+		// 获取订单数据
+		List<QyjOrderEntity> orderEntityList = orderMapper.listOrderAndGoodsByModel(queryEntity);
+		if (orderEntityList == null || orderEntityList.isEmpty()) {
+			return null;
+		}
+		
+		List<QyjOrderBean> orderBeanList = new ArrayList<QyjOrderBean>();
+		for (QyjOrderEntity entity : orderEntityList) {
+			orderBeanList.add(entity.toBean());
+		}
+		
+		return orderBeanList;
+	}
 
 	/**
 	 * 获取订单分页数据

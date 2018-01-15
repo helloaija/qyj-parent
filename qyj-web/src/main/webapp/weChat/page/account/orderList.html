@@ -57,7 +57,7 @@
 		</div>
 		<hr style="margin: 0 0 0 0;"/>
 		<div class="clearfix" style="background:#fff;padding: 8px 15px;;width: 100%;">
-			<a class="btn btn-default pull-right" href="#" role="button" style="font-size: small;padding: 5px 12px;color: darksalmon;border-color: darksalmon;">去付款</a>
+			<a class="btn btn-default pull-right" ui-sref="orderDetail({orderId:order.id})" role="button" style="font-size: small;padding: 5px 12px;color: darksalmon;border-color: darksalmon;">去付款</a>
 			<button ng-click="cancelOrder(order.id)" class="btn btn-default pull-right" style="margin-right:10px;font-size: small;padding: 5px 12px;" type="submit">取消订单</button>
 		</div>
 	</div>

@@ -42,7 +42,7 @@
 	</sql>
 
 	<!-- 根据查询条件获取订单 -->
-	<select id="listOrderByModel" parameterType="java.lang.Long" resultMap="baseResultMap">
+	<select id="listOrderByModel" parameterType="com.qyj.facade.entity.QyjOrderEntity" resultMap="baseResultMap">
 		select <include refid="baseColumnList" /> from qyj_order where 1 = 1 <include refid="condition"/>
 	</select>
 
@@ -154,5 +154,13 @@
 		    ${pageParam.orderByCondition}
 		    ${pageParam.limit}
 		</if>
+	</select>
+	
+	<!-- 获取model获取关联产品的订单列表 -->
+	<select id="listOrderAndGoodsByModel" parameterType="com.qyj.facade.entity.QyjOrderEntity" resultMap="goodsRelationMap">
+		select <include refid="baseColumnList" /> from qyj_order
+		<where>
+			<include refid="condition" />
+		</where>
 	</select>
 </mapper>

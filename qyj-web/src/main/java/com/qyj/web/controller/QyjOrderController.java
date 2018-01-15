@@ -2,6 +2,7 @@ package com.qyj.web.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,43 @@ public class QyjOrderController extends BaseController {
 
 	@Autowired
 	private QyjOrderFacade orderFacade;
+	
+	/**
+	 * 根据订单id获取订单
+	 * @param orderId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/restrict/order/getOrderById")
+	public ResultBean getOrderById(Long orderId, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			if (userBean == null) {
+				return new ResultBean("0002", "用户未登录", null);
+			}
+			
+			if (orderId == null) {
+				return new ResultBean("0002", "请求的订单编号为空", null);
+			}
+			
+			QyjOrderBean queryBean = new QyjOrderBean();
+			queryBean.setId(orderId);
+			queryBean.setUserId(userBean.getId());
+			
+			List<QyjOrderBean> orderBeanList = orderFacade.listOrderAndGoodsByModel(queryBean);
+			
+			if (orderBeanList == null || orderBeanList.isEmpty()) {
+				return new ResultBean("0002", "找不到订单" + orderId + "数据", null);
+			}
+			
+			return new ResultBean("0000", "请求成功", orderBeanList.get(0));
+		} catch (Exception e) {
+			logger.error("getOrderById error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
 
 	/**
 	 * 获取订单分页数据信息
