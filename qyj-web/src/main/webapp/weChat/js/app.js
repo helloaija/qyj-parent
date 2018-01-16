@@ -76,7 +76,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   				productContentCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load(["ui-bootstrap",
 	   											'weChat/js/controller/productContentController.js',
-	   											'weChat/js/service/productContentService.js']);
+	   											'weChat/js/service/productService.js']);
 	   				}]
 	   			}
 	   		}).state("login", {

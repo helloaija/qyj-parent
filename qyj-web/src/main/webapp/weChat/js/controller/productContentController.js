@@ -4,8 +4,8 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 产品详情控制器
  */
-qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productContentService",
-    function($scope, $stateParams, productContentService) {
+qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productService",
+    function($scope, $stateParams, productService) {
 		// 轮播时间间隔（毫秒）
 		$scope.slideInterval = 5000;
 		$scope.slideList = [];
@@ -15,7 +15,7 @@ qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productCont
 		$scope.tabList = [];
 	
    		// 获取产品列表信息
-		productContentService.getProductInfo($stateParams.productId).then(function(response) {
+		productService.getProductInfo($stateParams.productId).then(function(response) {
    			var resultBean = response.data;
    			// 加载产品列表
    			if (resultBean.resultCode == "0000" && resultBean.result) {
@@ -32,7 +32,15 @@ qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productCont
 		
 		// 加入购物车
 		$scope.addToTrolley = function() {
-			alert("加入购物车成功");
+			// 加入购物车
+			productService.addShoppingTrolley($stateParams.productId).then(function(response) {
+	   			var resultBean = response.data;
+	   			if (resultBean.resultCode == "0000") {
+	   				alert("加入购物车成功");
+		   		} else {
+		   			alert(resultBean.resultMessage);
+		   		}
+		   	});
 		};
 	}
 ]);

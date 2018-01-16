@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.service.dao.QyjShoppingTrolleyMapper">
+	<resultMap id="baseResultMap" type="com.qyj.facade.entity.QyjShoppingTrolleyEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="product_id" property="productId" />
+		<result column="number" property="number" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+	
+	<sql id="baseColumns">
+		id, user_id, product_id, number, create_time
+	</sql>
+
+	<!-- 插入购物车记录 -->
+	<insert id="insertShoppingTrolley" parameterType="com.qyj.facade.entity.QyjShoppingTrolleyEntity"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into qyj_shopping_trolley (user_id, product_id, number, create_time)
+		values (#{userId}, #{productId}, #{number}, #{createTime})
+	</insert>
+
+	<!-- 根据条件删除购物车记录 -->
+	<delete id="delShoppingTrolley" parameterType="com.qyj.facade.entity.QyjShoppingTrolleyEntity">
+		delete from qyj_shopping_trolley where id = #{id}
+			<if test="userId != null">
+				and user_id = #{userId}
+			</if>
+	</delete>
+	
+	<!-- 根据userId获取购物车记录列表 -->
+	<select id="listShoppingTrolleyByUserId" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumns"/> from qyj_shopping_trolley where user_id = #{userId}
+	</select>
+
+</mapper>
