@@ -1,3 +1,21 @@
+<style>
+	.icon-div {
+		background:#fff;
+		padding : 10px 0 10px 0;
+	}
+	
+	.message-text {
+		color: #777;
+	}
+	
+	.content-default {
+		background:#fff;
+		padding: 8px 15px;
+		width: 100%;
+		display: inline-block;
+	}
+</style>
+
 <div class="panel-default">
 	<div class="panel-body header-body header-fixed">
 		<div>
@@ -12,9 +30,26 @@
 </div>
 
 <div ng-if="payResult.code == 0">
-	支付成功
+	<div class="text-center icon-div">
+		<img alt="支付成功" src="weChat\image\common\gou.png">
+		<div style="color:#4CB456;">支付成功</div>
+		<div class="message-text">{{payResult.message}}</div>
+	</div>
+	
 </div>
 <div ng-if="payResult.code == -1">
-	支付失败
+	<div class="text-center icon-div">
+		<img alt="支付成功" src="weChat\image\common\error.png">
+		<div style="color:#4CB456;">支付失败</div>
+		<div class="message-text">{{payResult.message}}</div>
+	</div>
+</div>
+
+<div class="content-default tr">
+	<div class="col-xs-10 col-xs-offset-2">
+		<div><span class="message-text">订单编号：</span>{{payResult.orderNumber}}</div>
+		<div><span class="message-text">订单日期：</span>{{payResult.createTime | showTimeFilter}}</div>
+		<div><span class="message-text">订单金额：</span><span class="currency-text">{{payResult.modifyAmount | currency : '￥'}}</span></div>
+	</div>
 </div>
 

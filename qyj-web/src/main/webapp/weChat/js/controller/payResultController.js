@@ -8,4 +8,13 @@ qyjApp.controller("payResultCtrl", [ "$scope", "$stateParams",
 		// 支付结果
 		$scope.payResult = JSON.parse($stateParams.result) ? JSON.parse($stateParams.result) : {};
 	} 
-]);
+]).filter("showTimeFilter", function() {
+	// 订单状态
+	return function(time) {
+		if (time) {
+			return time.substring(0, time.length - 3);
+		} else {
+			return "";
+		}
+    }  
+});

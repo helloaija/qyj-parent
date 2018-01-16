@@ -81,10 +81,10 @@ public interface QyjProductBiz {
 	QyjProductBean getProductInfoById(Long productId) throws Exception;
 	
 	/**
-	 * 保存订单
+	 * 保存订单，返回主键id
 	 * @param orderBean
 	 * @return
 	 * @throws Exception
 	 */
-	public Boolean saveOrder(QyjOrderBean orderBean) throws Exception;
+	public Long saveOrder(QyjOrderBean orderBean) throws Exception;
 }

@@ -51,13 +51,13 @@ public class QyjProductFacadeImpl implements QyjProductFacade {
 	}
 	
 	/**
-	 * 保存订单
+	 * 保存订单，返回主键id
 	 * @param orderBean
 	 * @return
 	 * @throws Exception
 	 */
 	@Override
-	public Boolean saveOrder(QyjOrderBean orderBean) throws Exception {
+	public Long saveOrder(QyjOrderBean orderBean) throws Exception {
 		return productBiz.saveOrder(orderBean);
 	}
 

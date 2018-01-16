@@ -94,8 +94,12 @@ qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "$state", "con
 		
 		// 取消支付
 		$scope.cancelPay = function() {
+			var result = {};
+			angular.copy($scope.order, result);
+			result.code = -1;
+			result.message = "未完成支付";
 			// 在当前历史记录上跳转
-			$state.go("payResult", {result:JSON.stringify({code: -1, message: '支付失败'})}, {location:'replace'});
+			$state.go("payResult", {result:JSON.stringify(result)}, {location:'replace'});
 		};
 		
 		// 确认支付
@@ -104,8 +108,11 @@ qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "$state", "con
 				var resultBean = response.data;
 				// 支付成功
 				if ("0000" == resultBean.resultCode) {
+					var result = {};
+					angular.copy($scope.order, result);
+					result.code = 0;
 					// 在当前历史记录上跳转
-					$state.go("payResult", {result:JSON.stringify({code: 0, message: "支付成功"})}, {location:'replace'});
+					$state.go("payResult", {result:JSON.stringify(result)}, {location:'replace'});
 				} else {
 					alert(resultBean.resultMessage);
 				}

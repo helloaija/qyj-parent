@@ -18,6 +18,7 @@ import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.common.page.ResultBean;
 import com.qyj.facade.QyjAddressFacade;
+import com.qyj.facade.QyjOrderFacade;
 import com.qyj.facade.QyjProductFacade;
 import com.qyj.facade.vo.QyjAddressBean;
 import com.qyj.facade.vo.QyjOrderBean;
@@ -36,6 +37,9 @@ public class QyjProductController extends BaseController {
 	
 	@Autowired
 	private QyjAddressFacade addressFacade;
+	
+	@Autowired
+	private QyjOrderFacade orderFacade;
 	
 	/**
 	 * 获取产品分页数据信息
@@ -156,8 +160,19 @@ public class QyjProductController extends BaseController {
 			
 			orderBean.setUserId(userBean.getId());
 			
-			if (productFacade.saveOrder(orderBean)) {
-				return new ResultBean("0000", "保存订单成功！", orderBean);
+			// 保存订单
+			Long orderId = productFacade.saveOrder(orderBean);
+			
+			if (orderId != null) {
+				QyjOrderBean queryBean = new QyjOrderBean();
+				queryBean.setId(orderId);
+				queryBean.setUserId(userBean.getId());
+				// 根据订单id和用户id查询订单
+				List<QyjOrderBean> orderBeanList = orderFacade.listOrderAndGoodsByModel(queryBean);
+				if (orderBeanList != null && !orderBeanList.isEmpty()) {
+					// 保存订单成功，并返回新增的订单
+					return new ResultBean("0000", "保存订单成功！", orderBeanList.get(0));
+				}
 			}
 			return new ResultBean("0002", "保存订单失败！", null);
 		} catch (Exception e) {

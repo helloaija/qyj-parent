@@ -39,8 +39,8 @@
 
 <div style="padding-top: 40px;">
 	<div class="content-default">
-		<div><span class="order-text">订单编号：</span>123521525</div>
-		<div><span class="order-text">订单日期：</span>2018-01-15</div>
+		<div><span class="order-text">订单编号：</span>{{order.orderNumber}}</div>
+		<div><span class="order-text">订单日期：</span>{{order.createTime | showTimeFilter}}</div>
 		<div><span class="order-text">订单金额：</span><span class="currency-text">{{order.modifyAmount | currency : '￥'}}</span></div>
 	</div>
 	
