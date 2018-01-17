@@ -1,6 +1,7 @@
 package com.qyj.facade.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -24,6 +25,15 @@ public class QyjShoppingTrolleyEntity implements Serializable {
 	
 	/** 创建时间 */
 	private Date createTime;
+	
+	/** 产品标题 */
+	private String productTitle;
+	
+	/** 产品价格 */
+	private BigDecimal productPrice;
+	
+	/** 产品图片 */
+	private String productImgUrl;
 
 	public Long getId() {
 		return id;
@@ -63,6 +73,30 @@ public class QyjShoppingTrolleyEntity implements Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getProductTitle() {
+		return productTitle;
+	}
+
+	public void setProductTitle(String productTitle) {
+		this.productTitle = productTitle;
+	}
+
+	public BigDecimal getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(BigDecimal productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public String getProductImgUrl() {
+		return productImgUrl;
+	}
+
+	public void setProductImgUrl(String productImgUrl) {
+		this.productImgUrl = productImgUrl;
 	}
 
 	@Override

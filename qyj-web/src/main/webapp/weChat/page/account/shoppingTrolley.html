@@ -1,1 +1,141 @@
-购物车
+<style>
+	.content-default {
+		background:#fff;
+		padding: 8px 15px;
+		width: 100%;
+		display: inline-block;
+		position: relative;
+	}
+	
+	.order-text {
+		color: #777;
+	}
+	
+	.currency-text {
+		color : #F00;
+	}
+	
+	.top-default {
+		margin-top : 8px;
+	}
+	
+	.hr-top {
+		border-top: 1px solid #eee;
+	}
+	
+	.shop-check {
+		width: 20px;
+		height: 20px;
+    	background: url(weChat/image/common/myCart-check.png) no-repeat;
+    	background-size: 100%;
+    	float:left;
+    	margin: auto;
+    	top: 0;
+    	bottom: 0;
+    	position: absolute;
+    	background-position-y: -30px;
+	}
+	.shop-uncheck {
+		width: 20px;
+		height: 20px;
+    	background: url(weChat/image/common/myCart-check.png) no-repeat;
+    	background-size: 100%;
+    	float:left;
+    	margin: auto;
+    	top: 0;
+    	bottom: 0;
+    	position: absolute;
+	}
+	
+	.nav>li>a:focus, .nav>li>a:hover {
+    	text-decoration: none;
+    	background-color: rgba(238, 238, 238, 0);
+	}
+	
+	.minus {
+		border: 1px solid #dbdbdb;
+		display:block;
+		width:25px;
+		height:25px;
+		float:left;
+		text-align:center;
+	}
+	.add {
+		border: 1px solid #dbdbdb;
+		display:block;
+		width:25px;
+		height:25px;
+		float:left;
+		text-align:center;
+		line-height: 2rem;
+	}
+	.goodsnum {
+		font-size: 0.33rem;
+		border-top: 1px solid #dbdbdb;
+		border-bottom: 1px solid #dbdbdb;
+		display:block;
+		width:45px;
+		height:25px;
+		float:left;
+		text-align:center;
+		line-height: 2rem;
+	}
+</style>
+
+<nav class="navbar-default navbar-fixed-top">
+	<div class="panel-default">
+		<div class="panel-body header-body header-fixed">
+			<div>
+				<h4>我的购物车</h4>
+			</div>
+			<div style="margin-top: -31px; float: left;">
+				<a href="javascript:window.history.back(-1);" class="index_more fl">
+					&nbsp;&nbsp;<img class="tui" src="weChat/image/common/houtei.png" height="22">
+				</a>
+			</div>
+			<a style="margin: -37px 10px 0 0; float:right;" ng-click="isEdit = !isEdit" href="javascript:void(0);">
+				<h5 style="color: white;" ng-if="!isEdit">编辑</h5>
+				<h5 style="color: white;" ng-if="isEdit">完成</h5>
+			</a>
+		</div>
+	</div>
+</nav>
+
+<div style="padding-top: 40px;">
+	<div ng-repeat="item in shoppingTrolleyList">
+		<div class="content-default" ng-class="{true:'',false:'top-default'}[$index==0]">
+			<div ng-click="checkItem(item)" ng-class="{true:'shop-check',false:'shop-uncheck'}[item.checked]">&nbsp;</div>
+			<div style="margin-left:25px;">
+				<div>{{item.productTitle}}</div>
+				<div class="order-text">小计：{{item.productPrice * item.number}}</div>
+				<div>
+					<span class="currency-text" style="float:left;color :red;">{{item.productPrice | currency : '￥'}}</span>
+					<span class="pull-right">
+						<i class="minus" ng-click="minusNumber(item);">-</i>
+						<i class="goodsnum">{{item.number}}</i>
+						<i class="add" ng-click="addNumber(item);">+</i>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom" style="min-height: 0;" ng-if="isEdit == false">
+	<ul class="nav nav-pills">
+		<li role="presentation" style="width:70%;border-radius: 0px;">合计&nbsp;
+			<span class="currency-text">{{totalAmount | currency : '￥'}}</span>
+		</li>
+		<li role="presentation" ng-click="toPay()" style="width:25%;background: darkcyan;border-radius: 0px;">
+			<a href="javascript:void(0);" style="color: white;text-align:center;">去结算</a>
+		</li>
+	</ul>
+</nav>
+<nav class="navbar navbar-default navbar-fixed-bottom" style="min-height: 0;" ng-if="isEdit == true">
+	<ul class="nav nav-pills">
+		<li role="presentation" style="width:70%;border-radius: 0px;">&nbsp;</li>
+		<li role="presentation" ng-click="delShoppingTrolley()" style="width:25%;background: red;border-radius: 0px;">
+			<a href="javascript:void(0);" style="color: white;text-align:center;">删除</a>
+		</li>
+	</ul>
+</nav>

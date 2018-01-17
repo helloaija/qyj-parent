@@ -34,4 +34,12 @@ public interface QyjShoppingTrolleyFacade {
 	 * @throws Exception
 	 */
 	List<QyjShoppingTrolleyBean> listShoppingTrolleyByUserId(Long userId) throws Exception;
+	
+	/**
+	 * 批量删除购物车记录
+	 * @param ids
+	 * @param userId
+	 * @return
+	 */
+	Boolean batchDelShoppingTrolley(Long[] ids, Long userId) throws Exception;
 }

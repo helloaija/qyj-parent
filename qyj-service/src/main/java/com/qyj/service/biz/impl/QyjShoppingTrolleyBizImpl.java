@@ -81,7 +81,21 @@ public class QyjShoppingTrolleyBizImpl implements QyjShoppingTrolleyBiz {
 		for (QyjShoppingTrolleyEntity entity : entityList) {
 			bean = new QyjShoppingTrolleyBean();
 			BeanUtils.copyProperties(entity, bean);
+			
+			beanList.add(bean);
 		}
 		return beanList;
+	}
+	
+	/**
+	 * 批量删除购物车记录
+	 * @param ids
+	 * @param userId
+	 * @return
+	 */
+	@Override
+	public Boolean batchDelShoppingTrolley(Long[] ids, Long userId) throws Exception {
+		shoppingTrolleyMapper.batchDelShoppingTrolley(ids, userId);
+		return Boolean.TRUE;
 	}
 }

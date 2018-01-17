@@ -2,6 +2,8 @@ package com.qyj.service.biz;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 
 /**
@@ -33,4 +35,12 @@ public interface QyjShoppingTrolleyBiz {
 	 * @throws Exception
 	 */
 	List<QyjShoppingTrolleyBean> listShoppingTrolleyByUserId(Long userId) throws Exception;
+	
+	/**
+	 * 批量删除购物车记录
+	 * @param ids
+	 * @param userId
+	 * @return
+	 */
+	Boolean batchDelShoppingTrolley(Long[] ids, Long userId) throws Exception;
 }

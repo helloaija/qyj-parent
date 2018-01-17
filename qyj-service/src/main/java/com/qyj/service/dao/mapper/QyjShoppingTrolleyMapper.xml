@@ -29,8 +29,21 @@
 	</delete>
 	
 	<!-- 根据userId获取购物车记录列表 -->
-	<select id="listShoppingTrolleyByUserId" parameterType="java.lang.Long" resultMap="baseResultMap">
-		select <include refid="baseColumns"/> from qyj_shopping_trolley where user_id = #{userId}
+	<select id="listShoppingTrolleyByUserId" parameterType="java.lang.Long" resultType="com.qyj.facade.entity.QyjShoppingTrolleyEntity">
+		select s.id, s.product_id as productId, s.number, p.title as productTitle, p.price as productPrice, p.img_url as productImgUrl
+		from qyj_shopping_trolley s 
+		left join qyj_product p on s.product_id = p.id where p.product_status = 'PUTAWAY' and user_id = #{userId}
 	</select>
+	
+	<!-- 根据条件删除购物车记录 -->
+	<delete id="batchDelShoppingTrolley">
+		delete from qyj_shopping_trolley where 1=1 and id in
+			(<foreach collection="ids" item="item" index="index" separator=",">
+				#{item}
+			</foreach>)
+			<if test="userId != null">
+				and user_id = #{userId}
+			</if>
+	</delete>
 
 </mapper>

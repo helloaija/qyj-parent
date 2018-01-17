@@ -1,6 +1,7 @@
 package com.qyj.web.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,6 +61,58 @@ public class QyjShoppingTrolleyController extends BaseController {
 			return new ResultBean("0002", "添加购物车失败", null);
 		} catch (Exception e) {
 			logger.error("addShoppingTrolley error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * 获取登录用户购物车列表
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/restrict/shoppingTrolley/listShoppingTrolley")
+	public ResultBean listShoppingTrolley(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			if (userBean == null) {
+				return new ResultBean("0002", "用户未登录", null);
+			}
+			
+			List<QyjShoppingTrolleyBean> shoppingTrolleyBeanList = shoppingTrolleyFacade.listShoppingTrolleyByUserId(userBean.getId());
+			
+			return new ResultBean("0000", "获取购物车记录成功", shoppingTrolleyBeanList);
+		} catch (Exception e) {
+			logger.error("listShoppingTrolley error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * 删除购物车记录
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/restrict/shoppingTrolley/delShoppingTrolley")
+	public ResultBean delShoppingTrolley(Long[] ids, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			if (userBean == null) {
+				return new ResultBean("0002", "用户未登录", null);
+			}
+			
+			if (ids == null || ids.length <= 0) {
+				return new ResultBean("0002", "请选择需要删除的记录", null);
+			}
+			
+			shoppingTrolleyFacade.batchDelShoppingTrolley(ids, userBean.getId());
+			
+			return new ResultBean("0000", "删除成功", null);
+		} catch (Exception e) {
+			logger.error("delShoppingTrolley error", e);
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
 		}
 	}

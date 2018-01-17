@@ -2,6 +2,8 @@ package com.qyj.service.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.qyj.facade.entity.QyjShoppingTrolleyEntity;
 
 /**
@@ -31,4 +33,12 @@ public interface QyjShoppingTrolleyMapper {
 	 * @return
 	 */
 	List<QyjShoppingTrolleyEntity> listShoppingTrolleyByUserId(Long userId);
+	
+	/**
+	 * 批量删除购物车记录
+	 * @param ids
+	 * @param userId
+	 * @return
+	 */
+	int batchDelShoppingTrolley(@Param("ids") Long[] ids, @Param("userId") Long userId);
 }

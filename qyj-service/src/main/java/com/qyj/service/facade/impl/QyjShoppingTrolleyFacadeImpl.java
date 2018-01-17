@@ -51,4 +51,15 @@ public class QyjShoppingTrolleyFacadeImpl implements QyjShoppingTrolleyFacade {
 	public List<QyjShoppingTrolleyBean> listShoppingTrolleyByUserId(Long userId) throws Exception {
 		return shoppingTrolleyBiz.listShoppingTrolleyByUserId(userId);
 	}
+	
+	/**
+	 * 批量删除购物车记录
+	 * @param ids
+	 * @param userId
+	 * @return
+	 */
+	@Override
+	public Boolean batchDelShoppingTrolley(Long[] ids, Long userId) throws Exception {
+		return shoppingTrolleyBiz.batchDelShoppingTrolley(ids, userId);
+	}
 }
