@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qyj.common.page.ResultBean;
 import com.qyj.facade.QyjShoppingTrolleyFacade;
 import com.qyj.facade.vo.QyjShoppingTrolleyBean;
+import com.qyj.facade.vo.QyjShoppingTrolleyListBean;
 import com.qyj.facade.vo.QyjUserBean;
 import com.qyj.web.common.utils.SessionUtil;
 
@@ -117,4 +118,38 @@ public class QyjShoppingTrolleyController extends BaseController {
 		}
 	}
 
+	/**
+	 * 批量更新购物车记录
+	 * @param beanList
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/restrict/shoppingTrolley/updateShoppingTrolleyList")
+	public ResultBean updateShoppingTrolleyList(QyjShoppingTrolleyListBean list, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			if (userBean == null) {
+				return new ResultBean("0002", "用户未登录", null);
+			}
+			
+			if (list == null || list.getList() == null || list.getList().isEmpty()) {
+				return new ResultBean("0002", "没有需要更新的数据", null);
+			}
+			
+			for (QyjShoppingTrolleyBean bean : list.getList()) {
+				bean.setUserId(userBean.getId());
+			}
+			
+			if (shoppingTrolleyFacade.updateShoppingTrolleyList(list.getList()) > 0) {
+				return new ResultBean("0000", "更新成功", null);
+			}
+			
+			return new ResultBean("0002", "没有更新任何数据", null);
+		} catch (Exception e) {
+			logger.error("updateShoppingTrolleyList error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
 }

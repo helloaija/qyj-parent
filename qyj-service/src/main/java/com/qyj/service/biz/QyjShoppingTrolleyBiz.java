@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.qyj.facade.entity.QyjShoppingTrolleyEntity;
 import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 
 /**
@@ -43,4 +44,11 @@ public interface QyjShoppingTrolleyBiz {
 	 * @return
 	 */
 	Boolean batchDelShoppingTrolley(Long[] ids, Long userId) throws Exception;
+	
+	/**
+	 * 批量更新购物车
+	 * @param entityList
+	 * @return
+	 */
+	int updateShoppingTrolleyList(List<QyjShoppingTrolleyBean> beanList) throws Exception;
 }

@@ -98,4 +98,25 @@ public class QyjShoppingTrolleyBizImpl implements QyjShoppingTrolleyBiz {
 		shoppingTrolleyMapper.batchDelShoppingTrolley(ids, userId);
 		return Boolean.TRUE;
 	}
+	
+	/**
+	 * 批量更新购物车
+	 * @param entityList
+	 * @return
+	 */
+	public int updateShoppingTrolleyList(List<QyjShoppingTrolleyBean> beanList) throws Exception {
+		if (beanList == null || beanList.isEmpty()) {
+			throw new Exception("没有需要更新的购物车记录");
+		}
+		List<QyjShoppingTrolleyEntity> entityList = new ArrayList<QyjShoppingTrolleyEntity>();
+		QyjShoppingTrolleyEntity entity = null;
+		for (QyjShoppingTrolleyBean bean : beanList) {
+			entity = new QyjShoppingTrolleyEntity();
+			BeanUtils.copyProperties(bean, entity);
+			
+			entityList.add(entity);
+		}
+		// 批量更细购物车
+		return shoppingTrolleyMapper.updateShoppingTrolleyList(entityList);
+	}
 }

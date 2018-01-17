@@ -45,5 +45,19 @@
 				and user_id = #{userId}
 			</if>
 	</delete>
+	
+	<!-- 批量更新购物车 -->
+	<update id="updateShoppingTrolleyList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			update qyj_shopping_trolley set
+				<if test="item.number != null">
+					number = #{item.number}
+				</if>
+			where id = #{item.id}
+				<if test="item.userId != null">
+					and user_id = #{item.userId}
+				</if>
+		</foreach>
+	</update>
 
 </mapper>

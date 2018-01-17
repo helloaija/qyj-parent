@@ -91,6 +91,30 @@ qyjApp.controller("shoppingTrolleyCtrl", [ "$scope", "shoppingTrolleyService", "
 			calculateTotalCount();
 		};
 		
+		// 去结算
+		$scope.toBalance = function() {
+			if (!$scope.shoppingTrolleyList || $scope.shoppingTrolleyList.length <= 0) {
+				alert("没有需要结算的商品");
+				return;
+			}
+			
+			var params = {};
+			angular.forEach($scope.shoppingTrolleyList, function(item, index) {
+				params["list[" + index + "].id"] = item.id;
+				params["list[" + index + "].number"] = item.number;
+			});
+			
+			// 更新购买数量到数据库
+			shoppingTrolleyService.updateShoppingTrolleyList(params).then(function(response) {
+				var resultBean = response.data;
+				if ("0000" == resultBean.resultCode) {
+					// 跳转页面结算页面
+				} else {
+					alert(resultBean.resultMessage);
+				}
+			});
+		};
+		
 		// 计算合计
 		function calculateTotalCount() {
 			$scope.totalAmount = 0;

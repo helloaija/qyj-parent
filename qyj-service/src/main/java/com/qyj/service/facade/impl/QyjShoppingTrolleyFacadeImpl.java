@@ -62,4 +62,13 @@ public class QyjShoppingTrolleyFacadeImpl implements QyjShoppingTrolleyFacade {
 	public Boolean batchDelShoppingTrolley(Long[] ids, Long userId) throws Exception {
 		return shoppingTrolleyBiz.batchDelShoppingTrolley(ids, userId);
 	}
+	
+	/**
+	 * 批量更新购物车
+	 * @param entityList
+	 * @return
+	 */
+	public int updateShoppingTrolleyList(List<QyjShoppingTrolleyBean> beanList) throws Exception {
+		return shoppingTrolleyBiz.updateShoppingTrolleyList(beanList);
+	}
 }

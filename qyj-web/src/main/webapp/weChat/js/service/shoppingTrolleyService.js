@@ -25,6 +25,17 @@ qyjApp.service('shoppingTrolleyService', ["$http",
 	            data : {ids : ids}
 	        });
 	    }
+	    
+	    // 批量更新购物车记录
+	    this.updateShoppingTrolleyList = function(params) {
+	        return $http({  
+	            method: "POST",  
+	            url: qyjApp.httpsHeader + "/wechat/restrict/shoppingTrolley/updateShoppingTrolleyList",
+	            headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
+	            transformRequest: transformRequest,
+	            data : params
+	        });
+	    }
 		
 		// 序列化参数方法
 	    function transformRequest(obj) {

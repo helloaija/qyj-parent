@@ -41,4 +41,11 @@ public interface QyjShoppingTrolleyMapper {
 	 * @return
 	 */
 	int batchDelShoppingTrolley(@Param("ids") Long[] ids, @Param("userId") Long userId);
+	
+	/**
+	 * 批量更新购物车
+	 * @param entityList
+	 * @return
+	 */
+	int updateShoppingTrolleyList(List<QyjShoppingTrolleyEntity> entityList);
 }
