@@ -4,8 +4,8 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 控制器-购物车
  */
-qyjApp.controller("shoppingTrolleyCtrl", [ "$scope", "shoppingTrolleyService", "dialogService",
-    function($scope, shoppingTrolleyService, dialogService) {
+qyjApp.controller("shoppingTrolleyCtrl", [ "$scope", "$state", "shoppingTrolleyService", "dialogService",
+    function($scope, $state, shoppingTrolleyService, dialogService) {
 		// 是否编辑
 		$scope.isEdit = false;
 		// 合计
@@ -109,6 +109,7 @@ qyjApp.controller("shoppingTrolleyCtrl", [ "$scope", "shoppingTrolleyService", "
 				var resultBean = response.data;
 				if ("0000" == resultBean.resultCode) {
 					// 跳转页面结算页面
+					$state.go("trolleyBalance");
 				} else {
 					alert(resultBean.resultMessage);
 				}

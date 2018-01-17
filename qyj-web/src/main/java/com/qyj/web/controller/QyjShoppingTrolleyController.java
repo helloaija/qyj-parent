@@ -1,7 +1,9 @@
 package com.qyj.web.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qyj.common.page.ResultBean;
+import com.qyj.facade.QyjAddressFacade;
 import com.qyj.facade.QyjShoppingTrolleyFacade;
+import com.qyj.facade.vo.QyjAddressBean;
+import com.qyj.facade.vo.QyjProductBean;
 import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 import com.qyj.facade.vo.QyjShoppingTrolleyListBean;
 import com.qyj.facade.vo.QyjUserBean;
@@ -32,6 +37,9 @@ public class QyjShoppingTrolleyController extends BaseController {
 	
 	@Autowired
 	private QyjShoppingTrolleyFacade shoppingTrolleyFacade;
+	
+	@Autowired
+	private QyjAddressFacade addressFacade;
 	
 	/**
 	 * 添加购物车记录
@@ -149,6 +157,59 @@ public class QyjShoppingTrolleyController extends BaseController {
 			return new ResultBean("0002", "没有更新任何数据", null);
 		} catch (Exception e) {
 			logger.error("updateShoppingTrolleyList error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * 获取结算购物车数据，返回结算购物车数据和默认送货地址
+	 * @param ids 购物车产品id数组
+	 * @param addressId 送货地址id
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/restrict/shoppingTrolley/getTrolleyBalance")
+	public ResultBean getTrolleyBalance(Long[] ids, Long addressId, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			if (userBean == null) {
+				return new ResultBean("0002", "用户未登录", null);
+			}
+			
+			// 获取产品信息
+			QyjProductBean productBean = productFacade.getProductInfoById(productId);
+			if (productBean == null) {
+				logger.info("getProductOrder result null, productId:{}", productId);
+				return new ResultBean("0002", "产品信息为空！", productBean);
+			}
+			
+			QyjAddressBean addressBean = null;
+			// 如果地址id不为空就取该id的地址，否则取默认地址
+			if (addressId != null) {
+				addressBean = addressFacade.getAddressById(addressId);
+			} else {
+				List<QyjAddressBean> addressList = addressFacade.listAddressByUserId(userBean.getId());
+				if (addressList != null && !addressList.isEmpty()) {
+					// 如果没有设置默认地址，就取第一条地址
+					addressBean = addressList.get(0);
+					for (QyjAddressBean bean : addressList) {
+						if (bean.getIsDefault()) {
+							addressBean = bean;
+							break;
+						}
+					}
+				}
+			}
+			
+			Map<String, Object> dataMap = new HashMap<String, Object>();
+			dataMap.put("product", productBean);
+			dataMap.put("address", addressBean);
+			
+			return new ResultBean("0000", "请求成功！", dataMap);
+		} catch (Exception e) {
+			logger.error("getProductOrder error", e);
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
 		}
 	}

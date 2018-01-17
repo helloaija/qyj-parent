@@ -115,7 +115,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   	        }
 	   		}).state("shoppingTrolley", {
 	   			url : "/shoppingTrolley",
-	   			// 购物车
+	   			// 我的购物车
 	   			templateUrl : "weChat/page/account/shoppingTrolley.html",
 	   			controller : "shoppingTrolleyCtrl",
 	   			resolve : {
@@ -125,6 +125,18 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   					                         'weChat/js/controller/shoppingTrolleyController.js']);
 	   				}]
 	   	        }
+	   		}).state("trolleyBalance", {
+	   			url : "/trolleyBalance",
+	   			// 购物车结算页面
+	   			templateUrl : "weChat/page/account/trolleyBalance.html",
+//	   			controller : "shoppingTrolleyCtrl",
+//	   			resolve : {
+//	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+//	   					return $ocLazyLoad.load(["ui-bootstrap", "weChat/js/service/commonServices.js", 
+//	   					                         "weChat/js/service/shoppingTrolleyService.js", 
+//	   					                         'weChat/js/controller/shoppingTrolleyController.js']);
+//	   				}]
+//	   	        }
 	   		}).state("orderList", {
 	   			url : "/orderList",
 	   			// 订单列表
