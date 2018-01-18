@@ -4,9 +4,9 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 首页-产品列表控制器
  */
-qyjApp.controller("productCtrl", [ "$scope", "productService",
-    function($scope, productService) {
-		
+qyjApp.controller("productCtrl", ["$rootScope", "$scope", "productService",
+    function($rootScope, $scope, productService) {
+		$rootScope.homeIndex = 2;
 		// 当前页
 		var currentPage = 1;
 		var pageSize = 10;

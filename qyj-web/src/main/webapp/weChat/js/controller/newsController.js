@@ -4,8 +4,9 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 首页-新闻公告列表控制器
  */
-qyjApp.controller("newsCtrl", [ "$scope", "newsService",
-    function($scope, newsService) {
+qyjApp.controller("newsCtrl", ["$rootScope", "$scope", "newsService",
+    function($rootScope, $scope, newsService) {
+		$rootScope.homeIndex = 3;
 		// 当前页
 		var currentPage = 1;
 		var pageSize = 15;

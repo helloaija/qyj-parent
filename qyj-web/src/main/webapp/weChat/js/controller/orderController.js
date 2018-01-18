@@ -4,7 +4,7 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 控制器-我的订单
  */
-qyjApp.controller("orderListCtrl", [ "$scope", "orderService", 
+qyjApp.controller("orderListCtrl", ["$scope", "orderService", 
     function($scope, orderService) {
 		// 当前页
 		var currentPage = 1;

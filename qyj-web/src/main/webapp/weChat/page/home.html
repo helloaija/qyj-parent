@@ -1,4 +1,8 @@
+<style>
 
+</style>
+
+    
 <!-- 中间内容区域 -->
 <div ui-view class="home-default">
 	
@@ -7,9 +11,53 @@
 <nav class="navbar navbar-default navbar-fixed-bottom footer">
 	<ul class="nav nav-pills">
 		<!-- a标签样式类，激活状态class="active" -->
-		<li role="presentation"><a ui-sref="home.index">首页</a></li>
-		<li role="presentation"><a ui-sref="home.productList">产品列表</a></li>
-		<li role="presentation"><a ui-sref="home.newsList">新闻公告</a></li>
-		<li role="presentation"><a ui-sref="home.account">我的</a></li>
+		<li role="presentation">
+			<a ng-if="homeIndex == 1" ui-sref="home.index"
+					style="padding: 2px 15px;border-radius: 0px;text-decoration: none;background-color: rgba(238, 238, 238, 0);color:#337ab7;">
+				<img ng-if="homeIndex == 1" class="tui" src="weChat/image/common/home-blue.png" height="22"/><br/>
+				<span style="font-size: xx-small; display: block;">首页</span>
+			</a>
+			<a ng-if="homeIndex != 1" ui-sref="home.index"
+					style="padding: 2px 15px;border-radius: 0px;text-decoration: none;background-color: rgba(238, 238, 238, 0);color:#BFBFBF;">
+				<img ng-if="homeIndex != 1" class="tui" src="weChat/image/common/home-grey.png" height="22"/><br/>
+				<span style="font-size: xx-small; display: block;">首页</span>
+			</a>
+		</li>
+		<li role="presentation">
+			<a ng-if="homeIndex == 2" ui-sref="home.productList" 
+					style="padding: 2px 15px;border-radius: 0px;text-decoration: none;background-color: rgba(238, 238, 238, 0);color:#337ab7;">
+				<img class="tui" src="weChat/image/common/product-blue.png" height="22"/><br/>
+				<span style="font-size: xx-small; display: block;">产品列表</span>
+			</a>
+			<a ng-if="homeIndex != 2" ui-sref="home.productList" 
+					style="padding: 2px 15px;border-radius: 0px;text-decoration: none;background-color: rgba(238, 238, 238, 0);color:#BFBFBF;">
+				<img class="tui" src="weChat/image/common/pruduct-grey.png" height="22"/><br/>
+				<span style="font-size: xx-small; display: block;">产品列表</span>
+			</a>
+		</li>
+		<li role="presentation">
+			<a ng-if="homeIndex == 3"  ui-sref="home.newsList"
+					style="padding: 2px 15px;border-radius: 0px;text-decoration: none;background-color: rgba(238, 238, 238, 0);color:#337ab7;">
+				<img class="tui" src="weChat/image/common/news-blue.png" height="22"/><br/>
+				<span style="font-size: xx-small; display: block;">新闻公告</span>
+			</a>
+			<a ng-if="homeIndex != 3"  ui-sref="home.newsList"
+					style="padding: 2px 15px;border-radius: 0px;text-decoration: none;background-color: rgba(238, 238, 238, 0);color:#BFBFBF;">
+				<img  class="tui" src="weChat/image/common/news-grey.png" height="22"/><br/>
+				<span style="font-size: xx-small; display: block;">新闻公告</span>
+			</a>
+		</li>
+		<li role="presentation">
+			<a ng-if="homeIndex == 4" ui-sref="home.account"
+					 style="padding: 2px 15px;border-radius: 0px;text-decoration: none;background-color: rgba(238, 238, 238, 0);color:#337ab7;">
+				<img class="tui" src="weChat/image/common/my-blue.png" height="22"/><br/>
+				<span style="font-size: xx-small; display: block;">我的</span>
+			</a>
+			<a ng-if="homeIndex != 4" ui-sref="home.account"
+					 style="padding: 2px 15px;border-radius: 0px;text-decoration: none;background-color: rgba(238, 238, 238, 0);color:#BFBFBF;">
+				<img class="tui" src="weChat/image/common/my-grey.png" height="22"/><br/>
+				<span style="font-size: xx-small; display: block;">我的</span>
+			</a>
+		</li>
 	</ul>
 </nav>
