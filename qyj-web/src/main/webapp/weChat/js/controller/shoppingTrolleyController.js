@@ -30,6 +30,10 @@ qyjApp.controller("shoppingTrolleyCtrl", [ "$scope", "$state", "shoppingTrolleyS
 			}
 		});
 		
+		// 去除订单详情缓存的地址id、买家留言
+		sessionStorage.removeItem("addressId");
+		sessionStorage.removeItem("buyerMessage");
+		
 		// 删除购物车记录
 		$scope.delShoppingTrolley = function() {
 			var ids = [];
@@ -99,9 +103,14 @@ qyjApp.controller("shoppingTrolleyCtrl", [ "$scope", "$state", "shoppingTrolleyS
 			}
 			
 			var params = {};
+			// 结算的购物车id
+			var ids = [];
 			angular.forEach($scope.shoppingTrolleyList, function(item, index) {
 				params["list[" + index + "].id"] = item.id;
 				params["list[" + index + "].number"] = item.number;
+				if (item.checked) {
+					ids.push(item.id);
+				}
 			});
 			
 			// 更新购买数量到数据库
@@ -109,7 +118,7 @@ qyjApp.controller("shoppingTrolleyCtrl", [ "$scope", "$state", "shoppingTrolleyS
 				var resultBean = response.data;
 				if ("0000" == resultBean.resultCode) {
 					// 跳转页面结算页面
-					$state.go("trolleyBalance");
+					$state.go("trolleyBalance", {ids : ids});
 				} else {
 					alert(resultBean.resultMessage);
 				}

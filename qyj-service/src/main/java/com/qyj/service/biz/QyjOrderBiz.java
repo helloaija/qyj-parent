@@ -6,6 +6,7 @@ import java.util.Map;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.vo.QyjOrderBean;
+import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 
 /**
  * 服务层接口-我的订单
@@ -36,5 +37,14 @@ public interface QyjOrderBiz {
 	 * @return
 	 * @throws Exception
 	 */
-	public Boolean updateOrder(QyjOrderBean orderBean) throws Exception;
+	Boolean updateOrder(QyjOrderBean orderBean) throws Exception;
+	
+	/**
+	 * 保存购物车订单，返回订单id
+	 * @param orderBean
+	 * @param shoppingTrolleyBeanList
+	 * @return
+	 * @throws Exception
+	 */
+	Long saveTrolleyOrder(QyjOrderBean orderBean, List<QyjShoppingTrolleyBean> shoppingTrolleyBeanList) throws Exception;
 }

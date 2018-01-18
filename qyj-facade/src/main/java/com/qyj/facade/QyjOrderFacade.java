@@ -6,6 +6,7 @@ import java.util.Map;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.vo.QyjOrderBean;
+import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 
 /**
  * Dubbo服务接口-订单
@@ -37,4 +38,13 @@ public interface QyjOrderFacade {
 	 * @throws Exception
 	 */
 	public Boolean updateOrder(QyjOrderBean orderBean) throws Exception;
+	
+	/**
+	 * 保存购物车订单，返回订单id
+	 * @param orderBean
+	 * @param shoppingTrolleyBeanList
+	 * @return
+	 * @throws Exception
+	 */
+	Long saveTrolleyOrder(QyjOrderBean orderBean, List<QyjShoppingTrolleyBean> shoppingTrolleyBeanList) throws Exception;
 }

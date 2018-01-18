@@ -1,6 +1,7 @@
 package com.qyj.service.biz;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -51,4 +52,11 @@ public interface QyjShoppingTrolleyBiz {
 	 * @return
 	 */
 	int updateShoppingTrolleyList(List<QyjShoppingTrolleyBean> beanList) throws Exception;
+	
+	/**
+	 * 根据查询条件获取购物车记录
+	 * @param paramMap
+	 * @return
+	 */
+	List<QyjShoppingTrolleyBean> listShoppingTrolleyByMap(Map<String, Object> paramMap) throws Exception;
 }

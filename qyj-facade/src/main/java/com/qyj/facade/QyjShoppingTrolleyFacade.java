@@ -1,8 +1,8 @@
 package com.qyj.facade;
 
 import java.util.List;
+import java.util.Map;
 
-import com.qyj.facade.entity.QyjShoppingTrolleyEntity;
 import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 
 /**
@@ -49,4 +49,11 @@ public interface QyjShoppingTrolleyFacade {
 	 * @return
 	 */
 	int updateShoppingTrolleyList(List<QyjShoppingTrolleyBean> beanList) throws Exception;
+	
+	/**
+	 * 根据查询条件获取购物车记录
+	 * @param paramMap
+	 * @return
+	 */
+	List<QyjShoppingTrolleyBean> listShoppingTrolleyByMap(Map<String, Object> paramMap) throws Exception;
 }

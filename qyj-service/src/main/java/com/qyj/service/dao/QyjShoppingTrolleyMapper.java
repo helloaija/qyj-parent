@@ -1,6 +1,7 @@
 package com.qyj.service.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -48,4 +49,11 @@ public interface QyjShoppingTrolleyMapper {
 	 * @return
 	 */
 	int updateShoppingTrolleyList(List<QyjShoppingTrolleyEntity> entityList);
+	
+	/**
+	 * 根据查询条件获取购物车记录
+	 * @param paramMap
+	 * @return
+	 */
+	List<QyjShoppingTrolleyEntity> listShoppingTrolleyByMap(Map<String, Object> paramMap);
 }

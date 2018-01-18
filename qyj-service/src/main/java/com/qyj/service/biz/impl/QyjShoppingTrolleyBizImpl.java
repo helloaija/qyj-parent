@@ -1,7 +1,9 @@
 package com.qyj.service.biz.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,5 +120,31 @@ public class QyjShoppingTrolleyBizImpl implements QyjShoppingTrolleyBiz {
 		}
 		// 批量更细购物车
 		return shoppingTrolleyMapper.updateShoppingTrolleyList(entityList);
+	}
+	
+	/**
+	 * 根据查询条件获取购物车记录
+	 * @param paramMap
+	 * @return
+	 */
+	public List<QyjShoppingTrolleyBean> listShoppingTrolleyByMap(Map<String, Object> paramMap) throws Exception {
+		if (paramMap == null) {
+			paramMap = new HashMap<String, Object>();
+		}
+		List<QyjShoppingTrolleyEntity> entityList = shoppingTrolleyMapper.listShoppingTrolleyByMap(paramMap);
+		if (entityList == null) {
+			return null;
+		}
+		
+		List<QyjShoppingTrolleyBean> beanList = new ArrayList<QyjShoppingTrolleyBean>();
+		QyjShoppingTrolleyBean bean = null;
+		for (QyjShoppingTrolleyEntity entity : entityList) {
+			bean = new QyjShoppingTrolleyBean();
+			BeanUtils.copyProperties(entity, bean);
+			
+			beanList.add(bean);
+		}
+				
+		return beanList;
 	}
 }

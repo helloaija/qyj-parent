@@ -12,6 +12,7 @@ import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.QyjOrderFacade;
 import com.qyj.facade.vo.QyjOrderBean;
+import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 import com.qyj.service.biz.QyjOrderBiz;
 
 /**
@@ -61,6 +62,18 @@ public class QyjOrderFacadeImpl implements QyjOrderFacade {
 	public Boolean updateOrder(QyjOrderBean orderBean) throws Exception {
 		logger.info("updateOrder orderBean", orderBean.toString());
 		return orderBiz.updateOrder(orderBean);
+	}
+	
+	/**
+	 * 保存购物车订单，返回订单id
+	 * @param orderBean
+	 * @param shoppingTrolleyBeanList
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Long saveTrolleyOrder(QyjOrderBean orderBean, List<QyjShoppingTrolleyBean> shoppingTrolleyBeanList) throws Exception {
+		return orderBiz.saveTrolleyOrder(orderBean, shoppingTrolleyBeanList);
 	}
 
 }

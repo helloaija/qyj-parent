@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qyj.common.page.ResultBean;
+import com.qyj.common.utils.CommonEnums.ProductStatusEnum;
 import com.qyj.facade.QyjAddressFacade;
 import com.qyj.facade.QyjShoppingTrolleyFacade;
 import com.qyj.facade.vo.QyjAddressBean;
@@ -178,12 +179,13 @@ public class QyjShoppingTrolleyController extends BaseController {
 				return new ResultBean("0002", "用户未登录", null);
 			}
 			
-			// 获取产品信息
-			QyjProductBean productBean = productFacade.getProductInfoById(productId);
-			if (productBean == null) {
-				logger.info("getProductOrder result null, productId:{}", productId);
-				return new ResultBean("0002", "产品信息为空！", productBean);
-			}
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("ids", ids);
+			paramMap.put("userId", userBean.getId());
+			paramMap.put("productStatus", ProductStatusEnum.PUTAWAY.toString());
+			// 获取购物车记录
+			List<QyjShoppingTrolleyBean> beanList = shoppingTrolleyFacade.listShoppingTrolleyByMap(paramMap);
+			
 			
 			QyjAddressBean addressBean = null;
 			// 如果地址id不为空就取该id的地址，否则取默认地址
@@ -204,12 +206,12 @@ public class QyjShoppingTrolleyController extends BaseController {
 			}
 			
 			Map<String, Object> dataMap = new HashMap<String, Object>();
-			dataMap.put("product", productBean);
+			dataMap.put("beanList", beanList);
 			dataMap.put("address", addressBean);
 			
 			return new ResultBean("0000", "请求成功！", dataMap);
 		} catch (Exception e) {
-			logger.error("getProductOrder error", e);
+			logger.error("getTrolleyBalance error", e);
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
 		}
 	}

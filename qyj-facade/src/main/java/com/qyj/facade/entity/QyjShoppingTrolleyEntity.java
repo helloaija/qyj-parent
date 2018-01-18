@@ -32,6 +32,9 @@ public class QyjShoppingTrolleyEntity implements Serializable {
 	/** 产品价格 */
 	private BigDecimal productPrice;
 	
+	/** 产品状态 */
+	private String productStatus;
+	
 	/** 产品图片 */
 	private String productImgUrl;
 
@@ -89,6 +92,14 @@ public class QyjShoppingTrolleyEntity implements Serializable {
 
 	public void setProductPrice(BigDecimal productPrice) {
 		this.productPrice = productPrice;
+	}
+
+	public String getProductStatus() {
+		return productStatus;
+	}
+
+	public void setProductStatus(String productStatus) {
+		this.productStatus = productStatus;
 	}
 
 	public String getProductImgUrl() {

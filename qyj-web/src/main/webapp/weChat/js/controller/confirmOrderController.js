@@ -20,7 +20,6 @@ qyjApp.controller("confirmOrderCtrl", [ "$scope", "$stateParams", "$state", "con
 		
 		// 获取地址id
 		var addressId = sessionStorage.getItem("addressId");
-		console.log(addressId);
 		confirmOrderService.getProductOrder($stateParams.productId, addressId).then(function(response) {
 			var resultBean = response.data;
 			if ("0000" == resultBean.resultCode) {
