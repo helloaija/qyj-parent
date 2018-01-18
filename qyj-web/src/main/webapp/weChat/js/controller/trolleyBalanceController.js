@@ -3,9 +3,9 @@ var qyjApp = angular.module("qyjApp");
 /**
  * 控制器 - 购物车结算
  */
-qyjApp.controller("trolleyBalanceCtrl", ["$scope", "$stateParams", "shoppingTrolleyService",
-    function($scope, $stateParams, shoppingTrolleyService) {
-		$scope.address = {};
+qyjApp.controller("trolleyBalanceCtrl", ["$scope", "$stateParams", "$state", "shoppingTrolleyService",
+    function($scope, $stateParams, $state, shoppingTrolleyService) {
+		$scope.address = null;
 		$scope.shoppingTrolleyList = [];
 		// 商品数量
 		$scope.totalNumber = 1;
@@ -17,6 +17,8 @@ qyjApp.controller("trolleyBalanceCtrl", ["$scope", "$stateParams", "shoppingTrol
 		$scope.showPayDialog = false;
 		// 订单
 		$scope.order = {};
+		// 买家留言
+		$scope.buyerMessage = "";
 		
 		shoppingTrolleyService.getTrolleyBalance($stateParams.ids, addressId).then(function(response) {
 			var resultBean = response.data;
@@ -76,6 +78,33 @@ qyjApp.controller("trolleyBalanceCtrl", ["$scope", "$stateParams", "shoppingTrol
 					$scope.order = resultBean.result;
 					// 保存订单成功，打开支付对话框
 					$scope.showPayDialog = true;
+				} else {
+					alert(resultBean.resultMessage);
+				}
+			});
+		};
+		
+		// 取消支付
+		$scope.cancelPay = function() {
+			var result = {};
+			angular.copy($scope.order, result);
+			result.code = -1;
+			result.message = "未完成支付";
+			// 在当前历史记录上跳转
+			$state.go("payResult", {result:JSON.stringify(result)}, {location:'replace'});
+		};
+		
+		// 确认支付
+		$scope.surePay = function() {
+			shoppingTrolleyService.confirmPayOrder($scope.order.id).then(function(response) {
+				var resultBean = response.data;
+				// 支付成功
+				if ("0000" == resultBean.resultCode) {
+					var result = {};
+					angular.copy($scope.order, result);
+					result.code = 0;
+					// 在当前历史记录上跳转
+					$state.go("payResult", {result:JSON.stringify(result)}, {location:'replace'});
 				} else {
 					alert(resultBean.resultMessage);
 				}

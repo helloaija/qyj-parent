@@ -47,9 +47,14 @@
 
 <div style="background:#fff;">
 	<a ui-sref="address({isSelect:true})" href="javascript:void(0);" class="list-group-item" 
-			style="margin-bottom: 0px; border: blue;"> 
-		<span>{{address.name}}</span>|<span>{{address.phone}}</span><br/>
-		<span>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.county}}&nbsp;{{address.detail}}</span>
+			style="margin-bottom: 0px; border: blue;">
+		<div ng-if="address != null">
+			<span>{{address.name}}</span>|<span>{{address.phone}}</span><br/>
+			<span>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.county}}&nbsp;{{address.detail}}</span>
+		</div>
+		<div ng-if="address == null">
+			<span>点击这里去添加地址</span>
+		</div>
 	</a>
 </div>
 

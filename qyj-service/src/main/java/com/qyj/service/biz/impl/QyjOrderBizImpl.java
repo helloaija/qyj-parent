@@ -16,17 +16,14 @@ import org.springframework.stereotype.Service;
 
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
-import com.qyj.common.utils.CommonUtils;
 import com.qyj.common.utils.CommonEnums.OrderStateEnum;
 import com.qyj.common.utils.CommonEnums.ProductStatusEnum;
+import com.qyj.common.utils.CommonUtils;
 import com.qyj.facade.entity.QyjOrderEntity;
 import com.qyj.facade.entity.QyjOrderGoodsEntity;
-import com.qyj.facade.entity.QyjProductEntity;
 import com.qyj.facade.entity.QyjShoppingTrolleyEntity;
 import com.qyj.facade.vo.QyjOrderBean;
-import com.qyj.facade.vo.QyjOrderGoodsBean;
 import com.qyj.facade.vo.QyjShoppingTrolleyBean;
-import com.qyj.facade.vo.QyjShoppingTrolleyListBean;
 import com.qyj.service.biz.QyjOrderBiz;
 import com.qyj.service.dao.QyjOrderGoodsMapper;
 import com.qyj.service.dao.QyjOrderMapper;
@@ -176,13 +173,18 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 			}
 			orderGoodsEntity = new QyjOrderGoodsEntity();
 			// 获取商品价格
-			orderGoodsEntity.setPrice(orderGoodsEntity.getPrice());
+			orderGoodsEntity.setPrice(shoppingTrolleyEntity.getProductPrice());
 			// 产品标题
-			orderGoodsEntity.setProductTitle(orderGoodsEntity.getProductTitle());
+			orderGoodsEntity.setProductTitle(shoppingTrolleyEntity.getProductTitle());
+			orderGoodsEntity.setProductId(shoppingTrolleyEntity.getProductId());
+			orderGoodsEntity.setNumber(shoppingTrolleyEntity.getNumber());
+			orderGoodsEntity.setUserId(orderBean.getUserId());
 			if (shoppingTrolleyEntity.getProductPrice() != null) {
 				// 计算总价
 				totalPrice = totalPrice.add(shoppingTrolleyEntity.getProductPrice()).multiply(new BigDecimal(shoppingTrolleyEntity.getNumber()));
 			}
+			
+			orderGoodsEntityList.add(orderGoodsEntity);
 		}
 		
 		Date nowDate = new Date();
@@ -204,14 +206,16 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 		
 		// 设置商品信息
 		for (QyjOrderGoodsEntity orderGoodsEntity2 : orderGoodsEntityList) {
-			orderGoodsEntity.setCreateTime(nowDate);
-			orderGoodsEntity.setOrderId(orderEntity.getId());
-			orderGoodsEntity.setUserId(orderEntity.getUserId());
+			orderGoodsEntity2.setCreateTime(nowDate);
+			orderGoodsEntity2.setOrderId(orderEntity.getId());
 		}
 		
 		if (orderGoodsMapper.insertOrderGoodsList(orderGoodsEntityList) <= 0) {
 			throw new Exception("保存订单商品失败");
 		}
+		
+		// 生成订单后删除购物车记录
+		shoppingTrolleyMapper.batchDelShoppingTrolley(ids, orderBean.getUserId());
 		
 		return orderEntity.getId();
 	}

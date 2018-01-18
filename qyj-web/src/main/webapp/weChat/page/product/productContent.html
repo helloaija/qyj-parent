@@ -9,7 +9,22 @@
 	}
 </style>
 
-<div style="overflow-x: hidden;overflow-y: auto;">
+<nav class="navbar-default navbar-fixed-top">
+	<div class="panel-default">
+		<div class="panel-body header-body header-fixed">
+			<div>
+				<h4>商品详情</h4>
+			</div>
+			<div style="margin-top: -31px; float: left;">
+				<a href="javascript:window.history.back(-1);" class="index_more fl">
+					&nbsp;&nbsp;<img class="tui" src="weChat/image/common/houtei.png" height="22">
+				</a>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div style="overflow-x: hidden;overflow-y: auto;padding:40px 0;">
 	<div uib-carousel active="active" interval="slideInterval"
 		no-wrap="noWrapSlides">
 		<div uib-slide ng-repeat="slide in slideList" index="$index">
@@ -19,12 +34,12 @@
 	
 	<div class="container" style="background:#fff;">
 		<h3>{{product.title}}</h3>
-		<h3><strong style="color:red;">￥{{product.price}}</strong><small><s>￥100</s></small></h3>
+		<h3><strong style="color:red;">￥{{product.price}}</strong><small><s></s></small></h3>
 	</div>
 	
 	<hr class="hr-default">
 	
-	<div id="detailTab">
+	<div id="detailTab" style="background:#fff;">
 		<uib-tabset active="activeForm">
 			<uib-tab name="detailTab" classes="detailTab" ng-repeat="tab in tabList" heading="{{tab.name}}" index="$index">
 				<div ng-bind-html="tab.content"></div>

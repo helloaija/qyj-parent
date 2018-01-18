@@ -113,6 +113,11 @@ qyjApp.controller("shoppingTrolleyCtrl", [ "$scope", "$state", "shoppingTrolleyS
 				}
 			});
 			
+			if (!ids || ids.length <= 0) {
+				alert("请选择需要结算的商品");
+				return;
+			}
+			
 			// 更新购买数量到数据库
 			shoppingTrolleyService.updateShoppingTrolleyList(params).then(function(response) {
 				var resultBean = response.data;

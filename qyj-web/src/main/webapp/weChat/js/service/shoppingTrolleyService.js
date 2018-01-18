@@ -56,6 +56,17 @@ qyjApp.service('shoppingTrolleyService', ["$http",
 	            data : params
 	        });
 	    }
+	    
+	    // 确认支付订单
+	    this.confirmPayOrder = function(orderId) {
+	        return $http({  
+	        	method: "POST",  
+	            url: qyjApp.httpsHeader + "/wechat/restrict/order/confirmPayOrder",
+	            headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
+	            data: {orderId : orderId},
+	            transformRequest: transformRequest
+	        });
+	    }
 		
 		// 序列化参数方法
 	    function transformRequest(obj) {
