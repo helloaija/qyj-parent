@@ -47,8 +47,10 @@ qyjApp.controller("orderListCtrl", ["$scope", "orderService",
    	   					$scope.isLoadFinish = true;
    	   				}
    					
-   					// 订单列表
-   					$scope.orderList = $scope.orderList.concat(resultBean.result.recordList);
+   	   				if (resultBean.result.recordList && resultBean.result.recordList.length > 0) {
+   	   					// 订单列表
+   	   					$scope.orderList = $scope.orderList.concat(resultBean.result.recordList);
+   	   				}
    				} else {
    					alert(resultBean.resultMessage);
    				}
