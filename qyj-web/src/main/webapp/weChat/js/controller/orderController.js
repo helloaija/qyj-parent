@@ -140,6 +140,9 @@ qyjApp.controller("orderListCtrl", ["$scope", "orderService",
 }).filter("showTimeFilter", function() {
 	// 订单状态
 	return function(time) {
+		if (!time) {
+			return "";
+		}
 		return time.substring(0, time.length - 3);
     }  
 });

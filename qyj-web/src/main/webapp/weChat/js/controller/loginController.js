@@ -35,8 +35,11 @@ qyjApp.controller("loginCtrl", [ "$scope", "$filter", "$state", "loginService",
 				}
 				// 登录成功
 				if ("0000" == resultBean.resultCode) {
-					// 跳转，页面，参数
-					$state.go('home.account', {})
+					if (history.length > 2) {
+						history.back(-1);
+					} else {
+						$state.go("home.account", {}, {location:'replace'});
+					}
 					return;
 				}
 				$scope.tipMsg = resultBean.resultMessage;
