@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.qyj.back.common.constant.CommonConstant;
 import com.qyj.back.common.util.SessionUtil;
 import com.qyj.back.common.util.Utils;
 import com.qyj.back.entity.SysUserModel;
@@ -42,15 +43,6 @@ public class LoginController {
 	@RequestMapping("/toIndexPage")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) {
 		return "/WEB-INF/page/index";
-	}
-
-	/**
-	 * 跳转到登录页面
-	 * @return
-	 */
-	@RequestMapping("/toLoginPage")
-	public String toLoginPage(HttpServletRequest request, HttpServletResponse response) {
-		return "/page/common/login";
 	}
 
 	/**
@@ -90,6 +82,25 @@ public class LoginController {
 
 		} catch (Exception e) {
 			logger.error("doLogin error", e);
+			return new ResultBean("0001", e.getMessage(), null); 
+		}
+	}
+	
+	/**
+	 * 获取登录信息
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getLoginInfo")
+	public ResultBean getLoginInfo(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
+			if (userBean == null) {
+				return new ResultBean("0002", "未登录", null); 
+			}
+			return new ResultBean("0000", "请求成功", userBean); 
+		} catch (Exception e) {
+			logger.error("getLoginInfo error", e);
 			return new ResultBean("0001", e.getMessage(), null); 
 		}
 	}

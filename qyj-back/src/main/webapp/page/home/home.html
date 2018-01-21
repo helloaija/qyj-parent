@@ -1,22 +1,27 @@
-<div class="page-header">
-  <h1>后台管理系统 <small>Subtext for header</small></h1>
-</div>
 
 <div>
+	<h1 style="border: none;">
+		亲亿家 <small>后台管理系统</small>
+	</h1>
+	<span style="float:right;margin: -15px 20px 10px 0;">欢迎您：{{user.userName}}</span>
+</div>
+
+<div class="clear">
 	<div class="row">
 		<!-- 左侧导航区域 -->
 		<div class="col-md-2" style="border: 1px solid #eee;">
 			<ul class="nav nav-pills nav-stacked">
-			 	<!-- class="active" -->
-			  	<li role="presentation"><a class="nav-link" ui-sref="home.productList">产品管理</a></li>
-			  	<li role="presentation"><a class="nav-link" ui-sref="home.newsList">新闻管理</a></li>
-			  	<li role="presentation"><a href="#">Messages</a></li>
+				<!-- class="active" -->
+				<li role="presentation"><a class="nav-link"
+					ui-sref="home.productList">产品管理</a></li>
+				<li role="presentation"><a class="nav-link"
+					ui-sref="home.newsList">新闻管理</a></li>
+				<li role="presentation"><a href="#">Messages</a></li>
 			</ul>
 		</div>
 		<!-- 右侧内容区域 -->
-		<div class="col-md-10" id="contentView"  style="border: 1px solid #eee;" ui-view>
-			欢迎光临
-		</div>
+		<div class="col-md-10" id="contentView"
+			style="border: 1px solid #eee;" ui-view>欢迎光临</div>
 	</div>
 </div>
 

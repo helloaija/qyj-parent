@@ -1,48 +1,58 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], function() {
 	var qyjBackApp = angular.module("qyjBackApp", ["oc.lazyLoad", "ui.router", "ngSanitize"]);
 	
-	qyjBackApp.httpsHeader = "http://localhost:8082/qyj-back";
-	qyjBackApp.uploadFileHeader = "http://localhost:8082/qyj-back/uploadFile/";
+	qyjBackApp.httpsHeader = "http://192.168.1.103:8081/qyj-back";
+	qyjBackApp.uploadFileHeader = "http://http://192.168.1.103:8081/qyj-back/uploadFile/";
 	
-	qyjBackApp.config(["$stateProvider", "$httpProvider",
-        function($stateProvider, $httpProvider) {
+	qyjBackApp.config(["$urlRouterProvider", "$stateProvider", "$httpProvider",
+        function($urlRouterProvider, $stateProvider, $httpProvider) {
+			// 默认调到登录页
+			$urlRouterProvider.when('', '/login');
 	   		// 定义路由
 	   		$stateProvider.state('login', {
 	   			url : "/login",
-	   			templateUrl : "login/login.html",
+	   			templateUrl : "page/login/login.html",
 	   			controller : "loginCtrl",
 	   			resolve : {
 	   				load : ['$ocLazyLoad', function($ocLazyLoad) {
-	   					return $ocLazyLoad.load(['../js/controller/loginController.js',
-	   					                      '../js/service/loginService.js']);
+	   					return $ocLazyLoad.load(['js/controller/loginController.js',
+	   					                      'js/service/loginService.js']);
 	   				}]
 	   	        }
 	   		}).state('home', {
 	   			url : "/home",
-	   			templateUrl : "../page/home/home.html"
+	   			templateUrl : "page/home/home.html",
+	   			controller : "homeCtrl",
+	   			resolve : {
+	   				homeCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load([
+							"page/home/home.js"
+						]);
+	   				}]
+	   			}
 	   		}).state('home.newsList', {
 	   			url : "/newsList",
-	   			templateUrl : '../page/news/newsManage.html',
+	   			templateUrl : 'page/news/newsManage.html',
 	   			controller : "newsCtrl",
 	   			resolve : {
 	   				newsCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
 							"ui.grid", "ui.bootstrap", "ueditor",
-							"../js/filter/filters.js", "../js/service/commonServices.js",
-							"../js/controller/newsController.js", "../js/service/newsService.js"
+							"js/filter/filters.js", "js/service/commonServices.js",
+							"js/controller/newsController.js", "js/service/newsService.js"
 						]);
 	   				}]
 	   			}
 	   		}).state('home.productList', {
 	   			url : "/productList",
-	   			templateUrl : '../page/product/productManage.html',
+	   			templateUrl : 'page/product/productManage.html',
 	   			controller : "productManageCtrl",
 	   			resolve : {
 	   				load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
                             "ui.grid", "ui.bootstrap", "ng-file-upload", "ueditor",
-                            "../js/filter/filters.js", '../js/service/commonServices.js',
-                            '../js/service/productService.js', '../js/controller/productController.js'
+                            "js/filter/filters.js", 'js/service/commonServices.js',
+                            'js/service/productService.js', 'js/controller/productController.js'
 	   					]);
 	   				}]
 	   	        }
@@ -82,20 +92,20 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   $ocLazyLoadProvider.config({
 	       modules: [{
 	    	   name : "ueditor",
-	    	   files : ["../ueditor-1.4.3/ueditor.all.js",
-						"../ueditor-1.4.3/ueditor.config.js"]
+	    	   files : ["ueditor-1.4.3/ueditor.all.js",
+						"ueditor-1.4.3/ueditor.config.js"]
 	       }, {
 	    	   name : "ui.grid",
-	    	   files : ["../js/base/ui-grid-4.0.8.min.js"]
+	    	   files : ["js/base/ui-grid-4.0.8.min.js"]
 	       }, {
 	    	   // ui-bootstrap组件
 	    	   name : "ui.bootstrap",
-	    	   files : ["../js/base/ui-bootstrap-tpls-2.5.0.min.js"]
+	    	   files : ["js/base/ui-bootstrap-tpls-2.5.0.min.js"]
 	       }, {
 	    	   // 文件上传
 	    	   name : "ng-file-upload",
-	    	   files : ["../js/base/ng-file-upload.min.js",
-                        "../js/base/ng-file-upload-shim.min.js",]
+	    	   files : ["js/base/ng-file-upload.min.js",
+                        "js/base/ng-file-upload-shim.min.js",]
 	       }],
 	       debug: true
 	   })
