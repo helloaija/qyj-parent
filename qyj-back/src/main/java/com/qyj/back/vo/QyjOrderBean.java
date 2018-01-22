@@ -1,20 +1,17 @@
-package com.qyj.facade.entity;
+package com.qyj.back.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-
-import com.qyj.facade.vo.QyjOrderBean;
-
 /**
  * 订单
  * @author CTF_stone
  */
-public class QyjOrderEntity implements Serializable {
-	private static final long serialVersionUID = 5232642360843500904L;
+public class QyjOrderBean implements Serializable {
+
+	private static final long serialVersionUID = 5525427361307362076L;
 
 	private Long id;
 
@@ -58,7 +55,7 @@ public class QyjOrderEntity implements Serializable {
 	private Date updateTime;
 	
 	/** 订单商品列表 */
-	List<QyjOrderGoodsEntity> orderGoodsList = null;
+	List<QyjOrderGoodsBean> orderGoodsList = null;
 
 	public Long getId() {
 		return id;
@@ -172,40 +169,20 @@ public class QyjOrderEntity implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public List<QyjOrderGoodsEntity> getOrderGoodsList() {
+	public List<QyjOrderGoodsBean> getOrderGoodsList() {
 		return orderGoodsList;
 	}
 
-	public void setOrderGoodsList(List<QyjOrderGoodsEntity> orderGoodsList) {
+	public void setOrderGoodsList(List<QyjOrderGoodsBean> orderGoodsList) {
 		this.orderGoodsList = orderGoodsList;
 	}
 
 	@Override
 	public String toString() {
-		return "QyjOrderEntity [id=" + id + ", userId=" + userId + ", orderNumber=" + orderNumber + ", orderAmount="
+		return "QyjOrderBean [id=" + id + ", userId=" + userId + ", orderNumber=" + orderNumber + ", orderAmount="
 				+ orderAmount + ", modifyAmount=" + modifyAmount + ", status=" + status + ", buyerName=" + buyerName
 				+ ", buyerPhone=" + buyerPhone + ", buyerAddress=" + buyerAddress + ", buyerMessage=" + buyerMessage
 				+ ", createTime=" + createTime + ", payTime=" + payTime + ", finishTime=" + finishTime + ", updateTime="
 				+ updateTime + "]";
-	}
-	
-	public QyjOrderBean toBean() {
-		QyjOrderBean orderBean = new QyjOrderBean();
-		BeanUtils.copyProperties(this, orderBean);
-		
-//		if (this.getOrderGoodsList() != null && !this.getOrderGoodsList().isEmpty()) {
-//			QyjOrderGoodsBean goodsBean = null;
-//			for (QyjOrderGoodsEntity goodsEntity : this.getOrderGoodsList()) {
-//				goodsBean = new QyjOrderGoodsBean();
-//				BeanUtils.copyProperties(goodsEntity, goodsBean);
-//				if (orderBean.getOrderGoodsList() == null) {
-//					orderBean.setOrderGoodsList(new ArrayList<QyjOrderGoodsBean>());
-//				}
-//				
-//				orderBean.getOrderGoodsList().add(goodsBean);
-//			}
-//		}
-		
-		return orderBean;
 	}
 }

@@ -1,4 +1,4 @@
-package com.qyj.facade.entity;
+package com.qyj.back.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
-import com.qyj.facade.vo.QyjOrderBean;
+import com.qyj.back.vo.QyjOrderBean;
 
 /**
  * 订单

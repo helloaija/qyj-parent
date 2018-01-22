@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.back.dao.QyjOrderMapper">
+	<resultMap id="baseResultMap" type="com.qyj.back.entity.QyjOrderEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+		<result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+		<result column="modify_amount" jdbcType="DECIMAL" property="modifyAmount" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+		<result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+		<result column="buyer_address" jdbcType="VARCHAR" property="buyerAddress" />
+		<result column="buyer_message" jdbcType="VARCHAR" property="buyerMessage" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+		<result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		id, user_id, order_number, order_amount, modify_amount, status, buyer_name, buyer_phone,
+		buyer_address, buyer_message, create_time, pay_time, finish_time, update_time
+	</sql>
+
+	<!-- 根据id获取订单 -->
+	<select id="getOrderById" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_order where id = #{id}
+	</select>
+
+	<!-- 查询条件 -->
+	<sql id="condition">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="status != null">
+			and status = #{state}
+		</if>
+	</sql>
+
+	<!-- 根据查询条件获取订单 -->
+	<select id="listOrderByModel" parameterType="com.qyj.back.entity.QyjOrderEntity" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_order where 1 = 1 <include refid="condition"/>
+	</select>
+
+	<!-- 更新订单 -->
+	<update id="updateOrder" parameterType="com.qyj.back.entity.QyjOrderEntity">
+		update qyj_order <set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="orderNumber != null">
+				order_number = #{orderNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="orderAmount != null">
+				order_amount = #{orderAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="modifyAmount != null">
+				modify_amount = #{modifyAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="buyerName != null">
+				buyer_name = #{buyerName,jdbcType=VARCHAR},
+			</if>
+			<if test="buyerPhone != null">
+				buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="buyerAddress != null">
+				buyer_address = #{buyerAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="buyerMessage != null">
+				buyer_message = #{buyerMessage,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+			<if test="userId != null">
+				and user_id = #{userId}
+			</if>
+			<!-- 未支付订单可以进行取消订单、支付操作 -->
+			<if test="status != null and (status == 'CANCEL' or status == 'UNSEND')">
+				and status = 'UNPAY'
+			</if>
+	</update>
+	
+	<!-- 关联商品 -->
+	<resultMap id="goodsRelationMap" type="com.qyj.back.entity.QyjOrderEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+		<result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+		<result column="modify_amount" jdbcType="DECIMAL" property="modifyAmount" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+		<result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+		<result column="buyer_address" jdbcType="VARCHAR" property="buyerAddress" />
+		<result column="buyer_message" jdbcType="VARCHAR" property="buyerMessage" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+		<result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		
+		<!--关联订单产品表-->
+		<collection property="orderGoodsList" column="id" select="com.qyj.service.dao.QyjOrderGoodsMapper.listOrderGoodsByOrderId"/>
+	</resultMap>
+	
+	<!-- 统计订单 -->
+	<select id="countOrder" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from qyj_order
+		<where>
+			<include refid="condition" />
+		</where>
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		</if>
+	</select>
+	
+	<!-- 获取订单列表 -->
+	<select id="listOrder" parameterType="java.util.Map" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_order
+		<where>
+			<include refid="condition" />
+		</where>
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		    ${pageParam.orderByCondition}
+		    ${pageParam.limit}
+		</if>
+	</select>
+	
+	<!-- 获取model获取关联产品的订单列表 -->
+	<select id="listOrderAndGoodsByModel" parameterType="com.qyj.back.entity.QyjOrderEntity" resultMap="goodsRelationMap">
+		select <include refid="baseColumnList" /> from qyj_order
+		<where>
+			<include refid="condition" />
+		</where>
+	</select>
+</mapper>

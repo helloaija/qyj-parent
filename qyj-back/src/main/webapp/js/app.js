@@ -1,8 +1,8 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], function() {
 	var qyjBackApp = angular.module("qyjBackApp", ["oc.lazyLoad", "ui.router", "ngSanitize"]);
 	
-	qyjBackApp.httpsHeader = "http://192.168.1.103:8081/qyj-back";
-	qyjBackApp.uploadFileHeader = "http://http://192.168.1.103:8081/qyj-back/uploadFile/";
+	qyjBackApp.httpsHeader = "http://192.168.30.22:8083/qyj-back";
+	qyjBackApp.uploadFileHeader = "http://192.168.30.22:8083/qyj-back/uploadFile/";
 	
 	qyjBackApp.config(["$urlRouterProvider", "$stateProvider", "$httpProvider",
         function($urlRouterProvider, $stateProvider, $httpProvider) {
@@ -11,6 +11,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   		// 定义路由
 	   		$stateProvider.state('login', {
 	   			url : "/login",
+	   			// 登录页
 	   			templateUrl : "page/login/login.html",
 	   			controller : "loginCtrl",
 	   			resolve : {
@@ -21,6 +22,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   	        }
 	   		}).state('home', {
 	   			url : "/home",
+	   			// 首页
 	   			templateUrl : "page/home/home.html",
 	   			controller : "homeCtrl",
 	   			resolve : {
@@ -32,6 +34,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			}
 	   		}).state('home.newsList', {
 	   			url : "/newsList",
+	   			// 新闻管理
 	   			templateUrl : 'page/news/newsManage.html',
 	   			controller : "newsCtrl",
 	   			resolve : {
@@ -45,6 +48,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			}
 	   		}).state('home.productList', {
 	   			url : "/productList",
+	   			// 产品管理
 	   			templateUrl : 'page/product/productManage.html',
 	   			controller : "productManageCtrl",
 	   			resolve : {
@@ -53,6 +57,20 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
                             "ui.grid", "ui.bootstrap", "ng-file-upload", "ueditor",
                             "js/filter/filters.js", 'js/service/commonServices.js',
                             'js/service/productService.js', 'js/controller/productController.js'
+	   					]);
+	   				}]
+	   	        }
+	   		}).state('home.orderManage', {
+	   			url : "/orderManage",
+	   			// 订单管理
+	   			templateUrl : 'page/orderManage/orderList.html',
+	   			controller : "orderListCtrl",
+	   			resolve : {
+	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+	   					return $ocLazyLoad.load([
+                            "ui.grid", "ui.bootstrap",
+                            "js/filter/filters.js", 'js/service/commonServices.js',
+                            'page/orderManage/orderManage.js'
 	   					]);
 	   				}]
 	   	        }
