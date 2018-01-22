@@ -36,8 +36,20 @@
 		<if test="userId != null">
 			and user_id = #{userId}
 		</if>
-		<if test="status != null">
-			and status = #{state}
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+			and order_number = #{orderNumber}
+		</if>
+		<if test="likeOrderNumber != null and likeOrderNumber != ''">
+			and order_number like concat(concat('%',#{likeOrderNumber}),'%')
+		</if>
+		<if test="createTimeBegin != null">
+			<![CDATA[and create_time >= #{createTimeBegin}]]>
+		</if>
+		<if test="createTimeEnd != null">
+			<![CDATA[and create_time < DATE_FORMAT(date_add(#{createTimeEnd,jdbcType=TIMESTAMP}, interval 1 day), '%Y-%c-%d')]]>
 		</if>
 	</sql>
 
@@ -117,7 +129,7 @@
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 		
 		<!--关联订单产品表-->
-		<collection property="orderGoodsList" column="id" select="com.qyj.service.dao.QyjOrderGoodsMapper.listOrderGoodsByOrderId"/>
+		<collection property="orderGoodsList" column="id" select="com.qyj.back.dao.QyjOrderGoodsMapper.listOrderGoodsByOrderId"/>
 	</resultMap>
 	
 	<!-- 统计订单 -->
@@ -146,9 +158,18 @@
 	
 	<!-- 获取model获取关联产品的订单列表 -->
 	<select id="listOrderAndGoodsByModel" parameterType="com.qyj.back.entity.QyjOrderEntity" resultMap="goodsRelationMap">
-		select <include refid="baseColumnList" /> from qyj_order
-		<where>
-			<include refid="condition" />
-		</where>
+		select <include refid="baseColumnList" /> from qyj_order where 1=1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+			and order_number = #{orderNumber}
+		</if>
 	</select>
 </mapper>

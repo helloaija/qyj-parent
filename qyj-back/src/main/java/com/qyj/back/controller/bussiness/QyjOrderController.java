@@ -2,6 +2,7 @@ package com.qyj.back.controller.bussiness;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import com.qyj.back.common.util.SessionUtil;
 import com.qyj.back.controller.BaseController;
 import com.qyj.back.entity.QyjNewsInfoEntity;
 import com.qyj.back.service.QyjOrderService;
+import com.qyj.back.vo.QyjOrderBean;
 import com.qyj.back.vo.SysUserBean;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
@@ -51,12 +53,15 @@ public class QyjOrderController extends BaseController {
 		PageParam pageParam = this.initPageParam(request);
 		// 订单状态
 		String status = request.getParameter("status");
+		// 订单编号
+		String orderNumber = request.getParameter("orderNumber");
 		// 创建开始时间
 		String createTimeBegin = request.getParameter("createTimeBegin");
 		// 创建结束时间
 		String createTimeEnd = request.getParameter("createTimeEnd");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("status", status);
+		paramMap.put("likeOrderNumber", orderNumber);
 		paramMap.put("createTimeBegin", createTimeBegin);
 		paramMap.put("createTimeEnd", createTimeEnd);
 		try {
@@ -70,20 +75,25 @@ public class QyjOrderController extends BaseController {
 	}
 
 	/**
-	 * 根据主键查询新闻公告信息
-	 * @param newsInfoId
+	 * 根据主键查询订单已经其商品
+	 * @param orderId
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/getNewsInfo")
-	public ResultBean getNewsInfo(Long newsInfoId, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("/getOrderAndGoods")
+	public ResultBean getOrderAndGoods(Long orderId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjNewsInfoEntity newsInfo = newsInfoService.selectByPrimaryKey(newsInfoId);
-			return new ResultBean("0000", "请求成功", newsInfo);
+			QyjOrderBean queryBean = new QyjOrderBean();
+			queryBean.setId(orderId);
+			List<QyjOrderBean> orderBeanList = orderService.listOrderAndGoodsByModel(queryBean);
+			if (orderBeanList == null || orderBeanList.isEmpty()) {
+				return new ResultBean("0002", "没有找到订单" + orderId + "信息", null);
+			}
+			return new ResultBean("0000", "请求成功", orderBeanList.get(0));
 		} catch (Exception e) {
-			logger.error("getNewsInfoInfo error", e);
+			logger.error("getOrderAndGoods error", e);
 			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
 		}
 	}

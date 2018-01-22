@@ -4,17 +4,17 @@
 		<h4 class="card-title">订单管理</h4>
 		<form>
 			<div class="form-group row">
-				<label for="queryModel.title" class="col-md-1 col-form-label" style="padding-right: 0px;">新闻标题：</label>
+				<label for="queryModel.orderNumber" class="col-md-1 col-form-label" style="padding-right: 0px;">订单编号：</label>
 				<div class="col-md-2">
-					<input class="form-control" id="queryModel.title" placeholder="请输入产品名"
-						ng-model="queryModel.title">
+					<input class="form-control" id="queryModel.orderNumber" placeholder="请输入订单编号"
+						ng-model="queryModel.orderNumber">
 				</div>
 				
-				<label for="queryModel.type" class="col-md-1 col-form-label" style="padding-right: 0px;">新闻类型：</label>
+				<label for="queryModel.status" class="col-md-1 col-form-label" style="padding-right: 0px;">订单状态：</label>
 				<div class="col-md-2">
-					<select ng-model="queryModel.type" class="form-control">
+					<select ng-model="queryModel.status" class="form-control">
 						<option value="">-- 请选择 --</option>
-					    <option ng-repeat="n in newsTypeList" value="{{n.value}}">{{n.name}}</option>
+					    <option ng-repeat="n in orderStatusList" value="{{n.value}}">{{n.name}}</option>
 					</select>
 				</div>
 			</div>
@@ -44,9 +44,8 @@
 				</div>
 				
 				<div class="col-md-2">
-					<button type="button" class="btn btn-primary" ng-click="queryNewsList()">查询</button>
+					<button type="button" class="btn btn-primary" ng-click="queryOrderList()">查询</button>
 					<button type="button" class="btn btn-primary" ng-click="queryModel={}">重置</button>
-					<button type="button" class="btn btn-primary" ng-click="showAddNewsInfoWin()">新增</button>
 				</div>
 			</div>
 		</form>

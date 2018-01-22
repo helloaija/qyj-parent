@@ -2,6 +2,8 @@ var qyjBackApp = angular.module("qyjBackApp");
 
 qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
     function($scope, $filter, orderService) {
+		$scope.orderStatusList = [{"value" : "UNPAY","name":"待支付"},{"value" : "UNSEND","name":"待发货"},{"value" : "UNTAKE","name":"待收货"},
+			{"value" : "END","name":"已结束"},{"value" : "CANCEL","name":"取消订单"}];
 		// 列表属性
 		$scope.gridOptions = {
 			data : 'myData',
@@ -38,7 +40,7 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 				cellFilter : "currency : ''"
 			}, {
 				field : "modifyAmount",
-				displayName : '订单金额',
+				displayName : '调整金额',
 				// 是否显示列头部菜单按钮
 				enableColumnMenu : false,
 				enableHiding : false,
@@ -49,19 +51,29 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 				enableCellEdit : false,
 				cellFilter : "currency : ''"
 			}, {
-				field : "newsStatus",
+				field : "status",
 				displayName : "状态",
 				// 是否显示列头部菜单按钮
 				enableColumnMenu : false,
-				width : '8%',
+				width : '6%',
 				enableHiding : false,
 				suppressRemoveSort : true,
 				// 是否可编辑
 				enableCellEdit : false,
-				cellFilter : "newsStatusFilter"
+				cellFilter : "orderStatus"
 			}, {
-				field : "orderNum",
-				displayName : "序号",
+				field : "buyerName",
+				displayName : "买家名字",
+				width : '6%',
+				// 是否显示列头部菜单按钮
+				enableColumnMenu : false,
+				enableHiding : false,
+				suppressRemoveSort : true,
+				// 是否可编辑
+				enableCellEdit : false
+			}, {
+				field : "buyerPhone",
+				displayName : "买家号码",
 				width : '8%',
 				// 是否显示列头部菜单按钮
 				enableColumnMenu : false,
@@ -70,8 +82,8 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 				// 是否可编辑
 				enableCellEdit : false
 			}, {
-				field : "visitCount",
-				displayName : "访问量",
+				field : "userId",
+				displayName : "买家用户id",
 				// 是否显示列头部菜单按钮
 				enableColumnMenu : false,
 				enableHiding : false,
@@ -84,7 +96,29 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 				displayName : "创建时间",
 				// 是否显示列头部菜单按钮
 				enableColumnMenu : false,
-				width : '12%',
+				width : '10%',
+				enableHiding : false,
+				suppressRemoveSort : true,
+				// 是否可编辑
+				enableCellEdit : false,
+				cellFilter : 'date:"yyyy-MM-dd hh:mm:ss"'
+			}, {
+				field : "payTime",
+				displayName : "支付时间",
+				// 是否显示列头部菜单按钮
+				enableColumnMenu : false,
+				width : '10%',
+				enableHiding : false,
+				suppressRemoveSort : true,
+				// 是否可编辑
+				enableCellEdit : false,
+				cellFilter : 'date:"yyyy-MM-dd hh:mm:ss"'
+			}, {
+				field : "finishTime",
+				displayName : "结束时间",
+				// 是否显示列头部菜单按钮
+				enableColumnMenu : false,
+				width : '10%',
 				enableHiding : false,
 				suppressRemoveSort : true,
 				// 是否可编辑
@@ -93,14 +127,11 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 			}, {
 				field : 'action',
 				displayName : "操作",
-				width : '12%',
 				cellTemplate : '<div>' +
-							'<button type="button" class="btn btn-link" ng-click="grid.appScope.showEditNewsInfoWin(row.entity.id)">修改</button>' + 
-							'<button type="button" class="btn btn-link" ng-if="row.entity.newsStatus == \'PUBLISH\'"' + 
-	        				' ng-click="grid.appScope.setPutawayStatus(row.entity.id)">上架</button>' +
-	        				'<button type="button" class="btn btn-link" ng-if="row.entity.newsStatus == \'PUTAWAY\'"' +
-	        				' ng-click="grid.appScope.setSoldoutStatus(row.entity.id)">下架</button>' +
-							'<button type="button" ng-click="grid.appScope.deleteNewsInfo(row.entity.id)" class="btn btn-link">删除</button></div>',
+							'<button type="button" class="btn btn-link" ng-click="grid.appScope.showOrderDetailWin(row.entity.id)">查看详情</button>' + 
+							'<button type="button" class="btn btn-link" ng-if="row.entity.status == \'UNPAY\'"' + 
+	        				' ng-click="grid.appScope.setPutawayStatus(row.entity.id)">修改金额</button>' +
+	        				'</div>',
 				// 是否显示列头部菜单按钮
 				enableColumnMenu : false,
 				enableHiding : false,
@@ -169,8 +200,8 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 				// 分页按钮事件
 				gridApi.pagination.on.paginationChanged($scope, function(newPage,
 						pageSize) {
-					if (getPage) {
-						getPage(newPage, pageSize);
+					if (loadPage) {
+						loadPage(newPage, pageSize);
 					}
 				});
 				// 行选中事件
@@ -191,7 +222,7 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 		/**
 		 * 加载分页数据
 		 */
-		var getPage = function(curPage, pageSize) {
+		function loadPage(curPage, pageSize) {
 			if (!pageSize) {
 				pageSize = $scope.gridOptions.paginationPageSize
 			}
@@ -222,7 +253,24 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 		};
 	
 		// 加载第一页数据
-		getPage(1, $scope.gridOptions.paginationPageSize);
+		loadPage(1, $scope.gridOptions.paginationPageSize);
+		
+		// 查询订单
+		$scope.queryOrderList = function() {
+			loadPage(1, $scope.gridOptions.paginationPageSize);
+		};
+		
+		// 查看订单详情
+		$scope.showOrderDetailWin = function(orderId) {
+			orderService.getOrderAndGoods(orderId).then(function(response) {
+				var resultBean = response.data;
+				if ("0000" == resultBean.resultCode) {
+					alert(JSON.stringify(resultBean.result));
+				} else {
+					alert(resultBean.resultMessage);
+				}
+			});
+		};
     }
 ]);
 
@@ -231,10 +279,29 @@ qyjBackApp.service("orderService", ["$http",
 		this.listOrderPage = function(data) {
 	    	// 加载订单分页数据
 	        return $http({  
-	            method: "POST",
+	            method: "GET",
 	            url: qyjBackApp.httpsHeader + "/admin/order/listOrderPage",  
 	            params : data
 	        });
-	    }
+	    };
+	    
+	    this.getOrderAndGoods = function(orderId) {
+	    	// 获取订单以及订单下的商品
+	        return $http({  
+	            method: "GET",
+	            url: qyjBackApp.httpsHeader + "/admin/order/getOrderAndGoods",  
+	            params : {orderId : orderId}
+	        });
+	    };
+	}
+]);
+
+qyjBackApp.filter("orderStatus", [
+	function() {
+		return function(status) {
+			var statusObject = {"UNPAY":"待支付","UNSEND":"待发货","UNTAKE":"待收货","END":"已结束","CANCEL":"取消订单"};
+			var statusText = statusObject[status];
+			return statusText ? statusText : "";
+		};
 	}
 ]);
