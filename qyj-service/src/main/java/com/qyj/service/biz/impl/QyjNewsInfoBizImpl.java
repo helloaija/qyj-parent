@@ -112,4 +112,13 @@ public class QyjNewsInfoBizImpl implements QyjNewsInfoBiz {
 		return new PageBean(pageParam.getCurrentPage(), pageParam.getPageSize(), totalCount, projectList);
 	}
 
+	/**
+	 * 更新新闻公告浏览次数+1
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public int updateVisitCountOnce(Long id) throws Exception {
+		return newsInfoMapper.updateVisitCountOnce(id);
+	}
 }

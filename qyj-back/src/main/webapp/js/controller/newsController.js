@@ -58,7 +58,7 @@ function newsCtrl($scope, $filter, i18nService, $uibModal, newsService, tipDialo
 					enableCellEdit : false,
 					cellFilter : "newsTypeFilter"
 				}, {
-					field : "status",
+					field : "newsStatus",
 					displayName : "状态",
 					// 是否显示列头部菜单按钮
 					enableColumnMenu : false,
@@ -105,9 +105,9 @@ function newsCtrl($scope, $filter, i18nService, $uibModal, newsService, tipDialo
 					width : '12%',
 					cellTemplate : '<div>' +
 								'<button type="button" class="btn btn-link" ng-click="grid.appScope.showEditNewsInfoWin(row.entity.id)">修改</button>' + 
-								'<button type="button" class="btn btn-link" ng-if="row.entity.status == \'PUBLISH\'"' + 
+								'<button type="button" class="btn btn-link" ng-if="row.entity.newsStatus == \'PUBLISH\'"' + 
 	            				' ng-click="grid.appScope.setPutawayStatus(row.entity.id)">上架</button>' +
-	            				'<button type="button" class="btn btn-link" ng-if="row.entity.status == \'PUTAWAY\'"' +
+	            				'<button type="button" class="btn btn-link" ng-if="row.entity.newsStatus == \'PUTAWAY\'"' +
 	            				' ng-click="grid.appScope.setSoldoutStatus(row.entity.id)">下架</button>' +
 								'<button type="button" ng-click="grid.appScope.deleteNewsInfo(row.entity.id)" class="btn btn-link">删除</button></div>',
 					// 是否显示列头部菜单按钮
@@ -265,7 +265,7 @@ function newsCtrl($scope, $filter, i18nService, $uibModal, newsService, tipDialo
 	// 创建产品编辑窗口,productData编辑的数据,winParams窗口参数
 	$scope.createNewsInfoWin = function(newsInfoData, winParams) {
 		var editWin = $uibModal.open({
-			templateUrl : '../page/news/newsEditView.html',
+			templateUrl : 'page/news/newsEditView.html',
 			controller : 'newsEditCtrl',
 			backdrop : "static",
 			size : "md",

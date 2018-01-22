@@ -30,4 +30,11 @@ public interface QyjNewsInfoMapper {
 	 * @return
 	 */
 	List<QyjNewsInfoEntity> listNewsInfo(Map<String, Object> paramMap);
+	
+	/**
+	 * 更新新闻公告浏览次数+1
+	 * @param id
+	 * @return
+	 */
+	int updateVisitCountOnce(Long id);
 }

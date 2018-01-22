@@ -1,11 +1,32 @@
 
 <style>
-	#detailTab img {
+	.tab-content img {
 		max-width: 100%;
+	}
+	
+	.tab-content {
+	    padding: 10px;
+	    display: inline-block;
 	}
 	.nav>li>a:focus, .nav>li>a:hover {
     	text-decoration: none;
     	background-color: burlywood;
+	}
+	
+	.slide-img {
+		margin: auto;
+		height:305px;
+		max-width: 100%;
+	}
+	
+	.carousel-control {
+	    opacity: 0;
+	}
+	.carousel-control:focus {
+	    opacity: 0;
+	}
+	.carousel-control:hover {
+	    opacity: 0;
 	}
 </style>
 
@@ -25,10 +46,9 @@
 </nav>
 
 <div style="overflow-x: hidden;overflow-y: auto;padding:40px 0;">
-	<div uib-carousel active="active" interval="slideInterval"
-		no-wrap="noWrapSlides">
+	<div uib-carousel active="active" interval="slideInterval" no-wrap="noWrapSlides">
 		<div uib-slide ng-repeat="slide in slideList" index="$index">
-			<img ng-src="{{uploadFileHeader + slide.filePath}}" style="margin: auto;height:305px;">
+			<img ng-src="{{uploadFileHeader + slide.filePath}}" class="slide-img">
 		</div>
 	</div>
 	
@@ -39,10 +59,10 @@
 	
 	<hr class="hr-default">
 	
-	<div id="detailTab" style="background:#fff;">
+	<div style="background:#fff;">
 		<uib-tabset active="activeForm">
-			<uib-tab name="detailTab" classes="detailTab" ng-repeat="tab in tabList" heading="{{tab.name}}" index="$index">
-				<div ng-bind-html="tab.content"></div>
+			<uib-tab name="detailTab" ng-repeat="tab in tabList" heading="{{tab.name}}" index="$index">
+				<div ng-bind-html="tab.content | toTrust" class="tab-content"></div>
 			</uib-tab>
 		</uib-tabset>
 	</div>

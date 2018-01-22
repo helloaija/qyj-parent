@@ -28,4 +28,11 @@ public interface QyjNewsInfoFacade {
 	 * @throws Exception
 	 */
 	QyjNewsInfoEntity getNewsInfoById(Long id) throws Exception;
+	
+	/**
+	 * 更新新闻公告浏览次数+1
+	 * @param id
+	 * @return
+	 */
+	int updateVisitCountOnce(Long id) throws Exception;
 }

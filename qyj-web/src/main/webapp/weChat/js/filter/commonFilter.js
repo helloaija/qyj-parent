@@ -13,3 +13,11 @@ qyjApp.filter("phoneNumFilter", function() {
         }  
     }  
 });
+
+qyjApp.filter("toTrust", ["$sce", 
+  	function($sce) {
+  		return function(content) {
+  			return $sce.trustAsHtml(content);
+  		}
+  	}
+]);

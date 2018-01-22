@@ -61,7 +61,7 @@
 							<span style="font-weight: bold;text-align:left;width:125px;display:inline-block;">{{detail.name}}</span>
 							<span style="font-weight: bold;text-align:right;width:125px;display:inline-block;">标签序号：</span>
 							<span style="font-weight: bold;text-align:left;width:125px;display:inline-block;">{{detail.detailIndex}}</span>
-							<div ng-bind-html="detail.content" style="padding: 0px 55px;border: 1px solid #ddd;"></div>	
+							<div ng-bind-html="detail.content | toTrust" style="padding: 0px 55px;border: 1px solid #ddd;"></div>	
 						</td>
 					</tr>
 				</tbody>

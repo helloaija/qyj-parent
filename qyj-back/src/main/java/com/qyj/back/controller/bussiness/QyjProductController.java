@@ -119,6 +119,7 @@ public class QyjProductController extends BaseController {
 			if (productEntity.getId() == null || productEntity.getId() == 0) {
 				productEntity.setCreateTime(nowDate);
 				productEntity.setCreateUser(userBean.getId());
+				productEntity.setSoldNumber(0);
 				productEntity.setProductStatus(ProductStatusEnum.PUBLISH.toString());
 				int insertResult = productService.insert(productEntity);
 				logger.info("saveProductInfo insert productEntity, info={}, result={}", productEntity.toString(),

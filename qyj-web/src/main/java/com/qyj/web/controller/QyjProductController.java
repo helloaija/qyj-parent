@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.common.page.ResultBean;
+import com.qyj.common.utils.CommonEnums.ProductStatusEnum;
 import com.qyj.facade.QyjAddressFacade;
 import com.qyj.facade.QyjOrderFacade;
 import com.qyj.facade.QyjProductFacade;
@@ -54,7 +55,9 @@ public class QyjProductController extends BaseController {
 
 		try {
 			pageParam.setOrderByCondition("create_time desc");
-			PageBean pageBean = productFacade.listProductPage(pageParam, null);
+			Map<String, Object> queryMap = new HashMap<String, Object>();
+			queryMap.put("productStatus", ProductStatusEnum.PUTAWAY.toString());
+			PageBean pageBean = productFacade.listProductPage(pageParam, queryMap);
 			return new ResultBean("0000", "请求成功", pageBean);
 		} catch (Exception e) {
 			logger.error("listProductPage error", e);

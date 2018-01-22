@@ -5,7 +5,7 @@
 		<id column="id" jdbcType="BIGINT" property="id" />
 		<result column="title" jdbcType="VARCHAR" property="title" />
 		<result column="type" jdbcType="VARCHAR" property="type" />
-		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="news_status" jdbcType="VARCHAR" property="newsStatus" />
 		<result column="description" jdbcType="VARCHAR" property="description" />
 		<result column="order_num" jdbcType="INTEGER" property="orderNum" />
 		<result column="visit_count" jdbcType="INTEGER" property="visitCount" />
@@ -21,7 +21,7 @@
 	</resultMap>
 	
 	<sql id="baseColumnList">
-		id, title, type, status, description, order_num, visit_count,
+		id, title, type, news_status, description, order_num, visit_count,
 		create_user, create_time, update_user, update_time
 	</sql>
 	
@@ -39,10 +39,10 @@
 	</delete>
 	
 	<insert id="insert" parameterType="com.qyj.back.entity.QyjNewsInfoEntity">
-		insert into qyj_news_info (title, type, status, description, order_num,
+		insert into qyj_news_info (title, type, news_status, description, order_num,
 			visit_count, create_user, create_time, content, update_user, update_time)
 		values (#{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
-			#{status,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+			#{newsStatus,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
 			#{orderNum,jdbcType=INTEGER}, #{visitCount,jdbcType=INTEGER},
 			#{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
 			#{content,jdbcType=LONGVARCHAR}, #{updateUser}, #{updateTime})
@@ -58,8 +58,8 @@
 				<if test="type != null">
 					type = #{type,jdbcType=VARCHAR},
 				</if>
-				<if test="status != null">
-					status = #{status,jdbcType=VARCHAR},
+				<if test="newsStatus != null">
+					news_status = #{newsStatus,jdbcType=VARCHAR},
 				</if>
 				<if test="description != null">
 					description = #{description,jdbcType=VARCHAR},
@@ -92,7 +92,7 @@
 
 	<update id="updateByPrimaryKey" parameterType="com.qyj.back.entity.QyjNewsInfoEntity">
 		update qyj_news_info set title = #{title,jdbcType=VARCHAR},
-			type = #{type,jdbcType=VARCHAR}, status = #{status,jdbcType=VARCHAR},
+			type = #{type,jdbcType=VARCHAR}, new_status = #{newsStatus,jdbcType=VARCHAR},
 			description = #{description,jdbcType=VARCHAR}, order_num = #{orderNum,jdbcType=INTEGER},
 			visit_count = #{visitCount,jdbcType=INTEGER}, create_user = #{createUser,jdbcType=BIGINT},
 			create_time = #{createTime,jdbcType=TIMESTAMP}, content = #{content,jdbcType=LONGVARCHAR},
@@ -108,8 +108,8 @@
 		<if test="type != null and type != ''">
 			and type = #{type}
 		</if>
-		<if test="status != null and status != ''">
-			and status = #{status}
+		<if test="newsStatus != null and newsStatus != ''">
+			and news_status = #{newsStatus}
 		</if>
 		<if test="createTimeBegin != null">
 			<![CDATA[and create_time >= #{createTimeBegin}]]>

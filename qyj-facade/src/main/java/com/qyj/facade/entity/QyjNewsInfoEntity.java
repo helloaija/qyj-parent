@@ -18,7 +18,7 @@ public class QyjNewsInfoEntity implements Serializable {
 	private String type;
 
 	/** 状态[PUBLISHED：发布状态，UNPUBLISH：未发布状态] */
-	private String status;
+	private String newsStatus;
 
 	/** 说明 */
 	private String description;
@@ -62,12 +62,12 @@ public class QyjNewsInfoEntity implements Serializable {
 		this.type = type;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getNewsStatus() {
+		return newsStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setNewsStatus(String newsStatus) {
+		this.newsStatus = newsStatus;
 	}
 
 	public String getDescription() {
@@ -120,7 +120,7 @@ public class QyjNewsInfoEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "QyjNewsInfoEntity [id=" + id + ", title=" + title + ", type=" + type + ", status=" + status
+		return "QyjNewsInfoEntity [id=" + id + ", title=" + title + ", type=" + type + ", newsStatus=" + newsStatus
 				+ ", description=" + description + ", orderNum=" + orderNum + ", visitCount=" + visitCount
 				+ ", createUser=" + createUser + ", createTime=" + createTime + ", content=" + content + "]";
 	}

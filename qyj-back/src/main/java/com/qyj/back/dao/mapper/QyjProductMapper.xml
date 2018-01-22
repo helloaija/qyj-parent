@@ -43,8 +43,8 @@
 	    </selectKey>
 		insert into qyj_product (title, price, product_type, product_status, number, putaway_time, soldout_time, sold_number,
 			product_unit, img_url, create_user, create_time, update_user, update_time)
-		values (#{title,jdbcType=VARCHAR}, #{price}, #{productType}, #{productStatus}, #{number}, #{putaway_time}, #{soldout_time},
-			#{sold_number}, #{product_unit}, #{imgUrl}, #{createUser}, #{createTime}, #{updateUser}, #{updateTime})
+		values (#{title,jdbcType=VARCHAR}, #{price}, #{productType}, #{productStatus}, #{number}, #{putawayTime}, #{soldoutTime},
+			#{soldNumber}, #{productUnit}, #{imgUrl}, #{createUser}, #{createTime}, #{updateUser}, #{updateTime})
 	</insert>
 
 	<insert id="insertSelective" parameterType="com.qyj.back.entity.QyjProductEntity">

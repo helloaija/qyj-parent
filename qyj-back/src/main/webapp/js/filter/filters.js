@@ -28,4 +28,11 @@ qyjBackApp.filter("productTypeFilter", function() {
 		var newsStatusMap = {'PUBLISH': '发布', 'PUTAWAY': '上架', "SOLDOUT" : "下架"};
 		return newsStatusMap[value];
 	}
-});
+}).filter("toTrust", ["$sce",
+    // ng-bing-html过滤器
+	function($sce) {
+		return function(content) {
+			return $sce.trustAsHtml(content);
+		}
+	}
+]);

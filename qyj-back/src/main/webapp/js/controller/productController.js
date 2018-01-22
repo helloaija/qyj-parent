@@ -352,7 +352,7 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 	// 创建产品编辑窗口
 	$scope.createProductWin = function(productData, winParams) {
 		var editWin = $uibModal.open({
-			templateUrl : '../page/product/productEditView.html',
+			templateUrl : 'page/product/productEditView.html',
 			controller : 'productEditCtrl',
 			backdrop : "static",
 			size : "md",
@@ -438,7 +438,7 @@ function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, G
 				}
 				
 				var viewWin = $uibModal.open({
-					templateUrl : '../page/product/productInfoView.html',
+					templateUrl : 'page/product/productInfoView.html',
 					controller : 'productInfoCtrl',
 					backdrop : "static",
 					size : "md",

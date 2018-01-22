@@ -23,5 +23,14 @@ qyjApp.service('newsService', ["$http",
 				params : {newsInfoId : newsInfoId}
 			});
 		};
+		
+		// 请求获取新闻通知内容
+		this.scanNews = function(newsInfoId) {
+			return $http({
+				method : "GET",
+				url : qyjApp.httpsHeader + "/wechat/freedom/news/scanNews",
+				params : {newsInfoId : newsInfoId}
+			});
+		};
 	}
 ]);

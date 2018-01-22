@@ -8,11 +8,11 @@
 </div>
 
 <div class="container product-container" infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
-	<div ng-repeat="product in productList" class="product-list">
+	<div ng-repeat="product in productList">
 		<a ui-sref="productContent({productId:{{product.id}}})" href="javascript:void(0);">
-			<div class="row" style="height:130px;">
+			<div class="row product-list">
 				<div class="col-xs-5" style="height:100%;">
-						<img src="{{uploadFileHeader + product.imgUrl}}" style="width:100%;height:100%;" />
+						<img src="{{uploadFileHeader + product.imgUrl}}" />
 				</div>
 				<div class="col-xs-7">
 					<h4>{{product.title}}</h4>

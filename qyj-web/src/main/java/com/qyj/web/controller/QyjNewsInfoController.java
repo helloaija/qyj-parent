@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.common.page.ResultBean;
+import com.qyj.common.utils.CommonEnums.NewsStatusEnum;
 import com.qyj.facade.QyjNewsInfoFacade;
 import com.qyj.facade.entity.QyjNewsInfoEntity;
 
@@ -52,6 +53,7 @@ public class QyjNewsInfoController extends BaseController {
 		paramMap.put("type", type);
 		paramMap.put("createTimeBegin", createTimeBegin);
 		paramMap.put("createTimeEnd", createTimeEnd);
+		paramMap.put("newsStatus", NewsStatusEnum.PUTAWAY.toString());
 		try {
 			pageParam.setOrderByCondition("create_time desc");
 			PageBean pageBean = newsInfoFacade.listNewsInfoPage(pageParam, paramMap);
@@ -80,6 +82,33 @@ public class QyjNewsInfoController extends BaseController {
 			if (StringUtils.isEmpty(newsInfo.getContent())) {
 				return new ResultBean("0002", "该新闻公告内容空空！", null);
 			}
+			return new ResultBean("0000", "请求成功", newsInfo);
+		} catch (Exception e) {
+			logger.error("getNewsInfoInfo error", e);
+			return new ResultBean("0001", "请求异常:" + e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * 浏览新闻公告，浏览的时候浏览次数+1
+	 * @param newsInfoId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/freedom/news/scanNews")
+	public ResultBean scanNews(Long newsInfoId, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			QyjNewsInfoEntity newsInfo = newsInfoFacade.getNewsInfoById(newsInfoId);
+			if (newsInfo == null) {
+				return new ResultBean("0002", "该新闻公告已经失踪！", null);
+			}
+			if (StringUtils.isEmpty(newsInfo.getContent())) {
+				return new ResultBean("0002", "该新闻公告内容空空！", null);
+			}
+			
+			newsInfoFacade.updateVisitCountOnce(newsInfoId);
 			return new ResultBean("0000", "请求成功", newsInfo);
 		} catch (Exception e) {
 			logger.error("getNewsInfoInfo error", e);

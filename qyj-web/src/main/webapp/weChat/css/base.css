@@ -66,11 +66,36 @@ body {
 }
 /* 产品列表 */
 .product-list {
-/* 	border-bottom: 1px solid #ddd; */
 	background: #ffffff;
 	margin-bottom: 5px;
+	height:130px;
+}
+.product-list img {
+	width:100%;
+	height:100%;
+	border: 1px solid #BFBFBF;
 }
 
 .img-max img {
 	max-width: 100%;
+}
+
+/* 新闻公告列表 */
+.news-list {
+	border-radius: 0px;
+	border-bottom: 1px solid #ddd;
+    border-top: none;
+    display: inline-table;
+    background: #fff;
+    color: #555;
+    padding: 10px 15px;
+    position: relative;
+    width: 100%;
+}
+.news-list img {
+	margin: auto;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    right: 10px;
 }

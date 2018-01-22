@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qyj.back.common.constant.CommonConstant;
@@ -108,7 +107,7 @@ public class QyjNewsInfoController extends BaseController {
 				newsInfoEntity.setCreateUser(userBean.getId());
 				newsInfoEntity.setVisitCount(0);
 				// 未发布状态
-				newsInfoEntity.setStatus(NewsStatusEnum.PUBLISH.toString());
+				newsInfoEntity.setNewsStatus(NewsStatusEnum.PUBLISH.toString());
 				int insertResult = newsInfoService.insert(newsInfoEntity);
 				logger.info("saveNewsInfoInfo insert NewsInfoEntity, info={}, result={}", newsInfoEntity.toString(),
 						insertResult);

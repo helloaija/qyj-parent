@@ -5,7 +5,7 @@
 		<id column="id" jdbcType="BIGINT" property="id" />
 		<result column="title" jdbcType="VARCHAR" property="title" />
 		<result column="type" jdbcType="VARCHAR" property="type" />
-		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="news_status" jdbcType="VARCHAR" property="newsStatus" />
 		<result column="description" jdbcType="VARCHAR" property="description" />
 		<result column="order_num" jdbcType="INTEGER" property="orderNum" />
 		<result column="visit_count" jdbcType="INTEGER" property="visitCount" />
@@ -19,7 +19,7 @@
 	</resultMap>
 	
 	<sql id="baseColumnList">
-		id, title, type, status, description, order_num, visit_count,
+		id, title, type, news_status, description, order_num, visit_count,
 		create_user, create_time
 	</sql>
 	
@@ -41,8 +41,8 @@
 			<if test="type != null">
 				type = #{type,jdbcType=VARCHAR},
 			</if>
-			<if test="status != null">
-				status = #{status,jdbcType=VARCHAR},
+			<if test="newsStatus != null">
+				news_status = #{newsStatus,jdbcType=VARCHAR},
 			</if>
 			<if test="description != null">
 				description = #{description,jdbcType=VARCHAR},
@@ -68,7 +68,7 @@
 
 	<update id="updateByPrimaryKey" parameterType="com.qyj.facade.entity.QyjNewsInfoEntity">
 		update qyj_news_info set title = #{title,jdbcType=VARCHAR},
-			type = #{type,jdbcType=VARCHAR}, status = #{status,jdbcType=VARCHAR},
+			type = #{type,jdbcType=VARCHAR}, news_status = #{newsStatus,jdbcType=VARCHAR},
 			description = #{description,jdbcType=VARCHAR}, order_num = #{orderNum,jdbcType=INTEGER},
 			visit_count = #{visitCount,jdbcType=INTEGER}, create_user = #{createUser,jdbcType=BIGINT},
 			create_time = #{createTime,jdbcType=TIMESTAMP}, content = #{content,jdbcType=LONGVARCHAR}
@@ -83,8 +83,8 @@
 		<if test="type != null and type != ''">
 			and type = #{type}
 		</if>
-		<if test="status != null and status != ''">
-			and status = #{status}
+		<if test="newsStatus != null and newsStatus != ''">
+			and news_status = #{newsStatus}
 		</if>
 		<if test="createTimeBegin != null">
 			<![CDATA[and create_time >= #{createTimeBegin}]]>
@@ -98,7 +98,7 @@
 		</if>
 	</sql>
 	
-	<!-- 统计产品数量 -->
+	<!-- 统计新闻公告数量 -->
 	<select id="countNewsInfo" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from qyj_news_info
 		<where>
@@ -109,7 +109,7 @@
 		</if>
 	</select>
 	
-	<!-- 获取产品数据列表 -->
+	<!-- 获取新闻公告列表 -->
 	<select id="listNewsInfo" parameterType="java.util.Map" resultMap="baseResultMap">
 		select <include refid="baseColumnList" /> from qyj_news_info
 		<where>
@@ -121,4 +121,9 @@
 		    ${pageParam.limit}
 		</if>
 	</select>
+	
+	<!-- 更新新闻公告浏览次数+1 -->
+	<update id="updateVisitCountOnce" parameterType="java.lang.Long">
+		update qyj_news_info set visit_count = visit_count + 1 where id = #{id}
+	</update>
 </mapper>

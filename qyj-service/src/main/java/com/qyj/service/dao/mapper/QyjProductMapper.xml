@@ -164,11 +164,11 @@
 		<if test="id != null">
 			and id = #{id}
 		</if>
-		<if test="product_type != null and product_type != ''">
-			and product_type = #{product_type}
+		<if test="productType != null and productType != ''">
+			and product_type = #{productType}
 		</if>
-		<if test="product_status != null and product_status != ''">
-			and product_status = #{product_status}
+		<if test="productStatus != null and productStatus != ''">
+			and product_status = #{productStatus}
 		</if>
 		<!-- Like query -->
 		<if test="title != null and title != ''">

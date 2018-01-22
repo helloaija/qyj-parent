@@ -49,7 +49,7 @@ qyjBackApp.controller('tipDialogCtrl', function ($scope, $uibModalInstance, item
 	    // 弹出对话框方法
 	    function openDialog(item) {
 	    	var modalInstance = $uibModal.open({
-	            templateUrl : '../page/common/tipDialog.html',
+	            templateUrl : 'page/common/tipDialog.html',
 	            controller : 'tipDialogCtrl', // specify controller for modal
 	            size : "md",
 	            resolve : {

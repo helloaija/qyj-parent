@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qyj.back.common.enums.CommonEnums.NewsStatusEnum;
-import com.qyj.back.common.enums.CommonEnums.ProductStatusEnum;
 import com.qyj.back.dao.QyjNewsInfoMapper;
 import com.qyj.back.entity.QyjNewsInfoEntity;
-import com.qyj.back.entity.QyjProductEntity;
 import com.qyj.back.service.QyjNewsInfoService;
 import com.qyj.back.vo.SysUserBean;
 import com.qyj.common.page.PageBean;
@@ -163,13 +161,13 @@ public class QyjNewsInfoServiceImpl implements QyjNewsInfoService {
 		
 		// 上架
 		if (NewsStatusEnum.PUTAWAY.toString().equals(newsStatus)) {
-			if (NewsStatusEnum.PUBLISH.toString().equals(newsInfo.getStatus())) {
+			if (NewsStatusEnum.PUBLISH.toString().equals(newsInfo.getNewsStatus())) {
 				Date curDate = new Date();
 				QyjNewsInfoEntity updateNewsInfo = new QyjNewsInfoEntity();
 				updateNewsInfo.setId(newsId);
 				updateNewsInfo.setUpdateTime(curDate);
 				updateNewsInfo.setUpdateUser(userBean.getId());
-				updateNewsInfo.setStatus(newsStatus);
+				updateNewsInfo.setNewsStatus(newsStatus);
 				int updateResult = newsInfoMapper.updateByPrimaryKeySelective(updateNewsInfo);
 				
 				if (updateResult == 1) {
@@ -177,10 +175,10 @@ public class QyjNewsInfoServiceImpl implements QyjNewsInfoService {
 				}
 				return Boolean.FALSE;
 			}
-			if (NewsStatusEnum.PUTAWAY.toString().equals(newsInfo.getStatus())) {
+			if (NewsStatusEnum.PUTAWAY.toString().equals(newsInfo.getNewsStatus())) {
 				throw new Exception("新闻" + newsId + "已经上架！");
 			}
-			if (NewsStatusEnum.SOLDOUT.toString().equals(newsInfo.getStatus())) {
+			if (NewsStatusEnum.SOLDOUT.toString().equals(newsInfo.getNewsStatus())) {
 				throw new Exception("新闻" + newsId + "已经下架！");
 			}
 			throw new Exception("新闻" + newsId + "更新上架状态失败！");
@@ -188,16 +186,16 @@ public class QyjNewsInfoServiceImpl implements QyjNewsInfoService {
 		
 		// 下架
 		if (NewsStatusEnum.SOLDOUT.toString().equals(newsStatus)) {
-			if (NewsStatusEnum.PUBLISH.toString().equals(newsInfo.getStatus())) {
+			if (NewsStatusEnum.PUBLISH.toString().equals(newsInfo.getNewsStatus())) {
 				throw new Exception("新闻" + newsId + "还没有上架！");
 			}
-			if (NewsStatusEnum.PUTAWAY.toString().equals(newsInfo.getStatus())) {
+			if (NewsStatusEnum.PUTAWAY.toString().equals(newsInfo.getNewsStatus())) {
 				Date curDate = new Date();
 				QyjNewsInfoEntity updateNewsInfo = new QyjNewsInfoEntity();
 				updateNewsInfo.setId(newsId);
 				updateNewsInfo.setUpdateTime(curDate);
 				updateNewsInfo.setUpdateUser(userBean.getId());
-				updateNewsInfo.setStatus(newsStatus);
+				updateNewsInfo.setNewsStatus(newsStatus);
 				int updateResult = newsInfoMapper.updateByPrimaryKeySelective(updateNewsInfo);
 				
 				if (updateResult == 1) {
@@ -205,7 +203,7 @@ public class QyjNewsInfoServiceImpl implements QyjNewsInfoService {
 				}
 				return Boolean.FALSE;
 			}
-			if (NewsStatusEnum.SOLDOUT.toString().equals(newsInfo.getStatus())) {
+			if (NewsStatusEnum.SOLDOUT.toString().equals(newsInfo.getNewsStatus())) {
 				throw new Exception("新闻" + newsId + "已经下架！");
 			}
 			throw new Exception("新闻" + newsId + "更新下架状态失败！");

@@ -44,3 +44,11 @@ qyjApp.controller("productContentCtrl", [ "$scope", "$stateParams", "productServ
 		};
 	}
 ]);
+
+qyjApp.filter("toTrust", ["$sce", 
+  	function($sce) {
+  		return function(content) {
+  			return $sce.trustAsHtml(content);
+  		}
+  	}
+]);
