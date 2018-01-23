@@ -1,7 +1,10 @@
 var qyjBackApp = angular.module("qyjBackApp");
 
-qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
-    function($scope, $filter, orderService) {
+/**
+ * 控制器-订单列表
+ */
+qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "$uibModal", "orderService",
+    function($scope, $filter, $uibModal, orderService) {
 		$scope.orderStatusList = [{"value" : "UNPAY","name":"待支付"},{"value" : "UNSEND","name":"待发货"},{"value" : "UNTAKE","name":"待收货"},
 			{"value" : "END","name":"已结束"},{"value" : "CANCEL","name":"取消订单"}];
 		// 列表属性
@@ -130,7 +133,7 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 				cellTemplate : '<div>' +
 							'<button type="button" class="btn btn-link" ng-click="grid.appScope.showOrderDetailWin(row.entity.id)">查看详情</button>' + 
 							'<button type="button" class="btn btn-link" ng-if="row.entity.status == \'UNPAY\'"' + 
-	        				' ng-click="grid.appScope.setPutawayStatus(row.entity.id)">修改金额</button>' +
+	        				' ng-click="grid.appScope.toModifyAmount(row.entity)">修改金额</button>' +
 	        				'</div>',
 				// 是否显示列头部菜单按钮
 				enableColumnMenu : false,
@@ -265,15 +268,97 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "orderService",
 			orderService.getOrderAndGoods(orderId).then(function(response) {
 				var resultBean = response.data;
 				if ("0000" == resultBean.resultCode) {
-					alert(JSON.stringify(resultBean.result));
+					$uibModal.open({
+						templateUrl : 'page/orderManage/orderDetail.html',
+						controller : 'orderDetailCtrl',
+						backdrop : "static",
+						size : "md",
+						resolve : {
+							showData : function() {
+								return resultBean.result;
+							}
+						}
+					});
 				} else {
 					alert(resultBean.resultMessage);
+				}
+			});
+		};
+		
+		// 打开修改金额窗口
+		$scope.toModifyAmount = function(orderData) {
+			$uibModal.open({
+				templateUrl : 'page/orderManage/modifyOrderAmount.html',
+				controller : 'modifyOrderCtrl',
+				backdrop : "static",
+				size : "md",
+				resolve : {
+					orderData : function() {
+						return orderData;
+					}
 				}
 			});
 		};
     }
 ]);
 
+/**
+ * 控制器-订单详情
+ */
+qyjBackApp.controller("orderDetailCtrl", ["$scope", "$uibModalInstance", "showData",
+    function($scope, $uibModalInstance, showData) {
+		// 订单详细数据
+		$scope.orderDetail = showData;
+		// 关闭窗口
+		$scope.closeWin = function() {
+			$uibModalInstance.close();
+		};
+	}                                          
+]);
+
+/**
+ * 控制器-调整订单金额
+ */
+qyjBackApp.controller("modifyOrderCtrl", ["$scope", "$uibModalInstance", "orderData",
+    function($scope, $uibModalInstance, orderData) {
+		// 调整后的金额
+		$scope.modifyAmount = orderData.modifyAmount;
+		// 订单详细数据
+		$scope.order = orderData;
+		$scope.errorText = null;
+		
+		// 调整金额
+		$scope.modify = function() {
+			if (!angular.isNumber($scope.modifyAmount)) {
+				$scope.errorText = "请输入正确的金额";
+				return;
+			}
+			if ($scope.modifyAmount <= 0) {
+				$scope.errorText = "金额不能小于0";
+				return;
+			}
+			
+			orderService.updateOrderPrice($scope.order.id, $scope.modifyAmount).then(function(response) {
+				var resultBean = response.data;
+				if ("0000" == resultBean.resultCode) {
+					
+				} else {
+					$scope.errorText = resultBean.resultMessage;
+					return;
+				}
+			});
+		};
+		
+		// 关闭窗口
+		$scope.closeWin = function() {
+			$uibModalInstance.close();
+		};
+	}                                          
+]);
+
+/**
+ * 服务-订单
+ */
 qyjBackApp.service("orderService", ["$http", 
     function($http) {
 		this.listOrderPage = function(data) {
@@ -293,9 +378,29 @@ qyjBackApp.service("orderService", ["$http",
 	            params : {orderId : orderId}
 	        });
 	    };
+	    
+	    // 调整订单价格
+	    this.updateOrderPrice = function (orderId, modifyAmount) {
+	    	return $http({  
+	            method: "POST",  
+	            url: qyjBackApp.httpsHeader + "/admin/order/updateOrderPrice",
+	            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	            data : {orderId : orderId, modifyAmount : modifyAmount},
+	            transformRequest: function(obj) {
+	                var str = [];    
+	                for (var s in obj) {
+	                  str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));    
+	                }    
+	                return str.join("&");
+	              }
+	        });
+	    }
 	}
 ]);
 
+/**
+ * 过滤器-订单状态
+ */
 qyjBackApp.filter("orderStatus", [
 	function() {
 		return function(status) {

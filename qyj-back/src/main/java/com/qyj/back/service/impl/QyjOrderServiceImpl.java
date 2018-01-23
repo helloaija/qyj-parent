@@ -29,6 +29,28 @@ public class QyjOrderServiceImpl implements QyjOrderService {
 
 	@Autowired
 	private QyjOrderMapper orderMapper;
+	
+	/**
+	 * 根据id获取订单
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public QyjOrderBean getOrderById(Long id) throws Exception {
+		if (id == null) {
+			return null;
+		}
+		
+		QyjOrderEntity orderEntity = orderMapper.getOrderById(id);
+		if (orderEntity == null) {
+			return null;
+		}
+		
+		QyjOrderBean orderBean = new QyjOrderBean();
+		BeanUtils.copyProperties(orderEntity, orderBean);
+		
+		return orderBean;
+	}
 
 	/**
 	 * 根据查询条件查询关联商品的订单
@@ -101,7 +123,7 @@ public class QyjOrderServiceImpl implements QyjOrderService {
 	 * @throws Exception
 	 */
 	@Override
-	public Boolean updateOrder(QyjOrderBean orderBean) throws Exception {
+	public int updateOrder(QyjOrderBean orderBean) throws Exception {
 		if (orderBean == null) {
 			throw new Exception("更新订单为空");
 		}
@@ -110,10 +132,7 @@ public class QyjOrderServiceImpl implements QyjOrderService {
 		BeanUtils.copyProperties(orderBean, orderEntity);
 
 		// 更新订单
-		if (orderMapper.updateOrder(orderEntity) <= 0) {
-			throw new Exception("没有更新任何订单");
-		}
-		return Boolean.TRUE;
+		return orderMapper.updateOrder(orderEntity);
 	}
 
 }

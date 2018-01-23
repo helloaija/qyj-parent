@@ -1,0 +1,99 @@
+<style>
+	.beige {
+		background-color: beige;
+	}
+	.burlywood {
+		background-color: burlywood;
+	}
+</style>
+<!-- 订单详情弹窗 -->
+<div class="modal-content" style="width: 1000px;">
+	<div class="modal-header">
+		<h5 class="modal-title" id="gridModalLabel">订单详情</h5>
+	</div>
+	<div class="modal-body" style="padding-top:0px;">
+		<div class="container-fluid bd-example-row">
+			<table class="table detail-table">
+				<tbody>
+					<tr>
+						<th style="border-top: none;" scope="row">订单编号：</th>
+						<td style="border-top: none;">{{orderDetail.orderNumber}}</td>
+						<th style="border-top: none;" scope="row">订单用户：</th>
+						<td style="border-top: none;">{{orderDetail.userId}}</td>
+						<th style="border-top: none;" scope="row">订单状态：</th>
+						<td style="border-top: none;">{{orderDetail.status | orderStatus}}</td>
+					</tr>
+					<tr>
+						<th scope="row">订单金额：</th>
+						<td>{{orderDetail.orderAmount | currency : "￥"}}</td>
+						<th scope="row">调整金额：</th>
+						<td>{{orderDetail.modifyAmount | currency : "￥"}}</td>
+						<th scope="row">创建时间：</th>
+						<td>{{orderDetail.createTime}}</td>
+					</tr>
+					<tr>
+						<th scope="row">更新时间：</th>
+						<td>{{orderDetail.updateTime}}</td>
+						<th scope="row">支付时间：</th>
+						<td>{{orderDetail.payTime}}</td>
+						<th scope="row">完成时间：</th>
+						<td>{{orderDetail.finishTime}}</td>
+					</tr>
+					<tr>
+						<th scope="row">买家名字：</th>
+						<td>{{orderDetail.buyerName}}</td>
+						<th scope="row">买家电话：</th>
+						<td>{{orderDetail.buyerPhone}}</td>
+						<th scope="row"></th>
+						<td></td>
+					</tr>
+					<tr>
+						<th scope="row">买家地址：</th>
+						<td colspan="5">{{orderDetail.buyerAddress}}</td>
+					</tr>
+					<tr>
+						<th scope="row">买家留言：</th>
+						<td colspan="5">{{orderDetail.message}}</td>
+					</tr>
+					<tr>
+						<th scope="row" style="padding-bottom: 0px;">商品列表：共{{orderDetail.orderGoodsList.length}}条</th>
+						<td colspan="5"></td>
+					</tr>
+					<tr>
+						<td colspan="6" style="padding: 0px;">
+							<table class="clear table detail-table" style="margin-bottom: 0px;" 
+								ng-repeat="goods in orderDetail.orderGoodsList">
+								<tbody>
+									<tr ng-class="{true:'beige', false:''}[$index % 2 == 0]">
+										<th scope="row">产品标题：</th>
+										<td colspan="5">{{goods.productTitle}}</td>
+									</tr>
+									<tr ng-class="{true:'beige', false:''}[$index % 2 == 0]">
+										<th scope="row">产品id：</th>
+										<td>{{goods.productId}}</td>
+										<th scope="row">产品价格：</th>
+										<td>{{goods.price}}</td>
+										<th scope="row">购买数量：</th>
+										<td>{{goods.number}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<tr ng-repeat="detail in product.productDetailList" class="info">
+						<td colspan="6">
+							<span style="font-weight: bold;text-align:right;width:125px;display:inline-block;">标签名称：</span>
+							<span style="font-weight: bold;text-align:left;width:125px;display:inline-block;">{{detail.name}}</span>
+							<span style="font-weight: bold;text-align:right;width:125px;display:inline-block;">标签序号：</span>
+							<span style="font-weight: bold;text-align:left;width:125px;display:inline-block;">{{detail.detailIndex}}</span>
+							<div ng-bind-html="detail.content | toTrust" style="padding: 0px 55px;border: 1px solid #ddd;"></div>	
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>

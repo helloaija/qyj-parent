@@ -70,7 +70,7 @@
 			<if test="orderAmount != null">
 				order_amount = #{orderAmount,jdbcType=DECIMAL},
 			</if>
-			<if test="modifyAmount != null">
+			<if test="modifyAmount != null and modifyAmount != 0">
 				modify_amount = #{modifyAmount,jdbcType=DECIMAL},
 			</if>
 			<if test="status != null">
@@ -107,6 +107,10 @@
 			</if>
 			<!-- 未支付订单可以进行取消订单、支付操作 -->
 			<if test="status != null and (status == 'CANCEL' or status == 'UNSEND')">
+				and status = 'UNPAY'
+			</if>
+			<!-- 只有未支付订单才可以调整金额 -->
+			<if test="modifyAmount != null and modifyAmount != 0">
 				and status = 'UNPAY'
 			</if>
 	</update>

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.common.page.ResultBean;
-import com.qyj.common.utils.CommonEnums.OrderStateEnum;
+import com.qyj.common.utils.CommonEnums.OrderStatusEnum;
 import com.qyj.facade.QyjOrderFacade;
 import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.facade.vo.QyjShoppingTrolleyListBean;
@@ -140,7 +140,7 @@ public class QyjOrderController extends BaseController {
 			QyjOrderBean orderBean = new QyjOrderBean();
 			orderBean.setId(orderId);
 			orderBean.setUserId(userBean.getId());
-			orderBean.setStatus(OrderStateEnum.CANCEL.toString());
+			orderBean.setStatus(OrderStatusEnum.CANCEL.toString());
 			orderBean.setUpdateTime(new Date());
 			
 			if (!orderFacade.updateOrder(orderBean)) {
@@ -176,7 +176,7 @@ public class QyjOrderController extends BaseController {
 			QyjOrderBean orderBean = new QyjOrderBean();
 			orderBean.setId(orderId);
 			orderBean.setUserId(userBean.getId());
-			orderBean.setStatus(OrderStateEnum.UNSEND.toString());
+			orderBean.setStatus(OrderStatusEnum.UNSEND.toString());
 			orderBean.setUpdateTime(new Date());
 			orderBean.setPayTime(new Date());
 			

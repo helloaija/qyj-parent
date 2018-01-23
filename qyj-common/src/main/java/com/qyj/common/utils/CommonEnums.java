@@ -35,7 +35,7 @@ public class CommonEnums {
 	 * @author shitl
 	 *
 	 */
-	public enum OrderStateEnum {
+	public enum OrderStatusEnum {
 		UNPAY, UNSEND, UNTAKE, END, CANCEL
 	}
 }

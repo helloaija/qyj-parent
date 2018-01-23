@@ -6,3 +6,11 @@ body {
 .clear { 
 	clear:both
 } 
+
+.detail-table td {
+	text-align: left;
+}
+
+.detail-table th {
+	text-align: right;
+}

@@ -1,0 +1,26 @@
+<!-- 订单详情弹窗 -->
+<div class="modal-content">
+	<div class="modal-header">
+		<h5 class="modal-title" id="gridModalLabel">调整订单金额</h5>
+	</div>
+	<div class="modal-body" style="padding-top:0px;">
+		<div class="container-fluid bd-example-row">
+			<div class="row">
+				<label class="col-md-12 col-form-label">
+					原订单金额为<h4 style="color:red;">{{order.orderAmount | currency:'￥'}}</h4>
+				</label>
+			</div>
+			<div class="row">
+				<label class="col-md-2 col-form-label">调整金额：</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="请输入调整金额" ng-model="modifyAmount" required>
+				</div>
+				<label ng-if="errorText != null && errorText != ''" class="alert-danger">{{errorText}}</label>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" ng-click="modify()">修改</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>

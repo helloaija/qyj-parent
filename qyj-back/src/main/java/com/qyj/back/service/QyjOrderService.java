@@ -12,6 +12,13 @@ import com.qyj.common.page.PageParam;
  * @author CTF_stone
  */
 public interface QyjOrderService {
+	
+	/**
+	 * 根据id获取订单
+	 * @param id
+	 * @return
+	 */
+	QyjOrderBean getOrderById(Long id) throws Exception;
 
 	/**
 	 * 根据查询条件查询关联商品的订单
@@ -36,6 +43,6 @@ public interface QyjOrderService {
 	 * @return
 	 * @throws Exception
 	 */
-	Boolean updateOrder(QyjOrderBean orderBean) throws Exception;
+	int updateOrder(QyjOrderBean orderBean) throws Exception;
 	
 }
