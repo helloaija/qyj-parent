@@ -37,7 +37,7 @@ public interface QyjOrderFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	public Boolean updateOrder(QyjOrderBean orderBean) throws Exception;
+	Boolean updateOrder(QyjOrderBean orderBean) throws Exception;
 	
 	/**
 	 * 保存购物车订单，返回订单id
@@ -47,4 +47,13 @@ public interface QyjOrderFacade {
 	 * @throws Exception
 	 */
 	Long saveTrolleyOrder(QyjOrderBean orderBean, List<QyjShoppingTrolleyBean> shoppingTrolleyBeanList) throws Exception;
+	
+	/**
+	 * 确认支付订单
+	 * @param orderId
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean confirmPayOrder(Long orderId, Long userId) throws Exception;
 }

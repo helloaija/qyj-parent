@@ -47,4 +47,13 @@ public interface QyjOrderBiz {
 	 * @throws Exception
 	 */
 	Long saveTrolleyOrder(QyjOrderBean orderBean, List<QyjShoppingTrolleyBean> shoppingTrolleyBeanList) throws Exception;
+	
+	/**
+	 * 确认支付订单
+	 * @param orderId
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean confirmPayOrder(Long orderId, Long userId) throws Exception;
 }

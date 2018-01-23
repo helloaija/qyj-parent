@@ -36,8 +36,8 @@
 		<if test="userId != null">
 			and user_id = #{userId}
 		</if>
-		<if test="status != null">
-			and status = #{state}
+		<if test="status != null and status != ''">
+			and status = #{status}
 		</if>
 	</sql>
 

@@ -5,17 +5,18 @@
 	</div>
 	<div class="modal-body" style="padding-top:0px;">
 		<div class="container-fluid bd-example-row">
+			<label ng-if="errorText != null && errorText != ''" class="alert-danger text-center" style="width:100%;">{{errorText}}</label>
 			<div class="row">
-				<label class="col-md-12 col-form-label">
-					原订单金额为<h4 style="color:red;">{{order.orderAmount | currency:'￥'}}</h4>
-				</label>
+				<label class="col-md-3 text-right" style="padding:15px 0px;">调整金额：</label>
+				<div class="col-md-9" style="padding:10px 0px;">
+					<input class="form-control" placeholder="请输入调整金额" ng-model="modifyAmount" ng-focus="errorText = null">
+				</div>
 			</div>
 			<div class="row">
-				<label class="col-md-2 col-form-label">调整金额：</label>
-				<div class="col-md-10">
-					<input class="form-control" placeholder="请输入调整金额" ng-model="modifyAmount" required>
+				<div class="col-md-offset-3 col-md-9" style="padding:0px;">
+					<span>原订单金额为</span>
+					<span style="color:red;">{{order.orderAmount | currency:'￥'}}</span>
 				</div>
-				<label ng-if="errorText != null && errorText != ''" class="alert-danger">{{errorText}}</label>
 			</div>
 		</div>
 	</div>

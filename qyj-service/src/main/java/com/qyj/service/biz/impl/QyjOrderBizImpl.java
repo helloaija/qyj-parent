@@ -16,17 +16,19 @@ import org.springframework.stereotype.Service;
 
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
-import com.qyj.common.utils.CommonEnums.OrderStateEnum;
+import com.qyj.common.utils.CommonEnums.OrderStatusEnum;
 import com.qyj.common.utils.CommonEnums.ProductStatusEnum;
 import com.qyj.common.utils.CommonUtils;
 import com.qyj.facade.entity.QyjOrderEntity;
 import com.qyj.facade.entity.QyjOrderGoodsEntity;
+import com.qyj.facade.entity.QyjProductEntity;
 import com.qyj.facade.entity.QyjShoppingTrolleyEntity;
 import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 import com.qyj.service.biz.QyjOrderBiz;
 import com.qyj.service.dao.QyjOrderGoodsMapper;
 import com.qyj.service.dao.QyjOrderMapper;
+import com.qyj.service.dao.QyjProductMapper;
 import com.qyj.service.dao.QyjShoppingTrolleyMapper;
 
 /**
@@ -46,6 +48,9 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 	
 	@Autowired
 	private QyjOrderGoodsMapper orderGoodsMapper;
+	
+	@Autowired
+	private QyjProductMapper productMapper;
 	
 	/**
 	 * 根据查询条件查询关联商品的订单
@@ -157,10 +162,13 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 		List<QyjShoppingTrolleyEntity> shoppingTrolleyEntityList = shoppingTrolleyMapper.listShoppingTrolleyByMap(paramMap);
 		// 订单对应的商品列表
 		List<QyjOrderGoodsEntity> orderGoodsEntityList = new ArrayList<QyjOrderGoodsEntity>();
+		// 需要更新未支付量的产品
+		List<QyjProductEntity> productEntityList = new ArrayList<QyjProductEntity>();
 		
 		// 订单下商品总价
 		BigDecimal totalPrice = new BigDecimal(0);
 		QyjOrderGoodsEntity orderGoodsEntity = null;
+		QyjProductEntity productEntity = null;
 		for (QyjShoppingTrolleyEntity shoppingTrolleyEntity : shoppingTrolleyEntityList) {
 			if (StringUtils.isEmpty(shoppingTrolleyEntity.getProductTitle())) {
 				throw new Exception("商品[" + shoppingTrolleyEntity.getProductId() + "]不存在或已经过期");
@@ -185,6 +193,11 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 			}
 			
 			orderGoodsEntityList.add(orderGoodsEntity);
+			
+			productEntity = new QyjProductEntity();
+			productEntity.setId(shoppingTrolleyEntity.getProductId());
+			productEntity.setUnpayNumber(shoppingTrolleyEntity.getNumber());
+			productEntityList.add(productEntity);
 		}
 		
 		Date nowDate = new Date();
@@ -195,7 +208,7 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 		orderEntity.setUpdateTime(nowDate);
 		orderEntity.setOrderNumber(CommonUtils.getUid().toString());
 		// 订单状态为未支付
-		orderEntity.setStatus(OrderStateEnum.UNPAY.toString());
+		orderEntity.setStatus(OrderStatusEnum.UNPAY.toString());
 		// 设置订单价格
 		orderEntity.setOrderAmount(totalPrice);
 		orderEntity.setModifyAmount(totalPrice);
@@ -216,7 +229,58 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 		
 		// 生成订单后删除购物车记录
 		shoppingTrolleyMapper.batchDelShoppingTrolley(ids, orderBean.getUserId());
+		// 批量更新产品卖出数量
+		productMapper.updateBatchSoldNumber(productEntityList);
 		
 		return orderEntity.getId();
+	}
+	
+	/**
+	 * 确认支付订单
+	 * @param orderId
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean confirmPayOrder(Long orderId, Long userId) throws Exception {
+		QyjOrderEntity orderEntity = new QyjOrderEntity();
+		orderEntity.setId(orderId);
+		orderEntity.setUserId(userId);
+		orderEntity.setStatus(OrderStatusEnum.UNPAY.toString());
+		// 查询订单已经订单下的商品
+		List<QyjOrderEntity> orderEntityList = orderMapper.listOrderAndGoodsByModel(orderEntity);
+		
+		if (orderEntityList == null || orderEntityList.isEmpty()) {
+			throw new Exception("没要找到未支付的对应订单，或该订单已经取消");
+		}
+		if (orderEntityList.get(0).getOrderGoodsList() == null || orderEntityList.get(0).getOrderGoodsList().isEmpty()) {
+			throw new Exception("该订单没有任何商品");
+		}
+		
+		// 更新订单信息
+		QyjOrderEntity updateOrderEntity = new QyjOrderEntity();
+		updateOrderEntity.setId(orderId);
+		updateOrderEntity.setUserId(userId);
+		updateOrderEntity.setStatus(OrderStatusEnum.UNSEND.toString());
+		updateOrderEntity.setUpdateTime(new Date());
+		updateOrderEntity.setPayTime(new Date());
+		if (orderMapper.updateOrder(orderEntity) <= 0) {
+			throw new Exception("支付订单失败，订单更新失败");
+		}
+		
+		// 需要更新售出量的产品
+		List<QyjProductEntity> productEntityList = new ArrayList<QyjProductEntity>();
+		QyjProductEntity productEntity = null;
+		for (QyjOrderGoodsEntity orderGoodsEntity : orderEntityList.get(0).getOrderGoodsList()) {
+			productEntity = new QyjProductEntity();
+			productEntity.setId(orderGoodsEntity.getProductId());
+			productEntity.setUnpayNumber(orderGoodsEntity.getNumber() * -1);
+			productEntity.setSoldNumber(orderGoodsEntity.getNumber());
+			productEntityList.add(productEntity);
+		}
+		
+		productMapper.updateBatchSoldNumber(productEntityList);
+		
+		return Boolean.TRUE;
 	}
 }

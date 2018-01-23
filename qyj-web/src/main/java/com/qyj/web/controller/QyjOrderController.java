@@ -173,14 +173,7 @@ public class QyjOrderController extends BaseController {
 				return new ResultBean("0002", "支付订单id为空，支付失败", null);
 			}
 			
-			QyjOrderBean orderBean = new QyjOrderBean();
-			orderBean.setId(orderId);
-			orderBean.setUserId(userBean.getId());
-			orderBean.setStatus(OrderStatusEnum.UNSEND.toString());
-			orderBean.setUpdateTime(new Date());
-			orderBean.setPayTime(new Date());
-			
-			if (!orderFacade.updateOrder(orderBean)) {
+			if (!orderFacade.confirmPayOrder(orderId, userBean.getId())) {
 				return new ResultBean("0002", "支付订单失败", null);
 			}
 			

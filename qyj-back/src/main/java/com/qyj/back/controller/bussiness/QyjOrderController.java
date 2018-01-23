@@ -1,6 +1,7 @@
 package com.qyj.back.controller.bussiness;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,11 +128,12 @@ public class QyjOrderController extends BaseController {
 				return new ResultBean("0002", "订单" + orderId + "不是未支付状态", null);
 			}
 			
-			QyjOrderBean queryBean = new QyjOrderBean();
-			queryBean.setId(orderId);
-			queryBean.setModifyAmount(modifyAmount);
+			QyjOrderBean updateBean = new QyjOrderBean();
+			updateBean.setId(orderId);
+			updateBean.setModifyAmount(modifyAmount);
+			updateBean.setUpdateTime(new Date());
 			// 更新订单金额
-			if (orderService.updateOrder(orderBean) <= 0) {
+			if (orderService.updateOrder(updateBean) <= 0) {
 				return new ResultBean("0002", "订单" + orderId + "更新价格失败", null);
 			}
 			

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
-import com.qyj.common.utils.CommonEnums.OrderStateEnum;
+import com.qyj.common.utils.CommonEnums.OrderStatusEnum;
 import com.qyj.common.utils.CommonEnums.ProductStatusEnum;
 import com.qyj.common.utils.CommonUtils;
 import com.qyj.facade.entity.QyjFileInfoEntity;
@@ -231,6 +231,9 @@ public class QyjProductBizImpl implements QyjProductBiz {
 			throw new Exception("商品信息为空");
 		}
 		
+		// 需要更新未支付量的产品
+		List<QyjProductEntity> productEntityList = new ArrayList<QyjProductEntity>();
+				
 		// 订单下商品总价
 		BigDecimal totalPrice = new BigDecimal(0);
 		QyjProductEntity productEntity = null;
@@ -254,6 +257,11 @@ public class QyjProductBizImpl implements QyjProductBiz {
 				// 计算总价
 				totalPrice = totalPrice.add(productEntity.getPrice()).multiply(new BigDecimal(orderGoodsBean.getNumber()));
 			}
+			
+			productEntity = new QyjProductEntity();
+			productEntity.setId(orderGoodsBean.getProductId());
+			productEntity.setUnpayNumber(orderGoodsBean.getNumber());
+			productEntityList.add(productEntity);
 		}
 		
 		Date nowDate = new Date();
@@ -264,7 +272,7 @@ public class QyjProductBizImpl implements QyjProductBiz {
 		orderEntity.setUpdateTime(nowDate);
 		orderEntity.setOrderNumber(CommonUtils.getUid().toString());
 		// 订单状态为未支付
-		orderEntity.setStatus(OrderStateEnum.UNPAY.toString());
+		orderEntity.setStatus(OrderStatusEnum.UNPAY.toString());
 		// 设置订单价格
 		orderEntity.setOrderAmount(totalPrice);
 		orderEntity.setModifyAmount(totalPrice);
@@ -289,6 +297,8 @@ public class QyjProductBizImpl implements QyjProductBiz {
 		if (orderGoodsMapper.insertOrderGoodsList(orderGoodsEntityList) <= 0) {
 			throw new Exception("保存订单商品失败");
 		}
+		
+		productMapper.updateBatchSoldNumber(productEntityList);
 		
 		return orderBean.getId();
 	}

@@ -287,7 +287,7 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "$uibModal", "order
 		
 		// 打开修改金额窗口
 		$scope.toModifyAmount = function(orderData) {
-			$uibModal.open({
+			var editWin = $uibModal.open({
 				templateUrl : 'page/orderManage/modifyOrderAmount.html',
 				controller : 'modifyOrderCtrl',
 				backdrop : "static",
@@ -297,6 +297,12 @@ qyjBackApp.controller("orderListCtrl", ["$scope", "$filter", "$uibModal", "order
 						return orderData;
 					}
 				}
+			});
+			
+			editWin.result.then(function(result) {
+				// 加载第一页数据
+				loadPage(1, $scope.gridOptions.paginationPageSize);
+			}, function(reason) {
 			});
 		};
     }
@@ -319,8 +325,8 @@ qyjBackApp.controller("orderDetailCtrl", ["$scope", "$uibModalInstance", "showDa
 /**
  * 控制器-调整订单金额
  */
-qyjBackApp.controller("modifyOrderCtrl", ["$scope", "$uibModalInstance", "orderData",
-    function($scope, $uibModalInstance, orderData) {
+qyjBackApp.controller("modifyOrderCtrl", ["$scope", "$uibModalInstance", "orderService", "orderData",
+    function($scope, $uibModalInstance, orderService, orderData) {
 		// 调整后的金额
 		$scope.modifyAmount = orderData.modifyAmount;
 		// 订单详细数据
@@ -329,19 +335,23 @@ qyjBackApp.controller("modifyOrderCtrl", ["$scope", "$uibModalInstance", "orderD
 		
 		// 调整金额
 		$scope.modify = function() {
-			if (!angular.isNumber($scope.modifyAmount)) {
+			if (!angular.isNumber($scope.modifyAmount * 1) || isNaN($scope.modifyAmount * 1)) {
 				$scope.errorText = "请输入正确的金额";
 				return;
 			}
-			if ($scope.modifyAmount <= 0) {
+			if ($scope.modifyAmount * 1 <= 0) {
 				$scope.errorText = "金额不能小于0";
+				return;
+			}
+			if ($scope.modifyAmount * 1 == orderData.modifyAmount) {
+				$scope.errorText = "调整金额未发生变化";
 				return;
 			}
 			
 			orderService.updateOrderPrice($scope.order.id, $scope.modifyAmount).then(function(response) {
 				var resultBean = response.data;
 				if ("0000" == resultBean.resultCode) {
-					
+					$uibModalInstance.close();
 				} else {
 					$scope.errorText = resultBean.resultMessage;
 					return;
@@ -351,7 +361,7 @@ qyjBackApp.controller("modifyOrderCtrl", ["$scope", "$uibModalInstance", "orderD
 		
 		// 关闭窗口
 		$scope.closeWin = function() {
-			$uibModalInstance.close();
+			$uibModalInstance.dismiss('cancel');
 		};
 	}                                          
 ]);

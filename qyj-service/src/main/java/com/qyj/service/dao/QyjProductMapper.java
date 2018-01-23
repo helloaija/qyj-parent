@@ -67,4 +67,11 @@ public interface QyjProductMapper {
 	 * @return
 	 */
 	List<QyjProductEntity> listProduct(Map<String, Object> paramMap);
+	
+	/**
+	 * 批量更新卖出数量
+	 * @param paramMap
+	 * @return
+	 */
+	int updateBatchSoldNumber(List<QyjProductEntity> beanList);
 }

@@ -75,5 +75,16 @@ public class QyjOrderFacadeImpl implements QyjOrderFacade {
 	public Long saveTrolleyOrder(QyjOrderBean orderBean, List<QyjShoppingTrolleyBean> shoppingTrolleyBeanList) throws Exception {
 		return orderBiz.saveTrolleyOrder(orderBean, shoppingTrolleyBeanList);
 	}
+	
+	/**
+	 * 确认支付订单
+	 * @param orderId
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean confirmPayOrder(Long orderId, Long userId) throws Exception {
+		return orderBiz.confirmPayOrder(orderId, userId);
+	}
 
 }

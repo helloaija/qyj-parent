@@ -8,6 +8,8 @@
 		<result column="product_type" jdbcType="VARCHAR" property="productType" />
 		<result column="product_status" jdbcType="VARCHAR" property="productStatus" />
 		<result column="number" jdbcType="INTEGER" property="number" />
+		<result column="sold_number" property="soldNumber" />
+		<result column="unpay_number" property="unpayNumber" />
 		<result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
 		<result column="create_user" jdbcType="BIGINT" property="createUser" />
 		<result column="create_time" jdbcType="DATE" property="createTime" />
@@ -18,7 +20,7 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id, title, price, product_type, product_status, number, img_url,
+		id, title, price, product_type, product_status, number, sold_number, unpay_number, img_url,
 		create_user, create_time, update_user, update_time, version
 	</sql>
 
@@ -199,4 +201,22 @@
 		    ${pageParam.limit}
 		</if>
 	</select>
+	
+	<!-- 批量更新卖出数量 -->
+	<update id="updateBatchProductNumber" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			update qyj_product set 
+				<if test="soldNumber != null">
+					number = number - #{item.soldNumber},
+					sold_number = sold_number + #{item.soldNumber},
+					version = version + 1
+				</if>
+				<if test="unpayNumber != null">
+					sold_number = sold_number + #{item.unpayNumber},
+					version = version + 1
+				</if>
+			where id = #{item.id} and product_status='PUTAWAY'
+		</foreach>
+		
+	</update>
 </mapper>

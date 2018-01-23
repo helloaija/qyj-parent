@@ -23,6 +23,12 @@ public class QyjProductEntity extends BaseEntity {
 	private String productStatus;
 
 	private Integer number;
+	
+	/** 确认卖出数量 */
+	private Integer soldNumber;
+	
+	/** 未支付数量，已经下单但是还没有支付 */
+	private Integer unpayNumber;
 
 	/** 列表展示图片路径 */
 	private String imgUrl;
@@ -73,6 +79,22 @@ public class QyjProductEntity extends BaseEntity {
 		this.number = number;
 	}
 
+	public Integer getSoldNumber() {
+		return soldNumber;
+	}
+
+	public void setSoldNumber(Integer soldNumber) {
+		this.soldNumber = soldNumber;
+	}
+
+	public Integer getUnpayNumber() {
+		return unpayNumber;
+	}
+
+	public void setUnpayNumber(Integer unpayNumber) {
+		this.unpayNumber = unpayNumber;
+	}
+
 	public Long getCreateUser() {
 		return createUser;
 	}
@@ -108,8 +130,10 @@ public class QyjProductEntity extends BaseEntity {
 	@Override
 	public String toString() {
 		return "QyjProductEntity [title=" + title + ", price=" + price + ", productType=" + productType
-				+ ", productStatus=" + productStatus + ", number=" + number + ", imgUrl=" + imgUrl + ", createUser="
-				+ createUser + ", updateUser=" + updateUser + ", updateTime=" + updateTime + "]";
+				+ ", productStatus=" + productStatus + ", number=" + number + ", soldNumber=" + soldNumber
+				+ ", unpayNumber=" + unpayNumber + ", imgUrl=" + imgUrl + ", createUser=" + createUser + ", updateUser="
+				+ updateUser + ", updateTime=" + updateTime + "]";
 	}
+
 
 }
