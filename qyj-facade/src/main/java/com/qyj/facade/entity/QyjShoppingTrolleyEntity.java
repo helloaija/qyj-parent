@@ -32,6 +32,15 @@ public class QyjShoppingTrolleyEntity implements Serializable {
 	/** 产品价格 */
 	private BigDecimal productPrice;
 	
+	/** 产品实际剩余数量 */
+	private Integer productNumber;
+	
+	/** 产品实际卖出数量 */
+	private Integer productSoldNumber;
+	
+	/** 产品未支付数量 */
+	private Integer productUnpayNumber;
+	
 	/** 产品状态 */
 	private String productStatus;
 	
@@ -94,6 +103,30 @@ public class QyjShoppingTrolleyEntity implements Serializable {
 		this.productPrice = productPrice;
 	}
 
+	public Integer getProductNumber() {
+		return productNumber;
+	}
+
+	public void setProductNumber(Integer productNumber) {
+		this.productNumber = productNumber;
+	}
+
+	public Integer getProductSoldNumber() {
+		return productSoldNumber;
+	}
+
+	public void setProductSoldNumber(Integer productSoldNumber) {
+		this.productSoldNumber = productSoldNumber;
+	}
+
+	public Integer getProductUnpayNumber() {
+		return productUnpayNumber;
+	}
+
+	public void setProductUnpayNumber(Integer productUnpayNumber) {
+		this.productUnpayNumber = productUnpayNumber;
+	}
+
 	public String getProductStatus() {
 		return productStatus;
 	}
@@ -112,8 +145,12 @@ public class QyjShoppingTrolleyEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "QyjShoppingTrolley [id=" + id + ", userId=" + userId + ", productId=" + productId + ", number=" + number
-				+ ", createTime=" + createTime + "]";
+		return "QyjShoppingTrolleyEntity [id=" + id + ", userId=" + userId + ", productId=" + productId + ", number="
+				+ number + ", createTime=" + createTime + ", productTitle=" + productTitle + ", productPrice="
+				+ productPrice + ", productNumber=" + productNumber + ", productSoldNumber=" + productSoldNumber
+				+ ", productUnpayNumber=" + productUnpayNumber + ", productStatus=" + productStatus + ", productImgUrl="
+				+ productImgUrl + "]";
 	}
+	
 }
 

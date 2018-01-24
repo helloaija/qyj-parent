@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.facade.QyjProductFacade;
-import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.facade.vo.QyjProductBean;
 import com.qyj.service.biz.QyjProductBiz;
 
@@ -48,17 +47,6 @@ public class QyjProductFacadeImpl implements QyjProductFacade {
 	@Override
 	public QyjProductBean getProductInfoById(Long productId) throws Exception {
 		return productBiz.getProductInfoById(productId);
-	}
-	
-	/**
-	 * 保存订单，返回主键id
-	 * @param orderBean
-	 * @return
-	 * @throws Exception
-	 */
-	@Override
-	public Long saveOrder(QyjOrderBean orderBean) throws Exception {
-		return productBiz.saveOrder(orderBean);
 	}
 
 }

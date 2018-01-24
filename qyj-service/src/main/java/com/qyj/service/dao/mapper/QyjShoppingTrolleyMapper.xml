@@ -63,7 +63,8 @@
 	<!-- 根据查询条件获取购物车记录 -->
 	<select id="listShoppingTrolleyByMap" resultType="com.qyj.facade.entity.QyjShoppingTrolleyEntity">
 		select s.id, s.product_id as productId, s.number, p.title as productTitle, p.price as productPrice, 
-			p.product_status as productStatus, p.img_url as productImgUrl
+			p.product_status as productStatus, p.img_url as productImgUrl, p.number as productNumber,
+			p.sold_number as productSoleNumber, p.unpay_number as productUnpayNumber
 		from qyj_shopping_trolley s 
 		left join qyj_product p on s.product_id = p.id where 1 = 1 
 		<if test="productStatus != null and productStatus != ''">

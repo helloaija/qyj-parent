@@ -77,14 +77,37 @@ public class QyjOrderFacadeImpl implements QyjOrderFacade {
 	}
 	
 	/**
+	 * 保存关联的商品订单，不关联购物车，返回主键id
+	 * @param orderBean
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Long saveGoodsOrder(QyjOrderBean orderBean) throws Exception {
+		return orderBiz.saveGoodsOrder(orderBean);
+	}
+	
+	/**
 	 * 确认支付订单
 	 * @param orderId
 	 * @param userId
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public Boolean confirmPayOrder(Long orderId, Long userId) throws Exception {
 		return orderBiz.confirmPayOrder(orderId, userId);
 	}
 
+	/**
+	 * 取消订单
+	 * @param orderId
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public Boolean cancelOrder(Long orderId, Long userId) throws Exception {
+		return orderBiz.cancelOrder(orderId, userId);
+	}
 }

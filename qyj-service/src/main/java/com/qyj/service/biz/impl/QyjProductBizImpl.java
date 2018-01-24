@@ -1,8 +1,6 @@
 package com.qyj.service.biz.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,23 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
-import com.qyj.common.utils.CommonEnums.OrderStatusEnum;
-import com.qyj.common.utils.CommonEnums.ProductStatusEnum;
-import com.qyj.common.utils.CommonUtils;
 import com.qyj.facade.entity.QyjFileInfoEntity;
-import com.qyj.facade.entity.QyjOrderEntity;
-import com.qyj.facade.entity.QyjOrderGoodsEntity;
 import com.qyj.facade.entity.QyjProductDetailEntity;
 import com.qyj.facade.entity.QyjProductEntity;
 import com.qyj.facade.vo.QyjFileInfoBean;
-import com.qyj.facade.vo.QyjOrderBean;
-import com.qyj.facade.vo.QyjOrderGoodsBean;
 import com.qyj.facade.vo.QyjProductBean;
 import com.qyj.facade.vo.QyjProductDetailBean;
 import com.qyj.service.biz.QyjProductBiz;
 import com.qyj.service.dao.QyjFileInfoMapper;
-import com.qyj.service.dao.QyjOrderGoodsMapper;
-import com.qyj.service.dao.QyjOrderMapper;
 import com.qyj.service.dao.QyjProductDetailMapper;
 import com.qyj.service.dao.QyjProductMapper;
 
@@ -51,12 +40,6 @@ public class QyjProductBizImpl implements QyjProductBiz {
 	
 	@Autowired
 	private QyjProductDetailMapper productDetailMapper;
-	
-	@Autowired
-	private QyjOrderMapper orderMapper;
-	
-	@Autowired
-	private QyjOrderGoodsMapper orderGoodsMapper;
 	
 	private static final Logger logger = LoggerFactory.getLogger(QyjProductBizImpl.class);
 
@@ -212,94 +195,5 @@ public class QyjProductBizImpl implements QyjProductBiz {
 		}
 
 		return productBean;
-	}
-	
-	/**
-	 * 保存订单，返回主键id
-	 * @param orderBean
-	 * @return
-	 * @throws Exception
-	 */
-	@Override
-	public Long saveOrder(QyjOrderBean orderBean) throws Exception {
-		if (orderBean == null) {
-			throw new Exception("订单信息为空");
-		}
-		
-		List<QyjOrderGoodsBean> orderGoodsBeanList = orderBean.getOrderGoodsList();
-		if (orderGoodsBeanList == null || orderGoodsBeanList.isEmpty()) {
-			throw new Exception("商品信息为空");
-		}
-		
-		// 需要更新未支付量的产品
-		List<QyjProductEntity> productEntityList = new ArrayList<QyjProductEntity>();
-				
-		// 订单下商品总价
-		BigDecimal totalPrice = new BigDecimal(0);
-		QyjProductEntity productEntity = null;
-		for (QyjOrderGoodsBean orderGoodsBean : orderGoodsBeanList) {
-			// 查询对应的产品信息
-			productEntity = productMapper.selectByPrimaryKey(orderGoodsBean.getProductId());
-			if (productEntity == null) {
-				throw new Exception("商品[" + orderGoodsBean.getProductId() + "]不存在或已经过期");
-			}
-			if (!ProductStatusEnum.PUTAWAY.toString().equals(productEntity.getProductStatus())) {
-				throw new Exception("商品[" + productEntity.getTitle() + "]已经下架");
-			}
-			if (orderGoodsBean.getNumber() == null || orderGoodsBean.getNumber() == 0) {
-				throw new Exception("商品[" + productEntity.getTitle() + "]没有填写购买数量");
-			}
-			// 获取商品价格
-			orderGoodsBean.setPrice(productEntity.getPrice());
-			// 产品标题
-			orderGoodsBean.setProductTitle(productEntity.getTitle());
-			if (productEntity.getPrice() != null) {
-				// 计算总价
-				totalPrice = totalPrice.add(productEntity.getPrice()).multiply(new BigDecimal(orderGoodsBean.getNumber()));
-			}
-			
-			productEntity = new QyjProductEntity();
-			productEntity.setId(orderGoodsBean.getProductId());
-			productEntity.setUnpayNumber(orderGoodsBean.getNumber());
-			productEntityList.add(productEntity);
-		}
-		
-		Date nowDate = new Date();
-		
-		QyjOrderEntity orderEntity = new QyjOrderEntity();
-		BeanUtils.copyProperties(orderBean, orderEntity);
-		orderEntity.setCreateTime(nowDate);
-		orderEntity.setUpdateTime(nowDate);
-		orderEntity.setOrderNumber(CommonUtils.getUid().toString());
-		// 订单状态为未支付
-		orderEntity.setStatus(OrderStatusEnum.UNPAY.toString());
-		// 设置订单价格
-		orderEntity.setOrderAmount(totalPrice);
-		orderEntity.setModifyAmount(totalPrice);
-		// 保存订单
-		if (orderMapper.insertOrder(orderEntity) <= 0) {
-			throw new Exception("保存订单失败");
-		}
-		
-		orderBean.setId(orderEntity.getId());
-		
-		QyjOrderGoodsEntity orderGoodsEntity = null;
-		List<QyjOrderGoodsEntity> orderGoodsEntityList = new ArrayList<QyjOrderGoodsEntity>();
-		// 设置商品信息
-		for (QyjOrderGoodsBean orderGoodsBean : orderGoodsBeanList) {
-			orderGoodsEntity = new QyjOrderGoodsEntity();
-			BeanUtils.copyProperties(orderGoodsBean, orderGoodsEntity);
-			orderGoodsEntity.setCreateTime(nowDate);
-			orderGoodsEntity.setOrderId(orderEntity.getId());
-			orderGoodsEntity.setUserId(orderEntity.getUserId());
-			orderGoodsEntityList.add(orderGoodsEntity);
-		}
-		if (orderGoodsMapper.insertOrderGoodsList(orderGoodsEntityList) <= 0) {
-			throw new Exception("保存订单商品失败");
-		}
-		
-		productMapper.updateBatchSoldNumber(productEntityList);
-		
-		return orderBean.getId();
 	}
 }

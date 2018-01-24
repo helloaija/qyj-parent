@@ -164,7 +164,7 @@ public class QyjProductController extends BaseController {
 			orderBean.setUserId(userBean.getId());
 			
 			// 保存订单
-			Long orderId = productFacade.saveOrder(orderBean);
+			Long orderId = orderFacade.saveGoodsOrder(orderBean);
 			
 			if (orderId != null) {
 				QyjOrderBean queryBean = new QyjOrderBean();

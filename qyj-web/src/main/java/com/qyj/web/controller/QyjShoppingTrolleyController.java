@@ -20,7 +20,6 @@ import com.qyj.common.utils.CommonEnums.ProductStatusEnum;
 import com.qyj.facade.QyjAddressFacade;
 import com.qyj.facade.QyjShoppingTrolleyFacade;
 import com.qyj.facade.vo.QyjAddressBean;
-import com.qyj.facade.vo.QyjProductBean;
 import com.qyj.facade.vo.QyjShoppingTrolleyBean;
 import com.qyj.facade.vo.QyjShoppingTrolleyListBean;
 import com.qyj.facade.vo.QyjUserBean;

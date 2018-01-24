@@ -56,4 +56,21 @@ public interface QyjOrderBiz {
 	 * @throws Exception
 	 */
 	Boolean confirmPayOrder(Long orderId, Long userId) throws Exception;
+	
+	/**
+	 * 保存关联的商品订单，不关联购物车，返回主键id
+	 * @param orderBean
+	 * @return
+	 * @throws Exception
+	 */
+	Long saveGoodsOrder(QyjOrderBean orderBean) throws Exception;
+	
+	/**
+	 * 取消订单
+	 * @param orderId
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean cancelOrder(Long orderId, Long userId) throws Exception;
 }

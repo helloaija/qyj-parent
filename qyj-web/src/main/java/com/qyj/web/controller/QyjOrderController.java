@@ -1,6 +1,5 @@
 package com.qyj.web.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 import com.qyj.common.page.ResultBean;
-import com.qyj.common.utils.CommonEnums.OrderStatusEnum;
 import com.qyj.facade.QyjOrderFacade;
 import com.qyj.facade.vo.QyjOrderBean;
 import com.qyj.facade.vo.QyjShoppingTrolleyListBean;
@@ -137,13 +135,7 @@ public class QyjOrderController extends BaseController {
 				return new ResultBean("0002", "取消订单id为空", null);
 			}
 			
-			QyjOrderBean orderBean = new QyjOrderBean();
-			orderBean.setId(orderId);
-			orderBean.setUserId(userBean.getId());
-			orderBean.setStatus(OrderStatusEnum.CANCEL.toString());
-			orderBean.setUpdateTime(new Date());
-			
-			if (!orderFacade.updateOrder(orderBean)) {
+			if (!orderFacade.cancelOrder(orderId, userBean.getId())) {
 				return new ResultBean("0002", "更新订单失败", null);
 			}
 			
