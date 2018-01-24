@@ -217,7 +217,7 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 				// 生成订单后删除购物车记录
 				shoppingTrolleyMapper.batchDelShoppingTrolley(ids, orderBean.getUserId());
 				// 批量更新产品卖出数量
-				productMapper.updateBatchSoldNumber(productEntityList);
+				productMapper.updateBatchProductNumber(productEntityList);
 			} finally {
 				// 释放锁
 				LOCK_SAVE_ORDER.unlock();
@@ -302,7 +302,7 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 			productEntityList.add(productEntity);
 		}
 
-		productMapper.updateBatchSoldNumber(productEntityList);
+		productMapper.updateBatchProductNumber(productEntityList);
 		
 		return Boolean.TRUE;
 	}
@@ -362,7 +362,7 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 					productEntity.setUnpayNumber(orderGoodsBean.getNumber());
 					productEntityList.add(productEntity);
 				}
-				productMapper.updateBatchSoldNumber(productEntityList);
+				productMapper.updateBatchProductNumber(productEntityList);
 			} finally {
 				// 释放锁
 				LOCK_SAVE_ORDER.unlock();
@@ -441,7 +441,7 @@ public class QyjOrderBizImpl implements QyjOrderBiz {
 			productEntityList.add(productEntity);
 		}
 		
-		productMapper.updateBatchSoldNumber(productEntityList);
+		productMapper.updateBatchProductNumber(productEntityList);
 		
 		return Boolean.TRUE;
 	}

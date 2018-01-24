@@ -28,6 +28,17 @@
 			</if>
 	</delete>
 	
+	<!-- 根据查询条件查询 -->
+	<select id="listBaseShoppingTrolleyByModel" parameterType="com.qyj.facade.entity.QyjShoppingTrolleyEntity" resultMap="baseResultMap">
+		select <include refid="baseColumns"/> from qyj_shopping_trolley where 1=1
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="productId != null">
+			and product_id = #{productId}
+		</if>
+	</select>
+	
 	<!-- 根据userId获取购物车记录列表 -->
 	<select id="listShoppingTrolleyByUserId" parameterType="java.lang.Long" resultType="com.qyj.facade.entity.QyjShoppingTrolleyEntity">
 		select s.id, s.product_id as productId, s.number, p.title as productTitle, p.price as productPrice, p.img_url as productImgUrl
@@ -58,6 +69,11 @@
 					and user_id = #{item.userId}
 				</if>
 		</foreach>
+	</update>
+	
+	<!-- 添加购物车数量 -->
+	<update id="addShoppingTrolleyNumber" parameterType="java.util.Map">
+		update qyj_shopping_trolley set number = number + #{number} where user_id = #{userId} and product_id = #{productId}
 	</update>
 	
 	<!-- 根据查询条件获取购物车记录 -->

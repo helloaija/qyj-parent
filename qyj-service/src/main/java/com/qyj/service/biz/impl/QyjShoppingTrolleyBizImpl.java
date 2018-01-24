@@ -35,14 +35,33 @@ public class QyjShoppingTrolleyBizImpl implements QyjShoppingTrolleyBiz {
 		if (bean == null) {
 			throw new Exception("添加的购物车记录为空");
 		}
-		QyjShoppingTrolleyEntity entity = new QyjShoppingTrolleyEntity();
-		BeanUtils.copyProperties(bean, entity);
-		
-		// 插入购物车记录
-		if (shoppingTrolleyMapper.insertShoppingTrolley(entity) <= 0) {
-			throw new Exception("添加购物车记录失败");
+		QyjShoppingTrolleyEntity queryEntity = new QyjShoppingTrolleyEntity();
+		queryEntity.setUserId(bean.getUserId());
+		queryEntity.setProductId(bean.getProductId());
+		// 查询买家是否已经加入该产品到购物车
+		List<QyjShoppingTrolleyEntity> list = shoppingTrolleyMapper.listBaseShoppingTrolleyByModel(queryEntity);
+		if (list == null || list.isEmpty()) {
+			// 如果没有，就插入新记录
+			QyjShoppingTrolleyEntity entity = new QyjShoppingTrolleyEntity();
+			BeanUtils.copyProperties(bean, entity);
+			
+			// 插入购物车记录
+			if (shoppingTrolleyMapper.insertShoppingTrolley(entity) <= 0) {
+				throw new Exception("添加购物车记录失败");
+			}
+			return entity.getId();
+		} else {
+			// 如果已经存在，就更新购买数量
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("number", bean.getNumber());
+			paramMap.put("userId", bean.getUserId());
+			paramMap.put("productId", bean.getProductId());
+			if (shoppingTrolleyMapper.addShoppingTrolleyNumber(paramMap) <= 0) {
+				throw new Exception("更新购物车记录失败");
+			}
+			return list.get(0).getId();
 		}
-		return entity.getId();
+		
 	}
 
 	/**

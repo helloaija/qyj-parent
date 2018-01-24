@@ -29,7 +29,7 @@ public interface QyjShoppingTrolleyMapper {
 	int delShoppingTrolley(QyjShoppingTrolleyEntity entity);
 	
 	/**
-	 * 根据userId获取购物车记录列表
+	 * 根据userId获取购物车记录列表，关联产品
 	 * @param userId
 	 * @return
 	 */
@@ -51,9 +51,23 @@ public interface QyjShoppingTrolleyMapper {
 	int updateShoppingTrolleyList(List<QyjShoppingTrolleyEntity> entityList);
 	
 	/**
-	 * 根据查询条件获取购物车记录
+	 * 根据查询条件获取购物车记录，关联产品
 	 * @param paramMap
 	 * @return
 	 */
 	List<QyjShoppingTrolleyEntity> listShoppingTrolleyByMap(Map<String, Object> paramMap);
+	
+	/**
+	 * 根据查询条件查询购物车，不关联产品
+	 * @param entity
+	 * @return
+	 */
+	List<QyjShoppingTrolleyEntity> listBaseShoppingTrolleyByModel(QyjShoppingTrolleyEntity entity);
+	
+	/**
+	 * 添加购物车数量
+	 * @param paramMap
+	 * @return
+	 */
+	int addShoppingTrolleyNumber(Map<String, Object> paramMap);
 }

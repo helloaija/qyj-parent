@@ -73,5 +73,5 @@ public interface QyjProductMapper {
 	 * @param paramMap
 	 * @return
 	 */
-	int updateBatchSoldNumber(List<QyjProductEntity> beanList);
+	int updateBatchProductNumber(List<QyjProductEntity> beanList);
 }

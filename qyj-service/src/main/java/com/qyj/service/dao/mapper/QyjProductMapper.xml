@@ -206,15 +206,14 @@
 	<update id="updateBatchProductNumber" parameterType="java.util.List">
 		<foreach collection="list" item="item" index="index" separator=";">
 			update qyj_product set 
-				<if test="soldNumber != null">
+				<if test="item.soldNumber != null">
 					number = number - #{item.soldNumber},
 					sold_number = sold_number + #{item.soldNumber},
-					version = version + 1
 				</if>
-				<if test="unpayNumber != null">
-					sold_number = sold_number + #{item.unpayNumber},
-					version = version + 1
+				<if test="item.unpayNumber != null">
+					unpay_number = unpay_number + #{item.unpayNumber},
 				</if>
+				version = version + 1
 			where id = #{item.id} and product_status='PUTAWAY'
 		</foreach>
 		

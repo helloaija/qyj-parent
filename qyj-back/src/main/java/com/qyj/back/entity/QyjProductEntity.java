@@ -43,6 +43,9 @@ public class QyjProductEntity implements Serializable {
 	/** 已售数量 */
 	private Integer soldNumber;
 	
+	/** 未支付数量 */
+	private Integer unpayNumber;
+	
 	/** 产品数量单位 */
 	private String productUnit;
 
@@ -135,6 +138,14 @@ public class QyjProductEntity implements Serializable {
 
 	public void setSoldNumber(Integer soldNumber) {
 		this.soldNumber = soldNumber;
+	}
+
+	public Integer getUnpayNumber() {
+		return unpayNumber;
+	}
+
+	public void setUnpayNumber(Integer unpayNumber) {
+		this.unpayNumber = unpayNumber;
 	}
 
 	public String getProductUnit() {

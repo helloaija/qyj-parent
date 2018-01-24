@@ -18,11 +18,12 @@
 		<result column="soldout_time" property="soldoutTime" />
 		<result column="sold_number" property="soldNumber" />
 		<result column="product_unit" property="productUnit" />
+		<result column="unpay_number" property="unpayNumber" />
 	</resultMap>
 
 	<sql id="allColumns">
-		id, title, price, product_type, product_status, number, putaway_time, soldout_time, sold_number, product_unit,
-		img_url, create_user, create_time, update_user, update_time, version
+		id, title, price, product_type, product_status, number, putaway_time, soldout_time, sold_number, unpay_number,
+		product_unit, img_url, create_user, create_time, update_user, update_time, version
 	</sql>
 
 	<!-- 根据主键查找产品 -->
@@ -42,9 +43,9 @@
 	      	SELECT LAST_INSERT_ID() AS id
 	    </selectKey>
 		insert into qyj_product (title, price, product_type, product_status, number, putaway_time, soldout_time, sold_number,
-			product_unit, img_url, create_user, create_time, update_user, update_time)
+			unpay_number, product_unit, img_url, create_user, create_time, update_user, update_time)
 		values (#{title,jdbcType=VARCHAR}, #{price}, #{productType}, #{productStatus}, #{number}, #{putawayTime}, #{soldoutTime},
-			#{soldNumber}, #{productUnit}, #{imgUrl}, #{createUser}, #{createTime}, #{updateUser}, #{updateTime})
+			#{soldNumber}, #{unpayNumber}, #{productUnit}, #{imgUrl}, #{createUser}, #{createTime}, #{updateUser}, #{updateTime})
 	</insert>
 
 	<insert id="insertSelective" parameterType="com.qyj.back.entity.QyjProductEntity">
