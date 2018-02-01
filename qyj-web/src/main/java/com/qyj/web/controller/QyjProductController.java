@@ -100,7 +100,7 @@ public class QyjProductController extends BaseController {
 	@RequestMapping("/restrict/product/getProductOrder")
 	public ResultBean getProductOrder(Long productId, Long addressId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -152,7 +152,7 @@ public class QyjProductController extends BaseController {
 	@RequestMapping("/restrict/product/saveProductOrder")
 	public ResultBean saveProductOrder(QyjOrderBean orderBean, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}

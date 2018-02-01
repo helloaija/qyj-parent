@@ -195,7 +195,7 @@ public class QyjProductController extends BaseController {
 	}
 
 	/**
-	 * 上传项目缩略图
+	 * 保存产品信息，包括产品内容、图片
 	 * @param file
 	 * @param request
 	 * @param response

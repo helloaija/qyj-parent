@@ -57,16 +57,27 @@ public class RestrictInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		
-		QyjUserBean userBean = (QyjUserBean) SessionUtil.getUserStrr(request);
+		QyjUserBean userBean = (QyjUserBean) SessionUtil.getUserAttr(request, response);
 		if (userBean == null) {
-			if ("XMLHttpRequest".equals(requestType)) {
-				// ajax请求
-				response.setHeader("sessionstatus", "timeout");
-				response.sendError(401, "session timeout.");
+			// 判断 是否是微信浏览器
+			String userAgent = request.getHeader("user-agent").toLowerCase();
+			logger.info("preHandle userAgent={}", userAgent);
+			// 微信客户端
+//			if (userAgent.indexOf("micromessenger") > -1) {
+//				String weChatUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?"
+//						+ "appid=wx1957904a2993fb75&redirect_uri=http%3A%2F%2F39.108.108.147/wechat/snsapiBaseLogin"
+//						+ "&response_type=code&scope=snsapi_base&state=673646agdggafaggg#wechat_redirect";
+//				HttpClientUtil.get(weChatUrl);
+//			} else {
+				if ("XMLHttpRequest".equals(requestType)) {
+					// ajax请求
+					response.setHeader("sessionstatus", "timeout");
+					response.sendError(401, "session timeout.");
+					return false;
+				}
+				response.sendRedirect(CommonUtils.getPath(request) + "/weChat/page/index.html#!/login");
 				return false;
-			}
-			response.sendRedirect(CommonUtils.getPath(request) + "/weChat/page/index.html#!/login");
-			return false;
+//			}
 		}
 		return true;
 	}

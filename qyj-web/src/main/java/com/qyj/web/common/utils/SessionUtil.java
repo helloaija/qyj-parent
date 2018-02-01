@@ -1,10 +1,15 @@
 package com.qyj.web.common.utils;
 
+import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.qyj.facade.vo.QyjUserBean;
 import com.qyj.web.common.constant.CommonConstant;
@@ -17,17 +22,19 @@ public class SessionUtil {
 	/** 登录默认过期时间15分钟 */
 	private static Long TIMEOUT_USER = 15 * 60L;
 	
+	private static Logger logger = LoggerFactory.getLogger(SessionUtil.class); 
+	
 	/**
 	 * 保存sessionId+key为键的redis对象数据
 	 * @param request
 	 * @param key
 	 * @param value
 	 */
-	public static void setObjectAttr(HttpServletRequest request, String key, Object value) {
+	public static void setObjectAttr(HttpServletRequest request, HttpServletResponse response, String key, Object value) {
 		if (StringUtils.isEmpty(key)) {
 			return;
 		}
-		String redisKey = getRedisKey(request, key);
+		String redisKey = getRedisKey(request, response, key);
 		RedisUtil.setObjectEx(redisKey, value, TIMEOUT);
 	}
 	
@@ -39,11 +46,11 @@ public class SessionUtil {
 	 * @param timeout 过期时间
 	 * @param timeUnit 时间单位
 	 */
-	public static void setObjectAttr(HttpServletRequest request, String key, Object value, Long timeout, TimeUnit timeUnit) {
+	public static void setObjectAttr(HttpServletRequest request, HttpServletResponse response, String key, Object value, Long timeout, TimeUnit timeUnit) {
 		if (StringUtils.isEmpty(key)) {
 			return;
 		}
-		String redisKey = getRedisKey(request, key);
+		String redisKey = getRedisKey(request, response, key);
 		RedisUtil.setObjectEx(redisKey, value, timeout, timeUnit);
 	}
 	
@@ -53,11 +60,11 @@ public class SessionUtil {
 	 * @param key
 	 * @param value
 	 */
-	public static void setStringAttr(HttpServletRequest request, String key, String value) {
+	public static void setStringAttr(HttpServletRequest request, HttpServletResponse response, String key, String value) {
 		if (StringUtils.isEmpty(key)) {
 			return;
 		}
-		String redisKey = getRedisKey(request, key);
+		String redisKey = getRedisKey(request, response, key);
 		RedisUtil.setString(redisKey, value);
 	}
 	
@@ -69,11 +76,11 @@ public class SessionUtil {
 	 * @param timeout 过期时间
 	 * @param timeUnit 时间单位
 	 */
-	public static void setStringAttr(HttpServletRequest request, String key, String value, Long timeout, TimeUnit timeUnit) {
+	public static void setStringAttr(HttpServletRequest request, HttpServletResponse response, String key, String value, Long timeout, TimeUnit timeUnit) {
 		if (StringUtils.isEmpty(key)) {
 			return;
 		}
-		String redisKey = getRedisKey(request, key);
+		String redisKey = getRedisKey(request, response, key);
 		RedisUtil.setStringEx(redisKey, value, timeout, timeUnit);
 	}
 	
@@ -83,11 +90,11 @@ public class SessionUtil {
 	 * @param key
 	 * @return
 	 */
-	public static Object getObject(HttpServletRequest request, String key) {
+	public static Object getObject(HttpServletRequest request, HttpServletResponse response, String key) {
 		if (StringUtils.isEmpty(key)) {
 			return null;
 		}
-		String redisKey = getRedisKey(request, key);
+		String redisKey = getRedisKey(request, response, key);
 		return RedisUtil.getObject(redisKey);
 	}
 	
@@ -97,11 +104,11 @@ public class SessionUtil {
 	 * @param key
 	 * @return
 	 */
-	public static Object getString(HttpServletRequest request, String key) {
+	public static String getString(HttpServletRequest request, HttpServletResponse response, String key) {
 		if (StringUtils.isEmpty(key)) {
 			return null;
 		}
-		String redisKey = getRedisKey(request, key);
+		String redisKey = getRedisKey(request, response, key);
 		return RedisUtil.getString(redisKey);
 	}
 	
@@ -111,8 +118,8 @@ public class SessionUtil {
 	 * @param key
 	 * @param userBean
 	 */
-	public static void setUserSttr(HttpServletRequest request, QyjUserBean userBean) {
-		setObjectAttr(request, CommonConstant.SESSION_USER, userBean, TIMEOUT_USER, TimeUnit.SECONDS);
+	public static void setUserAttr(HttpServletRequest request, HttpServletResponse response, QyjUserBean userBean) {
+		setObjectAttr(request, response, CommonConstant.SESSION_USER, userBean, TIMEOUT_USER, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -121,15 +128,15 @@ public class SessionUtil {
 	 * @param key
 	 * @return
 	 */
-	public static QyjUserBean getUserStrr(HttpServletRequest request) {
-		Object userObject = getObject(request, CommonConstant.SESSION_USER);
+	public static QyjUserBean getUserAttr(HttpServletRequest request, HttpServletResponse response) {
+		Object userObject = getObject(request, response, CommonConstant.SESSION_USER);
 		if (userObject == null) {
 			return null;
 		}
 		
 		QyjUserBean userBean = (QyjUserBean) userObject;
 		
-		setUserSttr(request, userBean);
+		setUserAttr(request, response, userBean);
 		
 		return userBean;
 	}
@@ -139,8 +146,24 @@ public class SessionUtil {
 	 * @param request
 	 * @param key
 	 * @return
+	 * @throws IOException 
 	 */
-	private static String getRedisKey(HttpServletRequest request, String key) {
-		return request.getSession().getId() + key;
+	public static String getRedisKey(HttpServletRequest request, HttpServletResponse response, String key) {
+		String sessionId = CookieUtils.getCookieValue(request, CommonConstant.SESSION_KEY);
+		logger.info("getRedisKey cookie, seesionId={}", sessionId);
+		if (StringUtils.isEmpty(sessionId) || "undefined".equals(sessionId) || "null".equals(sessionId)) {
+			sessionId = (String) request.getSession().getAttribute(CommonConstant.SESSION_KEY);
+			logger.info("getRedisKey session, seesionId={}", sessionId);
+			if (StringUtils.isEmpty(sessionId)) {
+				sessionId = request.getSession().getId().toUpperCase() + UUID.randomUUID().toString().replaceAll("-", "");
+				logger.info("getRedisKey new, seesionId={}", sessionId);
+				try {
+					CookieUtils.setCookie(response, CommonConstant.SESSION_KEY, sessionId);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} 
+		}
+		return sessionId + key;
 	}
 }

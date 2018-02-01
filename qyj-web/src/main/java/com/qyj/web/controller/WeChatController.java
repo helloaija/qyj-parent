@@ -1,14 +1,28 @@
 package com.qyj.web.controller;
 
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.qyj.common.utils.CommonEnums.UserStatusEnum;
+import com.qyj.common.utils.HttpClientUtil;
+import com.qyj.facade.QyjUserFacade;
+import com.qyj.facade.vo.QyjUserBean;
+import com.qyj.web.common.constant.CommonConstant;
+import com.qyj.web.common.utils.PropertiesUtil;
+import com.qyj.web.common.utils.SessionUtil;
 import com.qyj.web.common.wechat.CoreService;
 import com.qyj.web.common.wechat.SignUtil;
 
@@ -18,6 +32,11 @@ import com.qyj.web.common.wechat.SignUtil;
 @Controller
 @RequestMapping("/wechat")
 public class WeChatController extends BaseController {
+	
+	private static Logger logger = LoggerFactory.getLogger(WeChatController.class);
+	
+	@Autowired
+	private QyjUserFacade userFacade;
 
 	/**
 	 * 验证微信服务器消息
@@ -66,6 +85,74 @@ public class WeChatController extends BaseController {
 		PrintWriter out = response.getWriter();
 		out.print(respMessage);
 		out.close();
+	}
+	
+	
+	/**
+	 * 微信静默登录
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/snsapiBaseLogin", method = RequestMethod.GET)
+	public String snsapiBaseLogin(HttpServletRequest request, HttpServletResponse response) {
+		String wechatReturn = "/weChat/page/common/wechatReturn.html";
+		try {
+			logger.info("snsapiBaseLogin sessionId={}", SessionUtil.getRedisKey(request, response, CommonConstant.SESSION_USER));
+			QyjUserBean userBean = (QyjUserBean) SessionUtil.getUserAttr(request, response);
+			if (userBean != null) {
+				logger.info("snsapiBaseLogin seesion userBean={}", userBean.toString());
+				return wechatReturn;
+			}
+			String code = request.getParameter("code");
+			logger.info("snsapiBaseLogin code={},state={}", code, request.getParameter("state"));
+			
+			String weChatUrl = String.format("%s?appid=%s&secret=%s&code=%s&grant_type=authorization_code", 
+					PropertiesUtil.getAppProperty("wechat.accessTokenUrl"), PropertiesUtil.getAppProperty("wechat.appId"), 
+					PropertiesUtil.getAppProperty("wechat.appSecret"), code);
+			// 获取用户openId
+			String result = HttpClientUtil.get(weChatUrl);
+			
+			if (StringUtils.isEmpty(result)) {
+				return "/weChat/page/common/wechatReturnError.html";
+			}
+			
+			JSONObject resultJson = JSON.parseObject(result);
+			
+			
+			// 根据手机号码查询用户
+			userBean = userFacade.getUserByOpenId(resultJson.getString("openid"));
+			
+			logger.info("snsapiBaseLogin openid={}", resultJson.getString("openid"));
+			if (userBean != null) {
+				logger.info("snsapiBaseLogin userBean={}", userBean.toString());
+				
+				// 如果存在用户就保存登录用户到redis
+				SessionUtil.setUserAttr(request, response, userBean);
+			} else {
+				logger.info("snsapiBaseLogin userBean={}", "null");
+				Date nowDate = new Date();
+				userBean = new QyjUserBean();
+				userBean.setOpenId(resultJson.getString("openid"));
+				userBean.setStatus(UserStatusEnum.USABLE.toString());
+				userBean.setCreateTime(nowDate);
+				userBean.setUpdateTime(nowDate);
+				// 如果不存在就新增用户并登陆
+				int insertResult = userFacade.insertUser(userBean);
+				logger.info("snsapiBaseLogin insertUser insertResult={}", insertResult);
+				if (insertResult != 1) {
+					return "/weChat/page/common/wechatReturnError.html";
+				}
+				// 根据手机号码查询用户
+				userBean = userFacade.getUserByOpenId(resultJson.getString("openid"));
+				SessionUtil.setUserAttr(request, response, userBean);
+			}
+			
+//			response.sendRedirect(CommonUtils.getPath(request) + "/#!/home/account");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return wechatReturn;
 	}
 
 	/**

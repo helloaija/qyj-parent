@@ -52,7 +52,7 @@ public class QyjShoppingTrolleyController extends BaseController {
 	@RequestMapping("/restrict/shoppingTrolley/addShoppingTrolley")
 	public ResultBean addShoppingTrolley(Long productId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -84,7 +84,7 @@ public class QyjShoppingTrolleyController extends BaseController {
 	@RequestMapping("/restrict/shoppingTrolley/listShoppingTrolley")
 	public ResultBean listShoppingTrolley(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -108,7 +108,7 @@ public class QyjShoppingTrolleyController extends BaseController {
 	@RequestMapping("/restrict/shoppingTrolley/delShoppingTrolley")
 	public ResultBean delShoppingTrolley(Long[] ids, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -137,7 +137,7 @@ public class QyjShoppingTrolleyController extends BaseController {
 	@RequestMapping("/restrict/shoppingTrolley/updateShoppingTrolleyList")
 	public ResultBean updateShoppingTrolleyList(QyjShoppingTrolleyListBean list, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -173,7 +173,7 @@ public class QyjShoppingTrolleyController extends BaseController {
 	@RequestMapping("/restrict/shoppingTrolley/getTrolleyBalance")
 	public ResultBean getTrolleyBalance(Long[] ids, Long addressId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}

@@ -4,6 +4,7 @@
 <configuration status="off" monitorInterval="600">
 	<properties>
 		<property name="LOG_HOME">D:/logs</property>
+<!-- 		<property name="LOG_HOME">/opt/qyj-server/logs</property> -->
 		<property name="LOG_BACK_HOME">${LOG_HOME}/backup</property>
 		<property name="ERROR_FILE_NAME">qyj_error</property>
 		<property name="WARN_FILE_NAME">qyj_warn</property>

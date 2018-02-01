@@ -4,13 +4,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import com.qyj.web.common.utils.PropertiesUtil;
+
 /**
  * 请求校验工具类
  * @author CTF_stone
  */
 public class SignUtil {
 	// 与接口配置信息中的Token要一致
-	private static String TOKEN = "844e89dd07f045e4a12b88bcef0d59fd";
+	private static String TOKEN = PropertiesUtil.getAppProperty("wechat.token");
 
 	/**
 	 * 验证签名

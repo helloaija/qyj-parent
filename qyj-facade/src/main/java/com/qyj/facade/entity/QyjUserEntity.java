@@ -18,6 +18,9 @@ public class QyjUserEntity implements Serializable {
 
 	/** 登录密码 */
 	private String password;
+	
+	/** 微信公众号openId */
+	private String openId;
 
 	/** 账户状态 */
 	private String status;
@@ -66,6 +69,14 @@ public class QyjUserEntity implements Serializable {
 		this.password = password;
 	}
 
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -109,8 +120,8 @@ public class QyjUserEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "QyjUserEntity [id=" + id + ", userName=" + userName + ", phoneNum=" + phoneNum + ", password="
-				+ password + ", status=" + status + ", loginIp=" + loginIp + ", loginTime=" + loginTime
-				+ ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
+				+ password + ", openId=" + openId + ", status=" + status + ", loginIp=" + loginIp + ", loginTime="
+				+ loginTime + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
 	}
 
 }

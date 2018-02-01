@@ -6,7 +6,16 @@ var qyjApp = angular.module("qyjApp");
  */
 qyjApp.service('loginService', ["$http",
     function($http) {
-		// 登录
+		// 获取登录验证码
+	    this.getLoginCode = function(phoneNum, loginCode) {
+	        return $http({  
+	            method: "POST",  
+	            url: qyjApp.httpsHeader + "/wechat/freedom/login/getLoginCode",
+	            params : {phoneNum: phoneNum, loginCode : loginCode}
+	        });
+	    }
+	    
+	    // 登录
 	    this.doLogin = function(params) {
 	        return $http({  
 	            method: "POST",  

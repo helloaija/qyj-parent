@@ -92,7 +92,7 @@
 
 	<update id="updateByPrimaryKey" parameterType="com.qyj.back.entity.QyjNewsInfoEntity">
 		update qyj_news_info set title = #{title,jdbcType=VARCHAR},
-			type = #{type,jdbcType=VARCHAR}, new_status = #{newsStatus,jdbcType=VARCHAR},
+			type = #{type,jdbcType=VARCHAR}, news_status = #{newsStatus,jdbcType=VARCHAR},
 			description = #{description,jdbcType=VARCHAR}, order_num = #{orderNum,jdbcType=INTEGER},
 			visit_count = #{visitCount,jdbcType=INTEGER}, create_user = #{createUser,jdbcType=BIGINT},
 			create_time = #{createTime,jdbcType=TIMESTAMP}, content = #{content,jdbcType=LONGVARCHAR},

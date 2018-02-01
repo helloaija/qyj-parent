@@ -24,8 +24,20 @@ public class QyjUserFacadeImpl implements QyjUserFacade {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public QyjUserBean getUserByPhoneNum(String phoneNum) throws Exception {
 		return userBiz.getUserByPhoneNum(phoneNum);
+	}
+	
+	/**
+	 * 根据openId获取用户
+	 * @param phoneNum
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public QyjUserBean getUserByOpenId(String openId) throws Exception {
+		return userBiz.getUserByOpenId(openId);
 	}
 	
 	/**
@@ -34,6 +46,7 @@ public class QyjUserFacadeImpl implements QyjUserFacade {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public int insertUser(QyjUserBean userBean) throws Exception {
 		return userBiz.insertUser(userBean);
 	}
@@ -44,6 +57,7 @@ public class QyjUserFacadeImpl implements QyjUserFacade {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public int updateUser(QyjUserBean userBean) throws Exception {
 		return userBiz.updateUser(userBean);
 	}

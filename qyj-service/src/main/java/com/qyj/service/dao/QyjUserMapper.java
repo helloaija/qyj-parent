@@ -12,6 +12,13 @@ public interface QyjUserMapper {
 	QyjUserEntity getUserByPhoneNum(String phoneNum);
 	
 	/**
+	 * 根据openId获取用户
+	 * @param phoneNum
+	 * @return
+	 */
+	QyjUserEntity getUserByOpenId(String openId);
+	
+	/**
 	 * 插入用户
 	 * @param userEntity
 	 * @return

@@ -18,6 +18,14 @@ public interface QyjUserFacade {
 	public QyjUserBean getUserByPhoneNum(String phoneNum) throws Exception;
 	
 	/**
+	 * 根据openId获取用户
+	 * @param phoneNum
+	 * @return
+	 * @throws Exception
+	 */
+	public QyjUserBean getUserByOpenId(String openId) throws Exception;
+	
+	/**
 	 * 插入用户
 	 * @param userBean
 	 * @return

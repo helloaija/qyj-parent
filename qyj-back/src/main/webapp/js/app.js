@@ -68,8 +68,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			resolve : {
 	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
-                            "ui.grid", "ui.bootstrap",
-                            "js/filter/filters.js", 'js/service/commonServices.js',
+                            "ui.grid", "ui.bootstrap", "js/filter/filters.js", 'js/service/commonServices.js',
                             'page/orderManage/orderManage.js'
 	   					]);
 	   				}]

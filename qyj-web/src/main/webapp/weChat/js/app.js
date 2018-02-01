@@ -2,9 +2,13 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate", "angular-touch"], function(angular) {
 	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate", "ngTouch"]);
 	
-	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
-	qyjApp.uploadFileHeader = "http://192.168.30.22:8083/qyj-back/uploadFile/";
-	qyjApp.uploadHeader = "http://192.168.30.22:8083/qyj-back/upload/";
+//	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
+//	qyjApp.uploadFileHeader = "http://192.168.30.22:8083/qyj-back/uploadFile/";
+//	qyjApp.uploadHeader = "http://192.168.30.22:8083/qyj-back/upload/";
+	
+	qyjApp.httpsHeader = "http://39.108.108.147";
+	qyjApp.uploadFileHeader = "http://39.108.108.147:8081/qyj-back/uploadFile/";
+	qyjApp.uploadHeader = "http://39.108.108.147:8081/qyj-back/upload/";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider", "$urlRouterProvider",
         function($stateProvider, $httpProvider, $urlRouterProvider) {
@@ -196,6 +200,16 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   					'responseError' : function(response) {
 	   						console.log('responseError:' + response);
 	   						if (response.status === 401 || response.status === 403) {
+	   							var ua = window.navigator.userAgent.toLowerCase();
+	   							// 微信浏览器内核
+//	   							if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+//	   								var weChatUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?"
+//	   									+ "appid=wx9e460f22db93686e&redirect_uri=http%3A%2F%2F39.108.108.147/wechat/snsapiBaseLogin"
+//	   									+ "&response_type=code&scope=snsapi_base&state=673646agdggafaggg#wechat_redirect";
+//	   								location.href = weChatUrl;
+//	   							} else {
+//	   								$location.path("/login");
+//	   							}
 	   							$location.path("/login");
 	   						} else if (response.status === 500) {
 	               				$location.path('/500.html');

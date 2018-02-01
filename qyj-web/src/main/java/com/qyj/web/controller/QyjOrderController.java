@@ -48,7 +48,7 @@ public class QyjOrderController extends BaseController {
 	@RequestMapping("/restrict/order/getOrderById")
 	public ResultBean getOrderById(Long orderId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -83,7 +83,7 @@ public class QyjOrderController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/restrict/order/listOrderPage")
 	public ResultBean listOrderPage(HttpServletRequest request, HttpServletResponse response) {
-		QyjUserBean userBean = SessionUtil.getUserStrr(request);
+		QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 		if (userBean == null) {
 			return new ResultBean("0002", "用户未登录", null);
 		}
@@ -126,7 +126,7 @@ public class QyjOrderController extends BaseController {
 	@RequestMapping("/restrict/order/cancelOrder")
 	public ResultBean cancelOrder(Long orderId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -156,7 +156,7 @@ public class QyjOrderController extends BaseController {
 	@RequestMapping("/restrict/order/confirmPayOrder")
 	public ResultBean confirmPayOrder(Long orderId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -189,7 +189,7 @@ public class QyjOrderController extends BaseController {
 	public ResultBean saveTrolleyOrder(QyjOrderBean orderBean, QyjShoppingTrolleyListBean listBean, 
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}

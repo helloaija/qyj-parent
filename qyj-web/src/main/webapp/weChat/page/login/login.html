@@ -1,3 +1,10 @@
+<style>
+	#getCodeBtn {
+		width: 82px;
+	    font-size: 14px;
+	    padding: 0;
+	}
+</style>
 <div class="panel-default">
 	<div class="panel-body header-body header-fixed">
 		<div>
@@ -25,8 +32,11 @@
 			<br>
 			<div class="input-group input-group-lg">
 				<span class="glyphicon glyphicon-lock input-group-addon" style="top: 0px;" aria-hidden="true"></span>
-				<input type="password" class="form-control" placeholder="请输入密码" style="background-color: linen;"
-					aria-describedby="sizing-addon1" ng-focus="tipMsg = ''" ng-model="loginParam.password">
+				<input type="text" class="form-control" placeholder="请输入短信验证码" style="background-color: linen;"
+					aria-describedby="sizing-addon1" ng-focus="tipMsg = ''" ng-model="loginParam.loginCode">
+				<div class="input-group-btn">
+		            <button type="button" id="getCodeBtn" class="btn btn-default" ng-click="getLoginCode()">{{codeBtnText}}</button>
+				</div>
 			</div>
 			<br>
 			<div class="input-group input-group-lg" style="width: 100%;">
@@ -34,7 +44,7 @@
 					style="width: 100%;background-color: #eee;">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
 			</div>
 			<div class="input-group input-group-lg" style="width: 100%;">
-				<a style="float:right;">注册账户</a>
+<!-- 				<a style="float:right;">注册账户</a> -->
 			</div>
 		</form>
 	</div>

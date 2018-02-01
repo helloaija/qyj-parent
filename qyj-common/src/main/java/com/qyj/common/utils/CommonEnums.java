@@ -3,6 +3,15 @@ package com.qyj.common.utils;
 public class CommonEnums {
 	
 	/**
+	 * 用户状态[USABLE：可用的]
+	 * @author shitl
+	 *
+	 */
+	public enum UserStatusEnum {
+		USABLE
+	}
+	
+	/**
 	 *  产品发布状态[PUBLISH：发布，PUTAWAY：上架，SOLDOUT：下架]
 	 * @author shitl
 	 *

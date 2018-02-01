@@ -39,7 +39,7 @@ public class FreedomInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
 		// 如果用户已经登录，延长用户登录时间
-		SessionUtil.getUserStrr(request);
+		SessionUtil.getUserAttr(request, response);
 		return true;
 	}
 

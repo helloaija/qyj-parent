@@ -35,6 +35,27 @@ public class QyjUserBizImpl implements QyjUserBiz {
 
 		return userBean;
 	}
+	
+	/**
+	 * 根据openId获取用户
+	 * @param phoneNum
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public QyjUserBean getUserByOpenId(String openId) throws Exception {
+
+		QyjUserEntity userEntity = userMapper.getUserByOpenId(openId);
+		if (userEntity == null) {
+			return null;
+		}
+
+		QyjUserBean userBean = new QyjUserBean();
+
+		BeanUtils.copyProperties(userEntity, userBean);
+
+		return userBean;
+	}
 
 	/**
 	 * 插入用户

@@ -6,6 +6,7 @@
 		<result column="user_name" property="userName" />
 		<result column="phone_num" property="phoneNum" />
 		<result column="password" property="password" />
+		<result column="open_id" property="openId" />
 		<result column="status" property="status" />
 		<result column="login_ip" property="loginIp" />
 		<result column="login_time" property="loginTime" />
@@ -16,7 +17,7 @@
 
 	<!-- 基本字段 -->
 	<sql id="baseColumns">
-		id, user_name, phone_num, password, status, login_ip, login_time,
+		id, user_name, phone_num, password, open_id, status, login_ip, login_time,
 		create_time, update_time
 	</sql>
 
@@ -26,14 +27,20 @@
 		from qyj_user where phone_num = #{phoneNum}
 	</select>
 	
+	<!-- 根据openId获取用户 -->
+	<select id="getUserByOpenId" parameterType="java.lang.String" resultMap="baseResultMap">
+		select <include refid="baseColumns" />
+		from qyj_user where open_id = #{openId}
+	</select>
+	
 	<!-- 插入用户 -->
 	<insert id="insertUser" parameterType="com.qyj.facade.entity.QyjUserEntity">
 		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
 	      	SELECT LAST_INSERT_ID() AS id
 	    </selectKey>
-		insert into qyj_product (user_name, phone_num, password, status, login_ip, login_time,
+		insert into qyj_user (user_name, phone_num, password, open_id, status, login_ip, login_time,
 				create_time, update_time)
-		values (#{userName}, #{phoneNum}, #{password}, #{status}, #{loginIp}, #{loginTime}, #{createTime}, #{updateTime})
+		values (#{userName}, #{phoneNum}, #{password}, #{openId}, #{status}, #{loginIp}, #{loginTime}, #{createTime}, #{updateTime})
 	</insert>
 
 	<!-- 更新用户 -->

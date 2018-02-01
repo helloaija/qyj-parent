@@ -33,7 +33,7 @@ public class QyjAccountController {
 	@RequestMapping("/restrict/account/getLoginUserInfo")
 	public ResultBean getLoginUserInfo(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}

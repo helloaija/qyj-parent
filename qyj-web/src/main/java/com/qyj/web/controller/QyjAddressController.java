@@ -38,7 +38,7 @@ public class QyjAddressController {
 	@RequestMapping("/restrict/address/listAddress")
 	public ResultBean listAddress(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -63,7 +63,7 @@ public class QyjAddressController {
 	@RequestMapping("/restrict/address/getAddressById")
 	public ResultBean getAddressById(Long addressId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -92,7 +92,7 @@ public class QyjAddressController {
 	@RequestMapping("/restrict/address/saveAddress")
 	public ResultBean saveAddress(QyjAddressBean addressBean, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
@@ -138,7 +138,7 @@ public class QyjAddressController {
 	@RequestMapping("/restrict/address/delAddressById")
 	public ResultBean delAddressById(Long addressId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			QyjUserBean userBean = SessionUtil.getUserStrr(request);
+			QyjUserBean userBean = SessionUtil.getUserAttr(request, response);
 			if (userBean == null) {
 				return new ResultBean("0002", "用户未登录", null);
 			}
