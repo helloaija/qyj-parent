@@ -1,20 +1,20 @@
-<div class="panel-default header-fixed">
-	<div class="panel-body header-body">
-		<div>
-			<h4>新闻公告</h4>
+<nav class="navbar-default navbar-fixed-top">
+	<div class="panel-default header-fixed">
+		<div class="panel-body header-body">
+			<div>
+				<h4>新闻公告</h4>
+			</div>
 		</div>
 	</div>
-</div>
+</nav>
 
-<div>
-	<div class="list-group" infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
-		<div ng-repeat="item in newsList">
-			<a ui-sref="newsContent({newsInfoId:{{item.id}}})" href="javascript:void(0);" class="news-list"> 
-				<div style="width:90%;float:left;">{{item.title}}</div>
-				<img class="tui" src="weChat/image/common/right_jt.png" height="22">
-			</a>
-		</div>
-		<div ng-show='isBusy' style="height: 30px; text-align: center;">加载中...</div>
-		<div ng-show='isLoadFinish' style="height: 30px; text-align: center;">没有更多数据了</div>
+<div class="list-group home-center" infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
+	<div ng-repeat="item in newsList">
+		<a ui-sref="newsContent({newsInfoId:{{item.id}}})" href="javascript:void(0);" class="news-list"> 
+			<div style="width:90%;float:left;">{{item.title}}</div>
+			<img class="tui" src="weChat/image/common/right_jt.png" height="22">
+		</a>
 	</div>
+	<div ng-show='isBusy' style="height: 30px; text-align: center;">加载中...</div>
+	<div ng-show='isLoadFinish' style="height: 30px; text-align: center;">没有更多数据了</div>
 </div>

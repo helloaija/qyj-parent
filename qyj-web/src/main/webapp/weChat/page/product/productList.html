@@ -1,13 +1,15 @@
 
-<div class="panel-default header-fixed">
-	<div class="panel-body header-body">
-		<div>
-			<h4>产品列表</h4>
+<nav class="navbar-default navbar-fixed-top">
+	<div class="panel-default header-fixed">
+		<div class="panel-body header-body">
+			<div>
+				<h4>产品列表</h4>
+			</div>
 		</div>
 	</div>
-</div>
+</nav>
 
-<div class="container product-container" infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
+<div class="container product-container home-center" infinite-scroll='nextPage()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
 	<div ng-repeat="product in productList">
 		<a ui-sref="productContent({productId:{{product.id}}})" href="javascript:void(0);">
 			<div class="row product-list">

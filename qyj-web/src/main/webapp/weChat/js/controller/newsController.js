@@ -52,7 +52,9 @@ qyjApp.controller("newsContentCtrl", [ "$scope", "$stateParams", "newsService",
    			var resultBean = response.data;
    			// 加载新闻公告列表
    			if (resultBean.resultCode == "0000" && resultBean.result) {
-	   			$scope.content = resultBean.result.content;
+   				$scope.news = resultBean.result;
+   				visitCount
+//	   			$scope.content = resultBean.result.content;
 	   		}
 	   	});
 	} 

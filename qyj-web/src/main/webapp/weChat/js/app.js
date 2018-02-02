@@ -2,13 +2,13 @@
 define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angular-animate", "angular-touch"], function(angular) {
 	var qyjApp = angular.module("qyjApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ngAnimate", "ngTouch"]);
 	
-//	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
-//	qyjApp.uploadFileHeader = "http://192.168.30.22:8083/qyj-back/uploadFile/";
-//	qyjApp.uploadHeader = "http://192.168.30.22:8083/qyj-back/upload/";
+	qyjApp.httpsHeader = "http://192.168.30.22:8082/qyj-web";
+	qyjApp.uploadFileHeader = "http://192.168.30.22:8083/qyj-back/uploadFile/";
+	qyjApp.uploadHeader = "http://192.168.30.22:8083/qyj-back/upload/";
 	
-	qyjApp.httpsHeader = "http://39.108.108.147";
-	qyjApp.uploadFileHeader = "http://39.108.108.147:8081/qyj-back/uploadFile/";
-	qyjApp.uploadHeader = "http://39.108.108.147:8081/qyj-back/upload/";
+//	qyjApp.httpsHeader = "http://39.108.108.147";
+//	qyjApp.uploadFileHeader = "http://39.108.108.147:8081/qyj-back/uploadFile/";
+//	qyjApp.uploadHeader = "http://39.108.108.147:8081/qyj-back/upload/";
 	
 	qyjApp.config(["$stateProvider", "$httpProvider", "$urlRouterProvider",
         function($stateProvider, $httpProvider, $urlRouterProvider) {
@@ -181,6 +181,10 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	   					return $ocLazyLoad.load(['weChat/js/controller/payResultController.js']);
 	   				}]
 	   	        }
+	   		}).state("home.contactWay", {
+	   			url : "/contactWay",
+	   			// 联系我们
+	   			templateUrl : "weChat/page/home/contactWay.html"
 	   		});
 	   		
 	   		// 定义请求过滤器
@@ -240,7 +244,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "angul
 	       }, {
 	    	   // 滚动加载
 	    	   name : "ng-infinite-scroll",
-	    	   files : ["weChat/js/base/ng-infinite-scroll-1.0.0.min.js"]
+	    	   files : ["weChat/js/base/ng-infinite-scroll-1.0.0.js"]
 	       }],
 	       debug: true
 	   })

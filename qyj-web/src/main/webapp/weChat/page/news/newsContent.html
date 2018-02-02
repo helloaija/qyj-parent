@@ -1,17 +1,24 @@
-
-<div class="panel-default">
-	<div class="panel-body header-body header-fixed">
-		<div>
-			<h4>新闻公告内容</h4>	
-		</div>
-		<div style="margin-top: -31px; float: left;">
-			<a href="javascript:history.back(-1);">
-				&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="color: white;">返回</span>
-			</a>
+<nav class="navbar-default navbar-fixed-top">
+	<div class="panel-default">
+		<div class="panel-body header-body header-fixed">
+			<div>
+				<h4>新闻公告内容</h4>
+			</div>
+			<div style="margin-top: -31px; float: left;">
+				<a href="javascript:window.history.back(-1);" class="index_more fl">
+					&nbsp;&nbsp;<img class="tui" src="weChat/image/common/houtei.png" height="22">
+				</a>
+			</div>
 		</div>
 	</div>
-</div>
-<div class="img-max" ng-bind-html="content | toTrust" style="padding:10px;background: #fff;">
+</nav>
+
+<div class="news-content" style="padding: 40px 10px;background: #fff;height: 100%;overflow-y: auto;">
+	<div>
+		<h4 class="text-center"><strong>{{news.title}}</strong></h4>
+		<span class="pull-right" style="color: #777;">浏览量：{{news.visitCount}}</span><br/>
+	</div>
+	<div ng-bind-html="news.content | toTrust"></div>
 </div>
 
 

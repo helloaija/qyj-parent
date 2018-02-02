@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.qyj.common.page.ResultBean;
-import com.qyj.common.utils.CommonUtils;
-import com.qyj.common.utils.EncryptionUtils;
 import com.qyj.common.utils.CommonEnums.UserStatusEnum;
+import com.qyj.common.utils.CommonUtils;
 import com.qyj.facade.QyjUserFacade;
 import com.qyj.facade.vo.QyjUserBean;
 import com.qyj.web.common.constant.CommonConstant;
@@ -56,16 +55,16 @@ public class QyjLoginController {
 		
 		// 获取最后一次发送的短信验证码信息，包括手机号码、验证码
 		Map<String, String> loginCodeMap = (Map<String, String>) SessionUtil.getObject(request, response, CommonConstant.SESSION_LOGIN_CODE);
-		if (loginCodeMap == null || loginCodeMap.isEmpty()) {
-			return new ResultBean("0002", "请获取验证码！", null);
-		}
+//		if (loginCodeMap == null || loginCodeMap.isEmpty()) {
+//			return new ResultBean("0002", "请获取验证码！", null);
+//		}
 		
-		if (!phoneNum.equals(loginCodeMap.get("phoneNum"))) {
-			return new ResultBean("0002", "获取验证码的手机号和输入的手机号码不一致！", null);
-		}
-		if (!loginCode.equals(loginCodeMap.get("loginCode"))) {
-			return new ResultBean("0002", "验证码不正确！", null);
-		}
+//		if (!phoneNum.equals(loginCodeMap.get("phoneNum"))) {
+//			return new ResultBean("0002", "获取验证码的手机号和输入的手机号码不一致！", null);
+//		}
+//		if (!loginCode.equals(loginCodeMap.get("loginCode"))) {
+//			return new ResultBean("0002", "验证码不正确！", null);
+//		}
 		
 		try {
 			// 根据手机号码查询用户

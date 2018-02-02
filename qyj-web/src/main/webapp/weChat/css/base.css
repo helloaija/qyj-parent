@@ -1,6 +1,7 @@
 html {
 	 background: #f6f6f6;
 	 height : 100%;
+	 overflow: hidden;
 }
 
 body {
@@ -8,6 +9,11 @@ body {
     margin: 0 auto;
     height : 100%;
     background: #f6f6f6;
+}
+
+.navbar-default {
+	max-width: 640px;
+    margin: 0 auto;
 }
 
 
@@ -55,7 +61,11 @@ body {
 
 /* home页默认样式 */
 .home-default {
-	margin-bottom: 45px;
+    position: absolute;
+	bottom: 44px;
+	top: 0px;
+    width: 100%;
+    max-width: 640px;
 }
 
 
@@ -76,7 +86,8 @@ body {
 	border: 1px solid #BFBFBF;
 }
 
-.img-max img {
+/* 新闻内容 */
+.news-content img {
 	max-width: 100%;
 }
 
@@ -99,3 +110,13 @@ body {
     position: absolute;
     right: 10px;
 }
+
+.home-center {
+	position: absolute;
+    width: 100%;
+    top: 40px;
+    bottom: 0px;
+    margin-bottom: 0px;
+    overflow-y: scroll;
+}
+
