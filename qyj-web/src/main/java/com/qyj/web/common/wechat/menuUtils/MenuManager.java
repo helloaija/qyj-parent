@@ -65,7 +65,7 @@ public class MenuManager {
 		mainBtn1.setSub_button(new CommonButton[] { btn11, btn12, btn13, btn14 });
 
 		ViewButton viewBtn = new ViewButton();
-		viewBtn.setName("汇理财");
+		viewBtn.setName("哎哟");
 		viewBtn.setType("view");
 		viewBtn.setUrl("http://www.huilc.cn");
 
