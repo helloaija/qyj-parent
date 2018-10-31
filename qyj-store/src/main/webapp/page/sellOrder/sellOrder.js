@@ -94,8 +94,8 @@ qyjStoreApp.controller("sellOrderCtrl", ["$scope", "$document", "$filter", "i18n
                 enableCellEdit : false,
                 cellFilter : "productTypeFilter"
             }, {
-                field : "supplierName",
-                displayName : "供应商名称",
+                field : "buyerName",
+                displayName : "买家名称",
                 // 是否显示列头部菜单按钮
                 enableColumnMenu : false,
                 enableHiding : false,
@@ -142,11 +142,9 @@ qyjStoreApp.controller("sellOrderCtrl", ["$scope", "$document", "$filter", "i18n
                 width : '12%',
                 cellTemplate : '<div>' +
                     '<button type="button" class="btn btn-link"' +
-                    ' ng-click="grid.appScope.showViewProductWin(row.entity.id)">详情</button>' +
-                    '<button type="button" class="btn btn-link"' +
                     ' ng-click="grid.appScope.showEditOrderWin(row.entity.id)">修改</button>' +
                     '<button type="button" class="btn btn-link"' +
-                    ' ng-click="grid.appScope.deletesellOrder(row.entity.id, row.entity.orderNumber)">删除</button></div>',
+                    ' ng-click="grid.appScope.deleteSellOrder(row.entity.id, row.entity.orderNumber)">删除</button></div>',
                 // 是否显示列头部菜单按钮
                 enableColumnMenu : false,
                 enableHiding : false,
@@ -271,11 +269,11 @@ qyjStoreApp.controller("sellOrderCtrl", ["$scope", "$document", "$filter", "i18n
                             }
                         }
 
-                        for (var i = 0; i < orderRow.entity.stockProductList.length; i ++) {
-                            orderRow.entity.stockProductList[i].rowIndex = i + 1;
+                        for (var i = 0; i < orderRow.entity.sellProductList.length; i ++) {
+                            orderRow.entity.sellProductList[i].rowIndex = i + 1;
                         }
 
-                        orderRow.entity.subGridOptions.data = orderRow.entity.stockProductList;
+                        orderRow.entity.subGridOptions.data = orderRow.entity.sellProductList;
                     }
                 });
             }
@@ -295,7 +293,7 @@ qyjStoreApp.controller("sellOrderCtrl", ["$scope", "$document", "$filter", "i18n
             param.createTimeBegin = $filter('date')(param.createTimeBegin, 'yyyy-MM-dd');
             param.createTimeEnd = $filter('date')(param.createTimeEnd, 'yyyy-MM-dd');
             console.log(param);
-            sellOrderService.loadsellOrderList(param).then(function(response) {
+            sellOrderService.loadSellOrderList(param).then(function(response) {
                 var resultBean = response.data;
                 if (resultBean.resultCode == "0000") {
                     // 请求数据成功
@@ -342,9 +340,9 @@ qyjStoreApp.controller("sellOrderCtrl", ["$scope", "$document", "$filter", "i18n
         }
 
         // 编辑订单窗口
-        $scope.showEditOrderWin = function(stockId) {
+        $scope.showEditOrderWin = function(sellId) {
             var shadeModel = tipDialogService.showLoadingShade();
-            sellOrderService.getsellOrderInfo(stockId).then(function(response) {
+            sellOrderService.getSellOrderInfo(sellId).then(function(response) {
                 shadeModel.close();
                 var resultBean = response.data;
                 if (resultBean.resultCode == "0000") {
@@ -378,10 +376,10 @@ qyjStoreApp.controller("sellOrderCtrl", ["$scope", "$document", "$filter", "i18n
         }
 
         // 删除产品信息
-        $scope.deletesellOrder = function(stockId, orderNumber) {
+        $scope.deleteSellOrder = function(sellId, orderNumber) {
             tipDialogService.showDialog({title : "提示", content : "[" + orderNumber + "]确认删除？", ok : function() {
                 var shadeModel = tipDialogService.showLoadingShade();
-                sellOrderService.deletesellOrder(stockId).then(function(response) {
+                sellOrderService.deleteSellOrder(sellId).then(function(response) {
                     shadeModel.close();
                     var resultBean = response.data;
                     if (resultBean.resultCode == "0000") {
@@ -412,7 +410,7 @@ qyjStoreApp.controller("sellOrderAddCtrl", function($scope, $uibModalInstance, $
     $scope.productList = new Array();
 
     $scope.add = {};
-    $scope.add.stockProductList = new Array({});
+    $scope.add.sellProductList = new Array({});
 
     // 获取产品下拉列
     $scope.getProductList = function(title) {
@@ -431,12 +429,12 @@ qyjStoreApp.controller("sellOrderAddCtrl", function($scope, $uibModalInstance, $
 
     // 添加产品
     $scope.addProduct = function() {
-        $scope.add.stockProductList.push({});
+        $scope.add.sellProductList.push({});
     }
 
     // 删除产品
     $scope.deleteProduct = function(index, product) {
-        $scope.add.stockProductList.splice(index, 1);
+        $scope.add.sellProductList.splice(index, 1);
     }
 
     // 保存订单信息
@@ -447,25 +445,25 @@ qyjStoreApp.controller("sellOrderAddCtrl", function($scope, $uibModalInstance, $
         fieldData.finishTime = $filter('date')(fieldData.finishTime, 'yyyy-MM-dd HH:mm:ss');
         fieldData.payTime = $filter('date')(fieldData.payTime, 'yyyy-MM-dd HH:mm:ss');
 
-        if (!sellOrderService.validsellOrder(fieldData)) {
+        if (!sellOrderService.validSellOrder(fieldData)) {
             return;
         }
 
-        if (!sellOrderService.validStockProduct(fieldData.stockProductList)) {
+        if (!sellOrderService.validSellProduct(fieldData.sellProductList)) {
             return;
         }
 
-        for (var i = 0; i < fieldData.stockProductList.length; i ++) {
-            var stockProduct = fieldData.stockProductList[i];
-            delete stockProduct.productModel;
-            Object.keys(stockProduct).forEach(function(key){
-                fieldData["stockProductList[" + i + "]." + key] = stockProduct[key];
+        for (var i = 0; i < fieldData.sellProductList.length; i ++) {
+            var sellProduct = fieldData.sellProductList[i];
+            delete sellProduct.productModel;
+            Object.keys(sellProduct).forEach(function(key){
+                fieldData["sellProductList[" + i + "]." + key] = sellProduct[key];
             });
         }
 
-        delete fieldData.stockProductList;
+        delete fieldData.sellProductList;
 
-        sellOrderService.addsellOrder(fieldData).then(function(response) {
+        sellOrderService.addSellOrder(fieldData).then(function(response) {
             var resultBean = response.data;
             if (resultBean.resultCode == "0000") {
                 // 请求数据成功
@@ -487,10 +485,10 @@ qyjStoreApp.controller("sellOrderAddCtrl", function($scope, $uibModalInstance, $
  * 产品编辑弹窗控制器
  */
 qyjStoreApp.controller('sellOrderEditCtrl', function ($scope, $uibModalInstance, $filter, tipDialogService, sellOrderService, items) {
-    for (var i = 0; i < items.stockProductList.length; i ++) {
-        var stockProduct = items.stockProductList[i];
-        var productModel = {"id" : stockProduct.productId, "title" : stockProduct.productTitle}
-        stockProduct.productModel = productModel;
+    for (var i = 0; i < items.sellProductList.length; i ++) {
+        var sellProduct = items.sellProductList[i];
+        var productModel = {"id" : sellProduct.productId, "title" : sellProduct.productTitle}
+        sellProduct.productModel = productModel;
     }
 
     // 编辑产品数据
@@ -514,12 +512,12 @@ qyjStoreApp.controller('sellOrderEditCtrl', function ($scope, $uibModalInstance,
 
     // 添加产品
     $scope.addProduct = function() {
-        $scope.edit.stockProductList.push({});
+        $scope.edit.sellProductList.push({});
     }
 
     // 删除产品
     $scope.deleteProduct = function(index, product) {
-        $scope.edit.stockProductList.splice(index, 1);
+        $scope.edit.sellProductList.splice(index, 1);
     }
 
     // 保存产品信息
@@ -527,25 +525,25 @@ qyjStoreApp.controller('sellOrderEditCtrl', function ($scope, $uibModalInstance,
         var fieldData = {};
         angular.copy($scope.edit, fieldData);
 
-        if (!sellOrderService.validsellOrder(fieldData)) {
+        if (!sellOrderService.validSellOrder(fieldData)) {
             return;
         }
 
-        if (!sellOrderService.validStockProduct(fieldData.stockProductList)) {
+        if (!sellOrderService.validSellProduct(fieldData.sellProductList)) {
             return;
         }
 
-        for (var i = 0; i < fieldData.stockProductList.length; i ++) {
-            var stockProduct = fieldData.stockProductList[i];
-            delete stockProduct.productModel;
-            Object.keys(stockProduct).forEach(function(key){
-                fieldData["stockProductList[" + i + "]." + key] = stockProduct[key];
+        for (var i = 0; i < fieldData.sellProductList.length; i ++) {
+            var sellProduct = fieldData.sellProductList[i];
+            delete sellProduct.productModel;
+            Object.keys(sellProduct).forEach(function(key){
+                fieldData["sellProductList[" + i + "]." + key] = sellProduct[key];
             });
         }
 
-        delete fieldData.stockProductList;
+        delete fieldData.sellProductList;
 
-        sellOrderService.updatesellOrder(fieldData).then(function(response) {
+        sellOrderService.updateSellOrder(fieldData).then(function(response) {
             var resultBean = response.data;
             if (resultBean.resultCode == "0000") {
                 // 请求数据成功
@@ -568,10 +566,10 @@ qyjStoreApp.controller('sellOrderEditCtrl', function ($scope, $uibModalInstance,
  */
 qyjStoreApp.service('sellOrderService', function($http, tipDialogService) {
     // 请求获取订单分页数据
-    this.loadsellOrderList = function (data) {
+    this.loadSellOrderList = function (data) {
         return $http({
             method: "GET",
-            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/listsellOrderPage",
+            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/listSellOrderPage",
             params : data
         });
     }
@@ -585,42 +583,42 @@ qyjStoreApp.service('sellOrderService', function($http, tipDialogService) {
         });
     }
 
-    // 添加进货单
-    this.addsellOrder = function (data) {
+    // 添加销售单
+    this.addSellOrder = function (data) {
         return $http({
             method: "POST",
-            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/addsellOrder",
+            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/addSellOrder",
             contentType: "application/json",
             params : data
         });
     }
 
-    // 根据主键查询进货单信息
-    this.getsellOrderInfo = function (stockId) {
+    // 根据主键查询销售单信息
+    this.getSellOrderInfo = function (sellId) {
         return $http({
             method: "GET",
-            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/getsellOrderInfo",
-            params : {stockId : stockId}
+            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/getSellOrderInfo",
+            params : {sellId : sellId}
         });
     }
 
-    // 更新进货单
-    this.updatesellOrder = function (data) {
+    // 更新销售单
+    this.updateSellOrder = function (data) {
         return $http({
             method: "POST",
-            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/updatesellOrder",
+            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/updateSellOrder",
             contentType: "application/json",
             params : data
         });
     }
 
-    // 删除进货单
-    this.deletesellOrder = function (stockId) {
+    // 删除销售单
+    this.deleteSellOrder = function (sellId) {
         return $http({
             method: "POST",
-            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/deletesellOrder",
+            url: qyjStoreApp.httpsHeader + "/admin/sellOrder/deleteSellOrder",
             contentType: "application/json",
-            params : {stockId : stockId}
+            params : {sellId : sellId}
         });
     }
 
@@ -628,7 +626,7 @@ qyjStoreApp.service('sellOrderService', function($http, tipDialogService) {
      * 校验订单
      * @param sellOrder
      */
-    this.validsellOrder = function(sellOrder) {
+    this.validSellOrder = function(sellOrder) {
         if (sellOrder.orderAmount == null || isNaN(sellOrder.orderAmount) || sellOrder.orderAmount < 0) {
             tipDialogService.showPromptDialog("请检查订单金额是否填写正确");
             return false;
@@ -646,35 +644,35 @@ qyjStoreApp.service('sellOrderService', function($http, tipDialogService) {
 
     /**
      * 校验产品
-     * @param stockProductList
+     * @param sellProductList
      */
-    this.validStockProduct =  function (stockProductList) {
-        if (stockProductList == null || stockProductList.length == 0) {
-            tipDialogService.showPromptDialog("进货单产品不能为空");
+    this.validSellProduct =  function (sellProductList) {
+        if (sellProductList == null || sellProductList.length == 0) {
+            tipDialogService.showPromptDialog("销售单产品不能为空");
             return false;
         }
 
         var productIdArr = new Array();
-        for (var i = 0; i < stockProductList.length; i ++) {
-            var stockProduct = stockProductList[i];
-            if (stockProduct.productId == null || stockProduct.productTitle == null ||
-                stockProduct.productId == "" || stockProduct.productTitle == "") {
+        for (var i = 0; i < sellProductList.length; i ++) {
+            var sellProduct = sellProductList[i];
+            if (sellProduct.productId == null || sellProduct.productTitle == null ||
+                sellProduct.productId == "" || sellProduct.productTitle == "") {
                 tipDialogService.showPromptDialog("产品信息不能为空");
                 return false;
             }
-            if (stockProduct.number == null || isNaN(stockProduct.number) || stockProduct.number <= 0) {
+            if (sellProduct.number == null || isNaN(sellProduct.number) || sellProduct.number <= 0) {
                 tipDialogService.showPromptDialog("产品数量不正确");
                 return false;
             }
-            if (stockProduct.price == null || isNaN(stockProduct.price) || stockProduct.price <= 0) {
+            if (sellProduct.price == null || isNaN(sellProduct.price) || sellProduct.price <= 0) {
                 tipDialogService.showPromptDialog("产品金额不正确");
                 return false;
             }
-            if (arrayContain(productIdArr, stockProduct.productId)) {
-                tipDialogService.showPromptDialog("产品信息存在重复[" + stockProduct.productTitle + "]");
+            if (arrayContain(productIdArr, sellProduct.productId)) {
+                tipDialogService.showPromptDialog("产品信息存在重复[" + sellProduct.productTitle + "]");
                 return false;
             }
-            productIdArr.push(stockProduct.productId);
+            productIdArr.push(sellProduct.productId);
         }
 
         return true;

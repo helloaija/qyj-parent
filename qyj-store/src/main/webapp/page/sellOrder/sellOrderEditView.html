@@ -61,25 +61,25 @@
 			</div>
 			<div class="row" style="margin-bottom: 20px;">
 				<div class="col-md-4">
-					<label for="edit.supplierName" class="col-form-label avi-label">供应商名称：</label>
-					<input class="form-control avi-input" id="edit.supplierName" ng-model="edit.supplierName" required>
+					<label for="edit.buyerName" class="col-form-label avi-label">买家名称：</label>
+					<input class="form-control avi-input" id="edit.buyerName" ng-model="edit.buyerName" required>
 				</div>
 				<div class="col-md-4">
-					<label for="edit.supplierPhone" class="col-form-label avi-label">供应商电话：</label>
-					<input class="form-control avi-input" id="edit.supplierPhone" ng-model="edit.supplierPhone" required>
+					<label for="edit.buyerPhone" class="col-form-label avi-label">买家电话：</label>
+					<input class="form-control avi-input" id="edit.buyerPhone" ng-model="edit.buyerPhone" required>
 				</div>
 
 				<div class="col-md-4">
 				</div>
 			</div>
 			<div class="row" style="margin-bottom: 20px;">
-				<label for="edit.supplierAddress" class="col-form-label" style="width:12%;float: left;">供应商地址：</label>
-				<input class="form-control" id="edit.supplierAddress" ng-model="edit.supplierAddress" required
+				<label for="edit.buyerAddress" class="col-form-label" style="width:12%;float: left;">买家地址：</label>
+				<input class="form-control" id="edit.buyerAddress" ng-model="edit.buyerAddress" required
 					   style="width:86.5%";>
 			</div>
 			<div class="row" style="margin-bottom: 20px;">
-				<label for="edit.supplierMessage" class="col-form-label" style="width:12%;float: left;">供应商信息：</label>
-				<input class="form-control" id="edit.supplierMessage" ng-model="edit.supplierMessage" required
+				<label for="edit.buyerMessage" class="col-form-label" style="width:12%;float: left;">买家信息：</label>
+				<input class="form-control" id="edit.buyerMessage" ng-model="edit.buyerMessage" required
 					   style="width:86.5%";>
 			</div>
 			<div class="row" style="margin-bottom: 20px;">
@@ -93,7 +93,7 @@
 				<button type="button" class="btn btn-primary btn-sm" style="float:right;"
 						ng-click="addProduct()">添加产品</button>
 			</div>
-			<div class="row" style="margin-bottom: 20px;" ng-repeat="product in edit.stockProductList">
+			<div class="row" style="margin-bottom: 20px;" ng-repeat="product in edit.sellProductList">
 				<!--<input class="form-control avi-input" ng-model="product.product_id" required>-->
 				<div class="col-md-3">
 					<label class="col-form-label avi-label">[{{$index + 1}}] 产品：</label>

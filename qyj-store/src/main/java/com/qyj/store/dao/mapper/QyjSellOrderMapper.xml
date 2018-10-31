@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qyj.store.dao.QyjStockOrderMapper">
-	<resultMap id="baseResultMap" type="com.qyj.store.entity.QyjStockOrderEntity">
+<mapper namespace="com.qyj.store.dao.QyjSellOrderMapper">
+	<resultMap id="baseResultMap" type="com.qyj.store.entity.QyjSellOrderEntity">
 		<id column="id" jdbcType="BIGINT" property="id" />
 		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
 		<result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
 		<result column="modify_amount" jdbcType="DECIMAL" property="modifyAmount" />
 		<result column="has_pay_amount" jdbcType="DECIMAL" property="hasPayAmount" />
 		<result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
-		<result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
-		<result column="supplier_phone" jdbcType="VARCHAR" property="supplierPhone" />
-		<result column="supplier_address" jdbcType="VARCHAR" property="supplierAddress" />
-		<result column="supplier_message" jdbcType="VARCHAR" property="supplierMessage" />
+		<result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+		<result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+		<result column="buyer_address" jdbcType="VARCHAR" property="buyerAddress" />
+		<result column="buyer_message" jdbcType="VARCHAR" property="buyerMessage" />
 		<result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
 		<result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
 		<result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -22,23 +22,20 @@
 	</resultMap>
 
 	<sql id="baseColumnList">
-		id, order_number, order_amount, modify_amount, has_pay_amount, order_status, supplier_name, supplier_phone,
-		supplier_address, supplier_message, pay_time, finish_time, remark, create_time, create_user, update_time,
+		id, order_number, order_amount, modify_amount, has_pay_amount, order_status, buyer_name, buyer_phone,
+		buyer_address, buyer_message, pay_time, finish_time, remark, create_time, create_user, update_time,
 		update_user
 	</sql>
 
 	<!-- 根据id获取订单 -->
-	<select id="getStockOrderById" parameterType="java.lang.Long" resultMap="baseResultMap">
-		select <include refid="baseColumnList" /> from qyj_stock_order where id = #{id}
+	<select id="getSellOrderById" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_sell_order where id = #{id}
 	</select>
 
 	<!-- 查询条件 -->
 	<sql id="condition">
 		<if test="id != null">
 			and id = #{id}
-		</if>
-		<if test="userId != null">
-			and user_id = #{userId}
 		</if>
 		<if test="orderStatus != null and orderStatus != ''">
 			and order_status = #{orderStatus}
@@ -58,13 +55,13 @@
 	</sql>
 
 	<!-- 根据查询条件获取订单 -->
-	<select id="listStockOrderByModel" parameterType="com.qyj.store.entity.QyjStockOrderEntity" resultMap="baseResultMap">
-		select <include refid="baseColumnList" /> from qyj_stock_order where 1 = 1 <include refid="condition"/>
+	<select id="listSellOrderByModel" parameterType="com.qyj.store.entity.QyjSellOrderEntity" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_sell_order where 1 = 1 <include refid="condition"/>
 	</select>
 
 	<!-- 更新订单 -->
-	<update id="updateStockOrder" parameterType="com.qyj.store.entity.QyjStockOrderEntity">
-		update qyj_stock_order <set>
+	<update id="updateSellOrder" parameterType="com.qyj.store.entity.QyjSellOrderEntity">
+		update qyj_sell_order <set>
 			<trim suffix="" suffixOverrides=",">
 			<if test="orderNumber != null">
 				order_number = #{orderNumber,jdbcType=VARCHAR},
@@ -81,17 +78,17 @@
 			<if test="orderStatus != null">
 				order_status = #{orderStatus,jdbcType=VARCHAR},
 			</if>
-			<if test="supplierName != null">
-				supplier_name = #{supplierName,jdbcType=VARCHAR},
+			<if test="buyerName != null">
+				buyer_name = #{buyerName,jdbcType=VARCHAR},
 			</if>
-			<if test="supplierPhone != null">
-				supplier_phone = #{supplierPhone,jdbcType=VARCHAR},
+			<if test="buyerPhone != null">
+				buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
 			</if>
-			<if test="supplierAddress != null">
-				supplier_address = #{supplierAddress,jdbcType=VARCHAR},
+			<if test="buyerAddress != null">
+				buyer_address = #{buyerAddress,jdbcType=VARCHAR},
 			</if>
-			<if test="supplierMessage != null">
-				supplier_message = #{supplierMessage,jdbcType=VARCHAR},
+			<if test="buyerMessage != null">
+				buyer_message = #{buyerMessage,jdbcType=VARCHAR},
 			</if>
 			<if test="createTime != null">
 				create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -117,17 +114,17 @@
 	</update>
 	
 	<!-- 关联商品 -->
-	<resultMap id="goodsRelationMap" type="com.qyj.store.entity.QyjStockOrderEntity">
+	<resultMap id="goodsRelationMap" type="com.qyj.store.entity.QyjSellOrderEntity">
 		<id column="id" jdbcType="BIGINT" property="id" />
 		<result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
 		<result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
 		<result column="modify_amount" jdbcType="DECIMAL" property="modifyAmount" />
 		<result column="has_pay_amount" jdbcType="DECIMAL" property="hasPayAmount" />
 		<result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
-		<result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
-		<result column="supplier_phone" jdbcType="VARCHAR" property="supplierPhone" />
-		<result column="supplier_address" jdbcType="VARCHAR" property="supplierAddress" />
-		<result column="supplier_message" jdbcType="VARCHAR" property="supplierMessage" />
+		<result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+		<result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+		<result column="buyer_address" jdbcType="VARCHAR" property="buyerAddress" />
+		<result column="buyer_message" jdbcType="VARCHAR" property="buyerMessage" />
 		<result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
 		<result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
 		<result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -137,12 +134,12 @@
 		<result column="update_user" jdbcType="TIMESTAMP" property="updateUser" />
 		
 		<!--关联订单产品表-->
-		<collection property="stockProductList" column="id" select="com.qyj.store.dao.QyjStockProductMapper.listStockProductByStockId"/>
+		<collection property="sellProductList" column="id" select="com.qyj.store.dao.QyjSellProductMapper.listSellProductBySellId"/>
 	</resultMap>
 	
 	<!-- 统计订单 -->
-	<select id="countStockOrder" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(id) from qyj_stock_order
+	<select id="countSellOrder" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(id) from qyj_sell_order
 		<where>
 			<include refid="condition" />
 		</where>
@@ -152,8 +149,8 @@
 	</select>
 	
 	<!-- 获取订单列表 -->
-	<select id="listStockOrder" parameterType="java.util.Map" resultMap="baseResultMap">
-		select <include refid="baseColumnList" /> from qyj_stock_order where 1=1
+	<select id="listSellOrder" parameterType="java.util.Map" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_sell_order where 1=1
 		<include refid="condition" />
 		<if test="pageParam != null">
 			${pageParam.queryCondition}
@@ -163,8 +160,8 @@
 	</select>
 	
 	<!-- 获取model获取关联产品的订单列表 -->
-	<select id="listStockOrderAndProduct" parameterType="java.util.Map" resultMap="goodsRelationMap">
-		select <include refid="baseColumnList" /> from qyj_stock_order where 1=1
+	<select id="listSellOrderAndProduct" parameterType="java.util.Map" resultMap="goodsRelationMap">
+		select <include refid="baseColumnList" /> from qyj_sell_order where 1=1
 		<include refid="condition" />
 		<if test="pageParam != null">
 			${pageParam.queryCondition}
@@ -174,22 +171,22 @@
 	</select>
 
 	<!-- 插入订单 -->
-	<insert id="insertStockOrder" parameterType="com.qyj.store.entity.QyjStockOrderEntity" useGeneratedKeys="true" keyProperty="id">
-		insert into qyj_stock_order (order_number, order_amount, modify_amount, has_pay_amount, order_status,
-				supplier_name, supplier_phone, supplier_address, supplier_message, pay_time, finish_time, remark,
+	<insert id="insertSellOrder" parameterType="com.qyj.store.entity.QyjSellOrderEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into qyj_sell_order (order_number, order_amount, modify_amount, has_pay_amount, order_status,
+				buyer_name, buyer_phone, buyer_address, buyer_message, pay_time, finish_time, remark,
 				create_time, create_user, update_time, update_user)
-		values (#{orderNumber}, #{orderAmount}, #{modifyAmount}, #{hasPayAmount}, #{orderStatus}, #{supplierName},
-				#{supplierPhone}, #{supplierAddress}, #{supplierMessage}, #{payTime}, #{finishTime}, #{remark},
+		values (#{orderNumber}, #{orderAmount}, #{modifyAmount}, #{hasPayAmount}, #{orderStatus}, #{buyerName},
+				#{buyerPhone}, #{buyerAddress}, #{buyerMessage}, #{payTime}, #{finishTime}, #{remark},
 				#{createTime}, #{createUser}, #{updateTime}, #{updateUser})
 	</insert>
 
-	<!-- 获取stockId获取关联产品的进货单 -->
-	<select id="getStockOrderAndProductByStockId" parameterType="java.lang.Long" resultMap="goodsRelationMap">
-		select <include refid="baseColumnList" /> from qyj_stock_order where id = #{stockId}
+	<!-- 获取SellId获取关联产品的进货单 -->
+	<select id="getSellOrderAndProductBySellId" parameterType="java.lang.Long" resultMap="goodsRelationMap">
+		select <include refid="baseColumnList" /> from qyj_sell_order where id = #{SellId}
 	</select>
 
 	<!-- 删除进货单 -->
-	<delete id="deleteStockOrder" parameterType="java.lang.Long">
-		delete from qyj_stock_order where id = #{stockId}
+	<delete id="deleteSellOrder" parameterType="java.lang.Long">
+		delete from qyj_sell_order where id = #{SellId}
 	</delete>
 </mapper>

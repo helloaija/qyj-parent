@@ -17,7 +17,7 @@
 	</sql>
 	
 	<!-- 根据订单获取订单商品 -->
-	<select id="listSellProductBysellId" parameterType="java.lang.Long" resultMap="baseResultMap">
+	<select id="listSellProductBySellId" parameterType="java.lang.Long" resultMap="baseResultMap">
 		select <include refid="baseColumnList" /> from qyj_sell_product where sell_id = #{sellId}
 	</select>
 
@@ -26,7 +26,7 @@
 		insert into qyj_sell_product (sell_id, product_id, product_title, price, number, create_time, update_time) values
 		<foreach collection="list" item="item" index="index" separator=",">
 			(#{item.sellId}, #{item.productId}, #{item.productTitle}, #{item.price}, #{item.number},
-			#{item.createTime}), #{item.updateTime})
+			#{item.createTime}, #{item.updateTime})
 		</foreach>
 	</insert>
 
@@ -64,7 +64,7 @@
 	</delete>
 
 	<!-- 根据sellId删除进货单产品 -->
-	<delete id="deleteSellProductBysellId" parameterType="java.lang.Long">
+	<delete id="deleteSellProductBySellId" parameterType="java.lang.Long">
 		delete from qyj_sell_product where sell_id = #{sellId}
 	</delete>
 

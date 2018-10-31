@@ -68,7 +68,7 @@ public class QyjSellOrderEntity implements Serializable {
     private Long updateUser;
 
     /** 订单商品列表 */
-    List<QyjSellProductEntity> sellProductEntity = null;
+    List<QyjSellProductEntity> sellProductList = null;
 
     public Long getId() {
         return id;
@@ -207,13 +207,14 @@ public class QyjSellOrderEntity implements Serializable {
         this.buyerMessage = buyerMessage;
     }
 
-    public List<QyjSellProductEntity> getSellProductEntity() {
-        return sellProductEntity;
+    public List<QyjSellProductEntity> getSellProductList() {
+        return sellProductList;
     }
 
-    public void setSellProductEntity(List<QyjSellProductEntity> sellProductEntity) {
-        this.sellProductEntity = sellProductEntity;
+    public void setSellProductList(List<QyjSellProductEntity> sellProductList) {
+        this.sellProductList = sellProductList;
     }
+
 
     @Override
     public String toString() {
@@ -235,7 +236,9 @@ public class QyjSellOrderEntity implements Serializable {
                 ", createUser=" + createUser +
                 ", updateTime=" + updateTime +
                 ", updateUser=" + updateUser +
-                ", sellProductEntity=" + sellProductEntity +
+                ", sellProductList=" + sellProductList +
                 '}';
     }
+
+
 }
