@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.store.dao.QyjStockProductMapper">
+	<resultMap id="baseResultMap" type="com.qyj.store.entity.QyjStockProductEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="stock_id" jdbcType="BIGINT" property="stockId" />
+		<result column="product_id" jdbcType="BIGINT" property="productId" />
+		<result column="product_title" property="productTitle" />
+		<result column="price" jdbcType="DECIMAL" property="price" />
+		<result column="number" jdbcType="INTEGER" property="number" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		id, stock_id, product_id, product_title, price, number, create_time
+	</sql>
+	
+	<!-- 根据订单获取订单商品 -->
+	<select id="listStockProductByStockId" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_stock_product where stock_id = #{stockId}
+	</select>
+
+	<!-- 批量插入订单商品 -->
+	<insert id="insertStockProductList" parameterType="java.util.List">
+		insert into qyj_stock_product (stock_id, product_id, product_title, price, number, create_time) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.stockId}, #{item.productId}, #{item.productTitle}, #{item.price}, #{item.number}, #{item.createTime})
+		</foreach>
+	</insert>
+
+	<!-- 批量更新进货单产品 -->
+	<update id="updateStockProductList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			update qyj_stock_product set
+				<trim suffix="" suffixOverrides=",">
+					<if test="item.productId != null">
+						product_id = #{item.productId},
+					</if>
+					<if test="item.productTitle != null and item.productTitle != ''">
+						product_title = #{item.productTitle},
+					</if>
+					<if test="item.price != null">
+						price = #{item.price},
+					</if>
+					<if test="item.number != null">
+						number = #{item.number},
+					</if>
+				</trim>
+			where id = ${item.id}
+		</foreach>
+	</update>
+
+	<!-- 批量删除进货单产品 -->
+	<delete id="deleteStockProductList" parameterType="java.util.List">
+		delete from  qyj_stock_product where id in
+		<foreach item="item" collection="list" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 根据stockId删除进货单产品 -->
+	<delete id="deleteStockProductByStockId" parameterType="java.lang.Long">
+		delete from  qyj_stock_product where stock_id = #{stockId}
+	</delete>
+
+</mapper>

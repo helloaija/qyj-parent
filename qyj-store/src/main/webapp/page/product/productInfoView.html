@@ -1,0 +1,50 @@
+<style>
+#productInfoModal th {
+	text-align: right;
+}
+img {
+	width : 100%;
+}
+</style>
+
+<!--查看产品详情弹窗 -->
+<div class="modal-content" style="width: 1000px;" id="productInfoModal">
+	<div class="modal-header">
+		<h5 class="modal-title">产品详情</h5>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid bd-example-row">
+			<table class="table">
+				<tbody>
+					<tr>
+						<th scope="row" class="first">标题：</th>
+						<td colspan="5" class="first">{{product.title}}</td>
+					</tr>
+					<tr>
+						<th scope="row">类型：</th>
+						<td>{{product.productType | productTypeFilter}}</td>
+						<th scope="row">价格：</th>
+						<td>{{product.price}}</td>
+						<th scope="row">单位：</th>
+						<td>{{product.productUnit}}</td>
+					</tr>
+					<tr>
+						<th scope="row">创建时间：</th>
+						<td>{{product.createTime}}</td>
+						<th scope="row"></th>
+						<td></td>
+						<th scope="row"></th>
+						<td></td>
+					</tr>
+					<tr>
+						<th scope="row">产品说明：</th>
+						<td colspan="5">{{product.remark}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>

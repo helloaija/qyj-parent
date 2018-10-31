@@ -1,0 +1,46 @@
+<!-- 新增、编辑角色弹窗 -->
+<div class="modal-content" style="width: 1000px;">
+	<div class="modal-header">
+		<h5 class="modal-title" id="gridModalLabel">{{winParams.title}}</h5>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid bd-example-row" id="productContainer" style="border-bottom: 1px solid #ddd;">
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-md-4 ml-auto">
+					<div class="row">
+						<label class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">角色名称：</label>
+						<div class="col-md-8">
+							<input class="form-control" placeholder="请输入角色名称" ng-model="role.roleName">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 ml-auto">
+					<div class="row">
+						<label class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">角色编码：</label>
+						<div class="col-md-8">
+							<input class="form-control" placeholder="请输入角色编码" ng-model="role.roleCode">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 ml-auto">
+					<div class="row">
+						<label class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">备注：</label>
+						<div class="col-md-8">
+							<input class="form-control" placeholder="请输入备注" ng-model="role.remark">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid bd-example-row">
+			<div treecontrol class="tree-light" tree-model="menu" on-selection="selectNode(node)" 
+				on-node-toggle="expendNode(node)" options="treeOptions" expanded-nodes="expandedNodes">
+				<input type="checkbox" ng-model="node.checked" ng-change="checkNode(node)">{{node | showText}}
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="saveRole()">保存</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>

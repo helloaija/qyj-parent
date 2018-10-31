@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.store.dao.SysDeptMapper">
+	
+	<!-- Result Map 数据库映射到实体类  -->
+	<resultMap id="tableMapToModel" type="com.qyj.store.entity.SysDeptModel" >
+		<id column="id" property="id"/>
+		<result column="DeptCode" property="deptCode"/>
+		<result column="DeptName" property="deptName"/>
+		<result column="remark" property="remark"/>
+		<result column="createTime" property="createTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="createUser" property="createUser"/>
+		<result column="updateUser" property="updateUser"/>
+	</resultMap>
+
+	<!-- tbaleColumns  所有列 -->
+	<sql id="tableColumns">
+		<trim suffix="" suffixOverrides=",">
+			id, deptCode, deptName, remark, createTime, updateTime, createUser, updateUser,
+		</trim>
+	</sql>
+	
+	<!-- where 条件  -->
+	<sql id="where">
+     	where 1=1
+	</sql>
+
+	<!-- 查询条件  包含所有 -->
+	<sql id="andOtherAll">
+		<trim  suffixOverrides="," >
+			<if test="sysDeptModel.id != null and sysDeptModel.id != '' " >
+			and id = #{sysDeptModel.id}
+			</if>
+			<if test="sysDeptModel.deptCode != null and sysDeptModel.deptCode != '' " >
+			and deptCode = #{sysDeptModel.deptCode}
+			</if>
+			<if test="sysDeptModel.deptName != null and sysDeptModel.deptName != '' " >
+			and deptName = #{sysDeptModel.deptName}
+			</if>
+			<if test="sysDeptModel.remark != null and sysDeptModel.remark != '' " >
+			and remark = #{sysDeptModel.remark}
+			</if>
+			<if test="sysDeptModel.createTime != null and sysDeptModel.createTime != '' ">
+			and createTime = #{sysDeptModel.createTime}
+			</if>
+			<if test="sysDeptModel.updateTime != null and sysDeptModel.updateTime != '' " >
+			and updateTime = #{sysDeptModel.updateTime}
+			</if>
+			<if test="sysDeptModel.createUser != null and sysDeptModel.createUser != '' " >
+			and createUser = #{sysDeptModel.createUser}
+			</if>
+			<if test="sysDeptModel.updateUser != null and sysDeptModel.updateUser != '' " >
+			and updateUser = #{sysDeptModel.updateUser}
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- insertColumns 插入列 -->
+	<sql id="insertColumns">
+		<trim suffix="" suffixOverrides=",">
+			<if test="sysDeptModel.id != null and sysDeptModel.id != '' " >
+				id,
+			</if>
+			<if test="sysDeptModel.deptCode != null and sysDeptModel.deptCode != '' " >
+			    deptCode,
+			</if>
+			<if test="sysDeptModel.deptName != null and sysDeptModel.deptName != '' " >
+				deptName,
+			</if>
+			<if test="sysDeptModel.remark != null and sysDeptModel.remark != '' " >
+				remark,
+			</if>
+			<if test="sysDeptModel.createTime != null and sysDeptModel.createTime != '' " >
+				createTime,
+			</if>
+			<if test="sysDeptModel.updateTime != null and sysDeptModel.updateTime != '' " >
+				updateTime,
+			</if>
+			<if test="sysDeptModel.createUser != null and sysDeptModel.createUser != '' " >
+				createUser,
+			</if>
+			<if test="sysDeptModel.updateUser != null and sysDeptModel.updateUser != '' " >
+				updateUser,
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- insertParams 插入参数 -->
+	<sql id="insertParams">
+		<trim suffix="" suffixOverrides=",">
+			<if test="sysDeptModel.id != null and sysDeptModel.id != '' " >
+				${sysDeptModel.id},
+			</if>
+			<if test="sysDeptModel.deptCode != null and sysDeptModel.deptCode != '' " >
+			    #{sysDeptModel.deptCode},
+			</if>
+			<if test="sysDeptModel.deptName != null and sysDeptModel.deptName != '' " >
+				#{sysDeptModel.deptName},
+			</if>
+			<if test="sysDeptModel.remark != null and sysDeptModel.remark != '' " >
+				#{sysDeptModel.remark},
+			</if>
+			<if test="sysDeptModel.createTime != null and sysDeptModel.createTime != '' " >
+				#{sysDeptModel.createTime},
+			</if>
+			<if test="sysDeptModel.updateTime != null and sysDeptModel.updateTime != '' " >
+				#{sysDeptModel.updateTime},
+			</if>
+			<if test="sysDeptModel.createUser != null and sysDeptModel.createUser != '' " >
+				#{sysDeptModel.createUser},
+			</if>
+			<if test="sysDeptModel.updateUser != null and sysDeptModel.updateUser != '' " >
+				#{sysDeptModel.updateUser},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- updateParams 修改参数 -->
+	<sql id="updateParams">
+		<trim suffix="" suffixOverrides=",">
+			id=${sysDeptModel.id},
+		    DeptCode=#{sysDeptModel.deptCode},
+			DeptName=#{sysDeptModel.deptName},
+			remark=#{sysDeptModel.remark},
+			updateTime=#{sysDeptModel.updateTime},
+			updateUser=#{sysDeptModel.updateUser},
+		</trim>
+	</sql>
+	
+	<select id="querySysDeptList"  resultMap="tableMapToModel">
+		select <include refid="tableColumns"/> from sys_Dept 
+		<include refid="where"/>
+		<include refid="andOtherAll"/>
+			<if test="pageBean.queryCondition != null and pageBean.queryCondition != '' " >
+				${pageBean.queryCondition}
+			</if>
+			<if test="pageBean.orderByCondition != null and pageBean.orderByCondition != '' " >
+	    		${pageBean.orderByCondition}
+	    	</if>
+		<if test="pageBean.paging == true" >
+		    	${pageBean.limit}
+		</if>
+	</select>
+	
+	<select id="querySysDeptTotal"  resultType="java.lang.Integer">
+		select count(1) from sys_dept
+		<include refid="where"/>
+		<include refid="andOtherAll"/>
+			${pageBean.queryCondition}
+	</select>
+	
+	<insert id="insertDept">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_Dept (<include refid="insertColumns"/>) values (<include refid="insertParams"/>)
+	</insert>
+	
+	<delete id="delDept">
+		delete from sys_dept where id in
+			<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+	            #{item}  
+	    	</foreach>	
+	</delete>
+	
+</mapper> 

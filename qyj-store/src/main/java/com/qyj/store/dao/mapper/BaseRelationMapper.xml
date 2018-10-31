@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.store.dao.BaseRelationMapper">
+
+	<delete id="delDeptMenuByDeptId" parameterType="java.lang.Long">
+		delete from sys_dept_menu where deptid = #{deptId}
+	</delete>
+	
+	<insert id="addDeptMenu">
+		insert into sys_dept_menu (deptid, menuid) values
+		<foreach collection="menuIds" index="index" item="item" separator=",">  
+            (#{deptId},#{item})
+    	</foreach>
+	</insert>
+	
+	<select id="queryDeptMenuByDeptId" parameterType="java.lang.Long" resultType="java.util.Map">
+		select * from sys_dept_menu where deptid = #{deptId}
+	</select>
+</mapper> 

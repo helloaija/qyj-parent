@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.store.dao.SysRelationMapper">
+	<resultMap id="baseResultMap" type="com.qyj.store.entity.SysRelationEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="main_id" jdbcType="BIGINT" property="mainId" />
+		<result column="relation_id" jdbcType="BIGINT" property="relationId" />
+		<result column="relation_type" jdbcType="VARCHAR" property="relationType" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		id, main_id, relation_id, relation_type, remark
+	</sql>
+
+	<!-- 查询条件获取关联列表 -->
+	<select id="listRelationByModel" parameterType="com.qyj.store.entity.SysRelationEntity" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from sys_relation where 1 = 1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="mainId != null">
+			and main_id = #{mainId}
+		</if>
+		<if test="relationType != null and relationType != ''">
+			and relation_type = #{relationType}
+		</if>
+	</select>
+	
+	<!-- 批量插入关系表 -->
+	<insert id="insertRelationBatch" parameterType="java.util.List">
+		insert into sys_relation (main_id, relation_id, relation_type, remark) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.mainId}, #{item.relationId}, #{item.relationType}, #{item.remark})
+		</foreach>
+	</insert>
+
+	<!-- 根据条件删除记录 -->
+	<delete id="deleteRelationByModel" parameterType="com.qyj.store.entity.SysRelationEntity">
+		delete from sys_relation where 1 = 1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="mainId != null">
+			and main_id = #{mainId}
+		</if>
+		<if test="relationType != null and relationType != ''">
+			and relation_type = #{relationType}
+		</if>
+	</delete>
+</mapper>

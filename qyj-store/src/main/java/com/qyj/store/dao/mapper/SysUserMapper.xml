@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.store.dao.SysUserMapper">
+	
+	<!-- Result Map 数据库映射到实体类  -->
+	<resultMap id="tableMapToModel" type="com.qyj.store.entity.SysUserModel" >
+		<id column="id" property="id"/>
+		<result column="user_name" property="userName"/>
+		<result column="password" property="password"/>
+		<result column="enable" property="enable"/>
+		<result column="real_name" property="realName"/>
+		<result column="card" property="card"/>
+		<result column="tel_phone" property="telphone"/>
+		<result column="email" property="email"/>
+		<result column="qq" property="qq"/>
+		<result column="sex" property="sex"/>
+		<result column="address" property="address"/>
+		<result column="last_time" property="lastTime"/>
+		<result column="last_iP" property="lastIP"/>
+		<result column="ip_addr" property="ipaddr"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="create_user" property="createUser"/>
+		<result column="update_user" property="updateUser"/>
+	</resultMap>
+
+	<!-- tbaleColumns  所有列 -->
+	<sql id="tableColumns">
+		<trim suffix="" suffixOverrides=",">
+			id, user_name, password, enable, real_name, card, tel_phone, email, qq, sex,
+			address, last_time, last_ip, ip_addr, create_time, update_time, create_user, update_user,
+		</trim>
+	</sql>
+	
+	<!-- where 条件  -->
+	<sql id="where">
+     	where 1=1
+	</sql>
+
+	<!-- 查询条件  包含所有 -->
+	<sql id="andOtherAll">
+		<trim  suffixOverrides="," >
+			<if test="sysUserModel.id != null" >
+			and id =  #{sysUserModel.id}
+			</if>
+			<if test="sysUserModel.userName != null and sysUserModel.userName != '' " >
+			and user_name =  #{sysUserModel.userName}
+			</if>
+			<if test="sysUserModel.password != null and sysUserModel.password != '' " >
+			and password =  #{sysUserModel.password}
+			</if>
+			<if test="sysUserModel.enable != null and sysUserModel.enable != 0 and sysUserModel.enable != -1 " >
+			and enable =  #{sysUserModel.enable}
+			</if>
+			<if test="sysUserModel.realName != null and sysUserModel.realName != '' " >
+			and real_name =  #{sysUserModel.realName}
+			</if>
+			<if test="sysUserModel.card != null and sysUserModel.card != '' " >
+			and card = #{sysUserModel.card}
+			</if>
+			<if test="sysUserModel.telphone != null and sysUserModel.telphone != '' " >
+			and tel_phone =  #{sysUserModel.telphone}
+			</if>
+			<if test="sysUserModel.email != null and sysUserModel.email != '' " >
+			and email =  #{sysUserModel.email}
+			</if>
+			<if test="sysUserModel.qq != null and sysUserModel.qq != '' " >
+			and qq =  #{sysUserModel.qq}
+			</if>
+			<if test="sysUserModel.sex != null and sysUserModel.sex != 0 and sex != -1 " >
+			and sex =  #{sysUserModel.sex}
+			</if>
+			<if test="sysUserModel.address != null and sysUserModel.address != '' " >
+			and address =  #{sysUserModel.address}
+			</if>
+			<if test="sysUserModel.lastTime != null" >
+			and last_time =  #{sysUserModel.lastTime}
+			</if>
+			<if test="sysUserModel.lastIP != null and sysUserModel.lastIP != '' " >
+			and last_ip = #{sysUserModel.lastIP}
+			</if>
+			<if test="sysUserModel.ipaddr != null and sysUserModel.ipaddr != '' " >
+			and ip_addr = #{sysUserModel.ipaddr}
+			</if>
+			<if test="sysUserModel.createTime != null" >
+			and create_time =  #{sysUserModel.createTime}
+			</if>
+			<if test="sysUserModel.updateTime != null" >
+			and update_time =  #{sysUserModel.updateTime}
+			</if>
+			<if test="sysUserModel.createUser != null" >
+			and create_user =  #{sysUserModel.createUser}
+			</if>
+			<if test="sysUserModel.updateUser != null" >
+			and update_user =  #{sysUserModel.updateUser}
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- insertColumns 插入列 -->
+	<sql id="insertColumns">
+		<trim suffix="" suffixOverrides=",">
+			<if test="sysUserModel.id != null" >
+				id,
+			</if>
+			<if test="sysUserModel.userName != null and sysUserModel.userName != '' " >
+			    userName,
+			</if>
+			<if test="sysUserModel.password != null and sysUserModel.password != '' " >
+				password,
+			</if>
+			<if test="sysUserModel.enable != null and sysUserModel.enable != '' " >
+				enable,
+			</if>
+			<if test="sysUserModel.realName != null and sysUserModel.realName != '' " >
+				realName,
+			</if>
+			<if test="sysUserModel.card != null and sysUserModel.card != '' " >
+				card,
+			</if>
+			<if test="sysUserModel.telphone != null and sysUserModel.telphone != '' " >
+				telphone,
+			</if>
+			<if test="sysUserModel.email != null and sysUserModel.email != '' " >
+				email,
+			</if>
+			<if test="sysUserModel.qq != null and sysUserModel.qq != '' " >
+				qq,
+			</if>
+			<if test="sysUserModel.sex != null and sysUserModel.sex != '' " >
+				sex,
+			</if>
+			<if test="sysUserModel.address != null and sysUserModel.address != '' " >
+				address,
+			</if>
+			<if test="sysUserModel.lastTime != null" >
+				lastTime,
+			</if>
+			<if test="sysUserModel.lastIP != null and sysUserModel.lastIP != '' " >
+				lastIP,
+			</if>
+			<if test="sysUserModel.ipaddr != null and sysUserModel.ipaddr != '' " >
+				ipaddr,
+			</if>
+			<if test="sysUserModel.createTime != null" >
+				createTime,
+			</if>
+			<if test="sysUserModel.updateTime != null" >
+				updateTime,
+			</if>
+			<if test="sysUserModel.createUser != null" >
+				createUser,
+			</if>
+			<if test="sysUserModel.updateUser != null" >
+				updateUser,
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- insertParams 插入参数 -->
+	<sql id="insertParams">
+		<trim suffix="" suffixOverrides=",">
+			<if test="sysUserModel.id != null and sysUserModel.id != '' " >
+				${sysUserModel.id},
+			</if>
+			<if test="sysUserModel.userName != null and sysUserModel.userName != '' " >
+			    #{sysUserModel.userName},
+			</if>
+			<if test="sysUserModel.password != null and sysUserModel.password != '' " >
+				#{sysUserModel.password},
+			</if>
+			<if test="sysUserModel.enable != null and sysUserModel.enable != '' " >
+				#{sysUserModel.enable},
+			</if>
+			<if test="sysUserModel.realName != null and sysUserModel.realName != '' " >
+				#{sysUserModel.realName},
+			</if>
+			<if test="sysUserModel.card != null and sysUserModel.card != '' " >
+				#{sysUserModel.card},
+			</if>
+			<if test="sysUserModel.telphone != null and sysUserModel.telphone != '' " >
+				#{sysUserModel.telphone},
+			</if>
+			<if test="sysUserModel.email != null and sysUserModel.email != '' " >
+				#{sysUserModel.email},
+			</if>
+			<if test="sysUserModel.qq != null and sysUserModel.qq != '' " >
+				#{sysUserModel.qq},
+			</if>
+			<if test="sysUserModel.sex != null and sysUserModel.sex != '' " >
+				#{sysUserModel.sex},
+			</if>
+			<if test="sysUserModel.address != null and sysUserModel.address != '' " >
+				#{sysUserModel.address},
+			</if>
+			<if test="sysUserModel.lastTime != null and sysUserModel.lastTime != '' " >
+				#{sysUserModel.lastTime},
+			</if>
+			<if test="sysUserModel.lastIP != null and sysUserModel.lastIP != '' " >
+				#{sysUserModel.lastIP},
+			</if>
+			<if test="sysUserModel.ipaddr != null and sysUserModel.ipaddr != '' " >
+				#{sysUserModel.ipaddr},
+			</if>
+			<if test="sysUserModel.createTime != null and sysUserModel.createTime != '' " >
+				#{sysUserModel.createTime},
+			</if>
+			<if test="sysUserModel.updateTime != null and sysUserModel.updateTime != '' " >
+				#{sysUserModel.updateTime},
+			</if>
+			<if test="sysUserModel.createUser != null and sysUserModel.createUser != '' " >
+				#{sysUserModel.createUser},
+			</if>
+			<if test="sysUserModel.updateUser != null and sysUserModel.updateUser != '' " >
+				#{sysUserModel.updateUser},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- updateParams 修改参数 -->
+	<sql id="updateParams">
+		<trim suffix="" suffixOverrides=",">
+			id=${sysUserModel.id},
+		    userName=#{sysUserModel.userName},
+			password=#{sysUserModel.password},
+			enable=#{sysUserModel.enable},
+			realName=#{sysUserModel.realName},
+			card=#{sysUserModel.card},
+			telphone=#{sysUserModel.telphone},
+			email=#{sysUserModel.email},
+			qq=#{sysUserModel.qq},
+			sex=#{sysUserModel.sex},
+			address=#{sysUserModel.address},
+			lastTime=#{sysUserModel.lastTime},
+			lastIP=#{sysUserModel.lastIP},
+			ipaddr=#{sysUserModel.ipaddr},
+			updateTime=#{sysUserModel.updateTime},
+			updateUser=#{sysUserModel.updateUser},
+		</trim>
+	</sql>
+	
+	<select id="querySysUserList"  resultMap="tableMapToModel">
+		select <include refid="tableColumns"/> from sys_user 
+		<include refid="where"/>
+		<include refid="andOtherAll"/>
+		<if test="pageParam != null" >
+			${pageBean.queryCondition}
+			${pageBean.orderByCondition}
+	    	${pageBean.limit}
+		</if>
+	</select>
+	
+	<select id="querySysUserTotal"  resultType="java.lang.Integer">
+		select count(1) from sys_user 
+		<include refid="where"/>
+		<include refid="andOtherAll"/>
+			${pageBean.queryCondition}
+	</select>
+	
+	<insert id="insertUser">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_user (<include refid="insertColumns"/>) values (<include refid="insertParams"/>)
+	</insert>
+	
+	<delete id="delUser">
+		delete from sys_user where id in
+			<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+	            #{item}  
+	    	</foreach>	
+	</delete>
+	
+</mapper> 

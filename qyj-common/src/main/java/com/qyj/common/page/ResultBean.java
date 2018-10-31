@@ -17,11 +17,31 @@ public class ResultBean {
 	public ResultBean() {
 	}
 
+	public ResultBean(String resultCode, String resultMessage) {
+		super();
+		this.resultCode = resultCode;
+		this.resultMessage = resultMessage;
+		this.result = null;
+	}
+
 	public ResultBean(String resultCode, String resultMessage, Object result) {
 		super();
 		this.resultCode = resultCode;
 		this.resultMessage = resultMessage;
 		this.result = result;
+	}
+
+	public ResultBean init(String resultCode, String resultMessage) {
+		this.setResultCode(resultCode);
+		this.resultMessage = resultMessage;
+		return this;
+	}
+
+	public ResultBean init(String resultCode, String resultMessage, Object result) {
+		this.resultCode = resultCode;
+		this.resultMessage = resultMessage;
+		this.result = result;
+		return this;
 	}
 
 	public String getResultCode() {

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.store.dao.QyjSellProductMapper">
+	<resultMap id="baseResultMap" type="com.qyj.store.entity.QyjSellProductEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="sell_id" jdbcType="BIGINT" property="sellId" />
+		<result column="product_id" jdbcType="BIGINT" property="productId" />
+		<result column="product_title" property="productTitle" />
+		<result column="price" jdbcType="DECIMAL" property="price" />
+		<result column="number" jdbcType="INTEGER" property="number" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		id, sell_id, product_id, product_title, price, number, create_time, update_time
+	</sql>
+	
+	<!-- 根据订单获取订单商品 -->
+	<select id="listSellProductBysellId" parameterType="java.lang.Long" resultMap="baseResultMap">
+		select <include refid="baseColumnList" /> from qyj_sell_product where sell_id = #{sellId}
+	</select>
+
+	<!-- 批量插入订单商品 -->
+	<insert id="insertSellProductList" parameterType="java.util.List">
+		insert into qyj_sell_product (sell_id, product_id, product_title, price, number, create_time, update_time) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.sellId}, #{item.productId}, #{item.productTitle}, #{item.price}, #{item.number},
+			#{item.createTime}), #{item.updateTime})
+		</foreach>
+	</insert>
+
+	<!-- 批量更新进货单产品 -->
+	<update id="updateSellProductList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			update qyj_sell_product set
+				<trim suffix="" suffixOverrides=",">
+					<if test="item.productId != null">
+						product_id = #{item.productId},
+					</if>
+					<if test="item.productTitle != null and item.productTitle != ''">
+						product_title = #{item.productTitle},
+					</if>
+					<if test="item.price != null">
+						price = #{item.price},
+					</if>
+					<if test="item.number != null">
+						number = #{item.number},
+					</if>
+					<if test="item.updateTime != null">
+						update_time = #{item.updateTime},
+					</if>
+				</trim>
+			where id = ${item.id}
+		</foreach>
+	</update>
+
+	<!-- 批量删除进货单产品 -->
+	<delete id="deleteSellProductList" parameterType="java.util.List">
+		delete from  qyj_sell_product where id in
+		<foreach item="item" collection="list" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 根据sellId删除进货单产品 -->
+	<delete id="deleteSellProductBysellId" parameterType="java.lang.Long">
+		delete from qyj_sell_product where sell_id = #{sellId}
+	</delete>
+
+</mapper>

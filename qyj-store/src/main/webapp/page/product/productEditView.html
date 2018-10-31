@@ -1,0 +1,79 @@
+<style>
+	#productContainer label {
+		padding-right:0px;
+		text-align: right;
+		padding-left: 1px;
+	}
+</style>
+
+<!-- 新增、编辑产品弹窗 -->
+<div class="modal-content" style="width: 1000px;">
+	<div class="modal-header">
+		<h5 class="modal-title" id="gridModalLabel">{{winParams.title}}</h5>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid bd-example-row" id="productContainer">
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="edit.title" class="col-md-1 col-form-label">产品标题：</label>
+				<div class="col-md-11">
+					<input class="form-control" id="edit.title" placeholder="请输入产品标题" ng-model="edit.title" required>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="edit.price" class="col-md-1 col-form-label" style="padding-right:0px;text-align: right;">价格：</label>
+				<div class="col-md-3">
+					<input class="form-control" id="edit.price" placeholder="请输入产品价格" ng-model="edit.price" required>
+				</div>
+
+				<label for="edit.productType" class="col-md-1 col-form-label" style="padding-right:0px;text-align: right;">类型：</label>
+				<div class="col-md-3">
+					<select ng-model="edit.productType" id="edit.productType" class="form-control" required>
+						<option ng-repeat="n in productTypeList" value="{{n.value}}">{{n.name}}</option>
+					</select>
+				</div>
+
+				<label for="edit.productUnit" class="col-md-1 col-form-label" style="padding-right:0px;text-align: right;">单位：</label>
+				<div class="col-md-3">
+					<input class="form-control" id="edit.productUnit" placeholder="请输入产品单位" ng-model="edit.productUnit" required>
+				</div>
+
+				<!--<div class="col-md-4 ml-auto">-->
+					<!--<div class="row">-->
+						<!--<label for="edit.price" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">价格：</label>-->
+						<!--<div class="col-md-8">-->
+							<!--<input class="form-control" id="edit.price" placeholder="请输入产品价格" ng-model="edit.price" required>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="col-md-4 ml-auto">-->
+					<!--<div class="row">-->
+						<!--<label for="edit.productType" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">类型：</label>-->
+						<!--<div class="col-md-8">-->
+							<!--<select ng-model="edit.productType" id="edit.productType" class="form-control" required>-->
+								<!--<option ng-repeat="n in productTypeList" value="{{n.value}}">{{n.name}}</option>-->
+							<!--</select>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="col-md-4 ml-auto">-->
+					<!--<div class="row">-->
+						<!--<label for="edit.productUnit" class="col-md-4 col-form-label" style="padding-right:0px;text-align: right;">单位：</label>-->
+						<!--<div class="col-md-8">-->
+							<!--<input class="form-control" id="edit.productUnit" placeholder="请输入产品单位" ng-model="edit.productUnit" required>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="edit.remark" class="col-md-1 col-form-label">产品说明：</label>
+				<div class="col-md-10">
+					<textarea class="form-control" placeholder="请输入产品介绍" ng-model="edit.remark" id="edit.remark" rows="3"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="saveProduct()">保存</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>

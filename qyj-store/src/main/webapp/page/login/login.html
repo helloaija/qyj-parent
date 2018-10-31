@@ -1,0 +1,47 @@
+<div class="card" style="width: 600px;margin:100px auto">
+	<div class="card-body">
+		<form>
+			<div class="form-group row">
+				<label for="userName" class="col-md-2 col-form-label">用户名：</label>
+				<div class="col-md-10">
+					<input class="form-control" id="userName" placeholder="请输入用户名"
+						ng-model="userName">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="password" class="col-md-2 col-form-label">密码：</label>
+				<div class="col-md-10">
+					<input type="password" class="form-control" id="password"
+						placeholder="请输入密码" ng-model="password">
+				</div>
+			</div>
+			<div class="form-group row" ng-show="errorText">
+				<div class="col-md-10 col-md-offset-2">
+					<div class="form-check">
+						<label class="form-check-label text-danger">
+							{{errorText}}
+						</label>
+					</div>
+				</div>
+			</div>
+			<!--<div class="form-group row">-->
+				<!--<div class="col-md-10 col-md-offset-2">-->
+					<!--<div class="form-check">-->
+						<!--<label class="form-check-label"> <input-->
+							<!--class="form-check-input" type="checkbox"> Check me out-->
+						<!--</label>-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+			<div class="form-group row">
+				<div class="col-md-2 col-md-offset-2">
+					<button type="submit" class="btn btn-primary" ng-click="doLogin()">登陆</button>
+				</div>
+				<div class="col-md-5 col-md-offset-1">
+					<button type="submit" class="btn btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+

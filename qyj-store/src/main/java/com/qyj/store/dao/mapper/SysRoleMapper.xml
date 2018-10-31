@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyj.store.dao.SysRoleMapper">
+	
+	<!-- Result Map 数据库映射到实体类  -->
+	<resultMap id="tableMapToModel" type="com.qyj.store.entity.SysRoleModel" >
+		<id column="id" property="id"/>
+		<result column="roleCode" property="roleCode"/>
+		<result column="roleName" property="roleName"/>
+		<result column="remark" property="remark"/>
+		<result column="createTime" property="createTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="createUser" property="createUser"/>
+		<result column="updateUser" property="updateUser"/>
+	</resultMap>
+
+	<!-- tbaleColumns  所有列 -->
+	<sql id="tableColumns">
+		<trim suffix="" suffixOverrides=",">
+			id, roleCode, roleName, remark, createTime, updateTime, createUser, updateUser,
+		</trim>
+	</sql>
+	
+	<!-- where 条件  -->
+	<sql id="where">
+     	where 1=1
+	</sql>
+
+	<!-- 查询条件  包含所有 -->
+	<sql id="andOtherAll">
+		<trim  suffixOverrides="," >
+			<if test="sysRoleModel.id != null and sysRoleModel.id != '' " >
+			and id = #{sysRoleModel.id}
+			</if>
+			<if test="sysRoleModel.roleCode != null and sysRoleModel.roleCode != '' " >
+			and roleCode = #{sysRoleModel.roleCode}
+			</if>
+			<if test="sysRoleModel.roleName != null and sysRoleModel.roleName != '' " >
+			and roleName = #{sysRoleModel.roleName}
+			</if>
+			<if test="sysRoleModel.remark != null and sysRoleModel.remark != '' " >
+			and remark = #{sysRoleModel.remark}
+			</if>
+			<if test="sysRoleModel.createTime != null and sysRoleModel.createTime != '' ">
+			and createTime = #{sysRoleModel.createTime}
+			</if>
+			<if test="sysRoleModel.updateTime != null and sysRoleModel.updateTime != '' " >
+			and updateTime = #{sysRoleModel.updateTime}
+			</if>
+			<if test="sysRoleModel.createUser != null and sysRoleModel.createUser != '' " >
+			and createUser = #{sysRoleModel.createUser}
+			</if>
+			<if test="sysRoleModel.updateUser != null and sysRoleModel.updateUser != '' " >
+			and updateUser = #{sysRoleModel.updateUser}
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 加载系统角色分页数据 -->
+	<select id="listSysRolePage"  resultMap="tableMapToModel">
+		select <include refid="tableColumns"/> from sys_role <include refid="where"/>
+		
+		<if test="sysRoleModel != null">
+			<if test="sysRoleModel.id != null and sysRoleModel.id != '' " >
+				and id = #{sysRoleModel.id}
+			</if>
+			<if test="sysRoleModel.roleCode != null and sysRoleModel.roleCode != '' " >
+				and roleCode = #{sysRoleModel.roleCode}
+			</if>
+			<if test="sysRoleModel.roleName != null and sysRoleModel.roleName != '' " >
+				and roleName = #{sysRoleModel.roleName}
+			</if>
+			<if test="sysRoleModel.remark != null and sysRoleModel.remark != '' " >
+				and remark = #{sysRoleModel.remark}
+			</if>
+		</if>
+		
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+    		${pageParam.orderByCondition}
+	    	${pageParam.limit}
+		</if>
+	</select>
+	
+	<!-- 统计数量 -->
+	<select id="countSysRole"  resultType="java.lang.Integer">
+		select count(1) from sys_role <include refid="where"/>
+		
+		<if test="sysRoleModel != null">
+			<if test="sysRoleModel.id != null and sysRoleModel.id != '' " >
+				and id = #{sysRoleModel.id}
+			</if>
+			<if test="sysRoleModel.roleCode != null and sysRoleModel.roleCode != '' " >
+				and roleCode = #{sysRoleModel.roleCode}
+			</if>
+			<if test="sysRoleModel.roleName != null and sysRoleModel.roleName != '' " >
+				and roleName = #{sysRoleModel.roleName}
+			</if>
+			<if test="sysRoleModel.remark != null and sysRoleModel.remark != '' " >
+				and remark = #{sysRoleModel.remark}
+			</if>
+		</if>
+		
+		<if test="pageParam != null">
+			${pageParam.queryCondition}
+		</if>
+	</select>
+	
+	<!-- 插入用户角色 -->
+	<insert id="insertRole" parameterType="com.qyj.store.entity.SysRoleModel">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_role (roleCode, roleName, remark, createTime, updateTime, createUser, updateUser) 
+		values (#{roleCode}, #{roleName}, #{remark}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+	</insert>
+	
+	<!-- 删除用户角色 -->
+	<delete id="delRole">
+		delete from sys_role where id in
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">  
+            #{item}  
+    	</foreach>
+	</delete>
+	
+	<!-- 更新用户角色 -->
+	<update id="updateRole" parameterType="com.qyj.store.entity.SysRoleModel">
+		update sys_role set roleCode = #{roleCode}, roleName = #{roleName}, remark=#{remark},
+			updateTime = #{updateTime}, updateUser = #{updateUser}
+		where 1=1 and id = #{id}
+	</update>
+	
+</mapper> 

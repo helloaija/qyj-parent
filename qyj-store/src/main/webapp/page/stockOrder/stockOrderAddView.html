@@ -1,0 +1,132 @@
+<style>
+	#orderContainer label {
+		padding-right:0px;
+		text-align: right;
+		padding-left: 1px;
+	}
+
+	#orderContainer .avi-label {
+		width:35%;
+		float: left;
+	}
+
+	#orderContainer .avi-input {
+		width:65%;
+	}
+</style>
+
+<!-- 新增订单弹窗 -->
+<div class="modal-content" style="width: 1000px;">
+	<div class="modal-header">
+		<h5 class="modal-title" id="gridModalLabel">新增订单</h5>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid bd-example-row" id="orderContainer">
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-md-4">
+					<label for="add.orderAmount" class="col-form-label avi-label">订单价格：</label>
+					<input class="form-control avi-input" id="add.orderAmount" placeholder="请输入订单价格" ng-model="add.orderAmount" required>
+				</div>
+
+				<div class="col-md-4">
+					<label for="add.modifyAmount" class="col-form-label avi-label">调整价格：</label>
+					<input class="form-control avi-input" id="add.modifyAmount" placeholder="请输入订单价格" ng-model="add.modifyAmount" required>
+				</div>
+				<div class="col-md-4">
+					<label for="add.hasPayAmount" class="col-form-label avi-label">已支付价格：</label>
+					<input class="form-control avi-input" id="add.hasPayAmount" placeholder="请输入已支付" ng-model="add.hasPayAmount" required>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-md-4">
+					<label for="add.orderStatus" class="col-form-label avi-label">订单状态：</label>
+					<select ng-model="add.orderStatus" id="add.orderStatus" class="form-control avi-input" required>
+						<option ng-repeat="n in productTypeList" value="{{n.value}}">{{n.name}}</option>
+					</select>
+				</div>
+
+				<div class="col-md-4">
+					<label for="add.payTime" class="col-form-label avi-label">支付时间：</label>
+					<input class="form-control avi-input" type="text" ng-model="add.payTime" id="add.payTime"
+						   readonly="readonly" onChange=""
+						   onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',lang:'zh-cn'})" />
+				</div>
+
+				<div class="col-md-4">
+					<label for="add.finishTime" class="col-form-label avi-label">完成时间：</label>
+					<input class="form-control avi-input" type="text" ng-model="add.finishTime" id="add.finishTime"
+						   readonly="readonly" onChange=""
+						   onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',lang:'zh-cn'})" />
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-md-4">
+					<label for="add.supplierName" class="col-form-label avi-label">供应商名称：</label>
+					<input class="form-control avi-input" id="add.supplierName" ng-model="add.supplierName" required>
+				</div>
+				<div class="col-md-4">
+					<label for="add.supplierPhone" class="col-form-label avi-label">供应商电话：</label>
+					<input class="form-control avi-input" id="add.supplierPhone" ng-model="add.supplierPhone" required>
+				</div>
+
+				<div class="col-md-4">
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="add.supplierAddress" class="col-form-label" style="width:12%;float: left;">供应商地址：</label>
+				<input class="form-control" id="add.supplierAddress" ng-model="add.supplierAddress" required
+					   style="width:86.5%";>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="add.supplierMessage" class="col-form-label" style="width:12%;float: left;">供应商信息：</label>
+				<input class="form-control" id="add.supplierMessage" ng-model="add.supplierMessage" required
+					   style="width:86.5%";>
+			</div>
+			<div class="row" style="margin-bottom: 20px;">
+				<label for="add.remark" class="col-form-label" style="width:12%;float: left;">备注：</label>
+				<input class="form-control" id="add.remark" ng-model="add.remark" required
+					   style="width:86.5%";>
+			</div>
+			<div class="row" style="margin-bottom: 20px;background-color: bisque;">
+				<label class="col-form-label" style="width:12%;float: left;padding-top: 5px;">产品信息</label>
+				<label class="col-form-label" style="width:1%;float: left;"></label>
+				<button type="button" class="btn btn-primary btn-sm" style="float:right;"
+						ng-click="addProduct()">添加产品</button>
+			</div>
+			<div class="row" style="margin-bottom: 20px;" ng-repeat="product in add.stockProductList">
+				<!--<input class="form-control avi-input" ng-model="product.product_id" required>-->
+				<div class="col-md-3">
+					<label class="col-form-label avi-label">[{{$index + 1}}] 产品：</label>
+					<!--<input class="form-control avi-input" ng-model="product.productTitle" required>-->
+					<ui-select class="avi-input" style="float:left;" ng-model="product.productModel"
+							   on-select="product.productId = $item.id; product.productTitle = $item.title">
+						<ui-select-match placeholder="请选择产品">
+							<span ng-bind="$select.selected.title"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="item in (productList) track by $index"
+								refresh="getProductList($select.search)">
+							<span ng-bind="item.title"></span>
+						</ui-select-choices>
+						<ui-select-no-choice>没有匹配的产品</ui-select-no-choice>
+					</ui-select>
+				</div>
+				<div class="col-md-3">
+					<label class="col-form-label avi-label">单价：</label>
+					<input class="form-control avi-input" ng-model="product.price" required>
+				</div>
+				<div class="col-md-3">
+					<label class="col-form-label avi-label">数量：</label>
+					<input class="form-control avi-input" ng-model="product.number" required>
+				</div>
+				<div class="col-md-3">
+					<button type="button" class="btn btn-primary btn-sm" ng-if="$index != 0"
+							ng-click="deleteProduct($index, product)">删除</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="saveOrder()">保存</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>

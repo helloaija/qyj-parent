@@ -27,6 +27,8 @@ public class PageParam implements Serializable {
 	private String queryCondition = "";
 	/** 排序信息 */
 	private String orderByCondition = null;
+	/** 是否分页 */
+	private boolean paging = true;
 
 	public void splitPageInstance() {
 		if (pageSize < 1 || null == pageSize) {
@@ -41,13 +43,14 @@ public class PageParam implements Serializable {
 		if (0 >= pageOffset.intValue()) {
 			// 防止 pageOffset 小于 0
 			pageOffset = ((currentPage - 1) * pageSize);
-			if (pageOffset < 0)
+			if (pageOffset < 0) {
 				pageOffset = 0;
+			}
 		}
 	}
 
 	public String getLimit() {
-		if (pageSize > 0) {
+		if (paging && pageSize > 0) {
 			return " limit " + pageOffset + "," + pageSize;
 		} else {
 			return "";
@@ -116,6 +119,14 @@ public class PageParam implements Serializable {
 
 	public void setOrderByCondition(String orderByCondition) {
 		this.orderByCondition = orderByCondition;
+	}
+
+	public boolean isPaging() {
+		return paging;
+	}
+
+	public void setPaging(boolean paging) {
+		this.paging = paging;
 	}
 
 	@Override

@@ -1,0 +1,40 @@
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+    margin: 0 auto;
+    padding-top: 0;
+}
+
+.clear { 
+	clear:both
+} 
+
+.detail-table td {
+	text-align: left;
+}
+
+.detail-table th {
+	text-align: right;
+}
+
+.content-title {
+	position: relative;
+    height: 30px;
+}
+
+.content-title h4 {
+	margin-top: 0px;
+    margin-bottom: 0px;
+    position: absolute;
+    height: 18px;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+}
+
+.table .first {
+    border-top: 0px solid #ddd;
+}
