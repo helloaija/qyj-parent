@@ -41,7 +41,7 @@
 				<div class="col-md-4">
 					<label for="add.orderStatus" class="col-form-label avi-label">订单状态：</label>
 					<select ng-model="add.orderStatus" id="add.orderStatus" class="form-control avi-input" required>
-						<option ng-repeat="n in productTypeList" value="{{n.value}}">{{n.name}}</option>
+						<option ng-repeat="n in orderStatusList" value="{{n.value}}">{{n.name}}</option>
 					</select>
 				</div>
 
@@ -101,7 +101,7 @@
 					<ui-select class="avi-input" style="float:left;" ng-model="product.productModel"
 							   on-select="product.productId = $item.id; product.productTitle = $item.title">
 						<ui-select-match placeholder="请选择产品">
-							<span ng-bind="$select.selected.title"></span>
+							<span ng-bind="$select.selected.title + '(' + $select.selected.productUnit + ')'"></span>
 						</ui-select-match>
 						<ui-select-choices repeat="item in (productList) track by $index"
 								refresh="getProductList($select.search)">

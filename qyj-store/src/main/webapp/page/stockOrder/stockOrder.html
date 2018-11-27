@@ -5,17 +5,17 @@
 		</div>
 		<form>
 			<div class="form-group row">
-				<label for="query.title" class="col-md-1 col-form-label" style="padding-right: 0px;">产品名称：</label>
+				<label for="query.orderNumber" class="col-md-1 col-form-label" style="padding-right: 0px;">订单编号：</label>
 				<div class="col-md-2">
-					<input class="form-control" id="query.title" placeholder="请输入产品名"
-						ng-model="query.title">
+					<input class="form-control" id="query.orderNumber" placeholder="请输入产品名"
+						ng-model="query.orderNumber">
 				</div>
 				
-				<label  class="col-md-1 col-form-label" style="padding-right: 0px;">产品类型：</label>
+				<label class="col-md-1 col-form-label" style="padding-right: 0px;">订单状态：</label>
 				<div class="col-md-2">
-					<select ng-model="query.productType" class="form-control">
+					<select ng-model="query.orderStatus" class="form-control">
 						<option value="">-- 请选择 --</option>
-					    <option ng-repeat="n in productTypeList" value="{{n.value}}">{{n.name}}</option>
+					    <option ng-repeat="n in orderStatusList" value="{{n.value}}">{{n.name}}</option>
 					</select>
 				</div>
 			</div>
@@ -24,7 +24,7 @@
 				<div class="col-md-2">
 					<input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="query.createTimeBegin"
 						is-open="shwCreateTimeBeginDatePicker" ng-required="true" close-text="关闭" readonly="readonly"
-                     	clear-text="清空" current-text="今天" alt-input-formats="altInputFormats" />
+                     	clear-text="清空" current-text="今天" alt-input-formats="yyyy-MM-dd" />
                 	<span class="input-group-btn">
                     	<button type="button" class="btn btn-default" ng-click="shwCreateTimeBeginDatePicker=true" style="margin-top: -34px; margin-left: 201px;">
                     		<i class="glyphicon glyphicon-calendar"></i>
@@ -34,11 +34,9 @@
 				
 				<label class="col-md-1 col-form-label" style="padding-right: 0px;">创建结束时间：</label>
 				<div class="col-md-2">
-<!-- 					<input class="form-control" id="query.createTimeEnd" placeholder="创建结束时间" -->
-<!-- 						ng-model="query.createTimeEnd"> -->
 					<input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="query.createTimeEnd"
 						is-open="shwCreateTimeEndDatePicker" ng-required="true" close-text="关闭" readonly="readonly"
-                     	clear-text="清空" current-text="今天" alt-input-formats="altInputFormats" />
+                     	clear-text="清空" current-text="今天" alt-input-formats="yyyy-MM-dd" />
                 	<span class="input-group-btn">
                     	<button type="button" class="btn btn-default" ng-click="shwCreateTimeEndDatePicker=true" style="margin-top: -34px; margin-left: 200px;">
                     		<i class="glyphicon glyphicon-calendar"></i>
@@ -57,9 +55,6 @@
 		<div ui-grid="gridOptions" class="grid" style="width: 100%; height: 550px; text-align: center;" id="productGridId"
 			ui-grid-pagination ui-grid-selection ui-grid-expandable ui-grid-auto-resize>
 		</div>
-<!-- 		<div ui-grid="gridOptions" style="width: 100%; height: 100%; text-align: center;" ui-grid-edit -->
-<!-- 			ui-grid-pagination ui-grid-selection ui-grid-exporter ui-grid-resize-columns ui-grid-auto-resize> -->
-<!-- 		</div> -->
 	</div>
 </div>
 

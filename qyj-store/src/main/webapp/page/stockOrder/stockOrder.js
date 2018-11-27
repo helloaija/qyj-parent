@@ -12,8 +12,8 @@ qyjStoreApp.controller("stockOrderCtrl", ["$scope", "$document", "$filter", "i18
         // 查询面板-创建开始时间-选择器开关
         $scope.shwCreateTimeBeginDatePicker = false;
 
-        // 产品类型下拉列表数据
-        $scope.productTypeList = [{name : "农药", value : "PESTICIDE"}, {name : "化肥", value : "MANURE"}];
+        // 订单状态下拉列表数据
+        $scope.orderStatusList = stockOrderService.getOrderStatusList();
 
         $scope.query = {};
 
@@ -232,9 +232,9 @@ qyjStoreApp.controller("stockOrderCtrl", ["$scope", "$document", "$filter", "i18
                     }
                 });
                 // 行选中事件
-                $scope.gridApi.selection.on.rowSelectionChanged($scope, function(row, event) {
+                gridApi.selection.on.rowSelectionChanged($scope, function(row, event) {
                     if (row) {
-                        $scope.testRow = row.entity;
+                        $scope.selectedRow = row.entity;
                     }
                 });
                 // 折叠
@@ -408,10 +408,13 @@ qyjStoreApp.controller("stockOrderCtrl", ["$scope", "$document", "$filter", "i18
  */
 qyjStoreApp.controller("stockOrderAddCtrl", function($scope, $uibModalInstance, $filter, i18nService, tipDialogService, stockOrderService) {
 
+    // 订单状态下拉列表数据
+    $scope.orderStatusList = stockOrderService.getOrderStatusList();
+
     // 产品选择项
     $scope.productList = new Array();
 
-    $scope.add = {};
+    $scope.add = {orderStatus : "HASPAY"};
     $scope.add.stockProductList = new Array({});
 
     // 获取产品下拉列
@@ -492,6 +495,9 @@ qyjStoreApp.controller('stockOrderEditCtrl', function ($scope, $uibModalInstance
         var productModel = {"id" : stockProduct.productId, "title" : stockProduct.productTitle}
         stockProduct.productModel = productModel;
     }
+
+    // 订单状态下拉列表数据
+    $scope.orderStatusList = stockOrderService.getOrderStatusList();
 
     // 编辑产品数据
     $scope.edit = {};
@@ -622,6 +628,11 @@ qyjStoreApp.service('stockOrderService', function($http, tipDialogService) {
             contentType: "application/json",
             params : {stockId : stockId}
         });
+    }
+
+    // 获取订单状态
+    this.getOrderStatusList = function() {
+        return new Array({name : "未支付", value : "UNPAY"}, {name : "已支付", value : "HASPAY"});
     }
 
     /**

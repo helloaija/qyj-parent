@@ -5,17 +5,17 @@
 		</div>
 		<form>
 			<div class="form-group row">
-				<label for="query.title" class="col-md-1 col-form-label" style="padding-right: 0px;">产品名称：</label>
+				<label class="col-md-1 col-form-label" style="padding-right: 0px;">订单编号：</label>
 				<div class="col-md-2">
-					<input class="form-control" id="query.title" placeholder="请输入产品名"
-						ng-model="query.title">
+					<input class="form-control" id="query.orderNumber" placeholder="请输入订单编号"
+						ng-model="query.orderNumber">
 				</div>
 				
-				<label  class="col-md-1 col-form-label" style="padding-right: 0px;">产品类型：</label>
+				<label  class="col-md-1 col-form-label" style="padding-right: 0px;">订单状态：</label>
 				<div class="col-md-2">
-					<select ng-model="query.productType" class="form-control">
+					<select ng-model="query.orderStatus" class="form-control">
 						<option value="">-- 请选择 --</option>
-					    <option ng-repeat="n in productTypeList" value="{{n.value}}">{{n.name}}</option>
+					    <option ng-repeat="n in orderStatusList" value="{{n.value}}">{{n.name}}</option>
 					</select>
 				</div>
 			</div>

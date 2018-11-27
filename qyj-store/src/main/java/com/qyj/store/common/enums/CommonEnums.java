@@ -38,4 +38,11 @@ public class CommonEnums {
 	public enum RelatinTypeEnum {
 		ROLEMENU, USERROLE
 	}
+
+	/**
+	 * 订单状态[UNPAY：未支付，HASPAY：已支付]
+	 */
+	public enum OrderStatusEnum {
+		UNPAY, HASPAY
+	}
 }

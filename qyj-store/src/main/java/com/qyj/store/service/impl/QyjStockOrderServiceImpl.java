@@ -292,6 +292,10 @@ public class QyjStockOrderServiceImpl implements QyjStockOrderService {
             resultBean.init("0002", "已支付金额不能为空");
             return false;
         }
+        if (StringUtils.isEmpty(stockOrder.getOrderStatus())) {
+            resultBean.init("0002", "订单状态不能为空");
+            return false;
+        }
 
         List<QyjStockProductEntity> stockProductEntityList = stockOrder.getStockProductList();
         if (stockProductEntityList == null || stockProductEntityList.isEmpty()) {

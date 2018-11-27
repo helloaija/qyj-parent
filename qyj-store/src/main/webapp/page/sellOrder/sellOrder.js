@@ -12,8 +12,8 @@ qyjStoreApp.controller("sellOrderCtrl", ["$scope", "$document", "$filter", "i18n
         // 查询面板-创建开始时间-选择器开关
         $scope.shwCreateTimeBeginDatePicker = false;
 
-        // 产品类型下拉列表数据
-        $scope.productTypeList = [{name : "农药", value : "PESTICIDE"}, {name : "化肥", value : "MANURE"}];
+        // 订单状态下拉列表数据
+        $scope.orderStatusList = sellOrderService.getOrderStatusList();
 
         $scope.query = {};
 
@@ -406,10 +406,13 @@ qyjStoreApp.controller("sellOrderCtrl", ["$scope", "$document", "$filter", "i18n
  */
 qyjStoreApp.controller("sellOrderAddCtrl", function($scope, $uibModalInstance, $filter, i18nService, tipDialogService, sellOrderService) {
 
+    // 订单状态下拉列表数据
+    $scope.orderStatusList = sellOrderService.getOrderStatusList();
+
     // 产品选择项
     $scope.productList = new Array();
 
-    $scope.add = {};
+    $scope.add = {orderStatus:$scope.orderStatusList[1].value};
     $scope.add.sellProductList = new Array({});
 
     // 获取产品下拉列
@@ -494,6 +497,9 @@ qyjStoreApp.controller('sellOrderEditCtrl', function ($scope, $uibModalInstance,
     // 编辑产品数据
     $scope.edit = {};
     angular.copy(items, $scope.edit);
+
+    // 订单状态下拉列表数据
+    $scope.orderStatusList = sellOrderService.getOrderStatusList();
 
     // 获取产品下拉列
     $scope.getProductList = function(title) {
@@ -676,6 +682,11 @@ qyjStoreApp.service('sellOrderService', function($http, tipDialogService) {
         }
 
         return true;
+    }
+
+    // 获取订单状态
+    this.getOrderStatusList = function() {
+        return new Array({name : "未支付", value : "UNPAY"}, {name : "已支付", value : "HASPAY"});
     }
 
     /**
