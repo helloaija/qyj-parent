@@ -1,6 +1,8 @@
 package com.qyj.store.controller.system;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -88,7 +91,7 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/addRole")
 	public ResultBean addRole(HttpServletRequest request, HttpServletResponse response, 
-			SysRoleModel roleModel, @RequestParam("menuIds") Long... menuIds) {
+			SysRoleModel roleModel, @RequestParam(value = "menuIds", required = false) Long... menuIds) {
 		
 		try {
 			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
@@ -135,50 +138,45 @@ public class RoleController extends BaseController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/getRoleById")
+	@RequestMapping(value = "/getRoleById", method = RequestMethod.GET)
 	public ResultBean getRoleById(@RequestParam Long roleId) {
 		if (roleId == null) {
 			return new ResultBean("0002", "参数错误，roleId为空", null);
 		}
 		try {
-			SysRoleModel roleModel = sysRoleService.queryRoleById(roleId);
-			if (roleModel == null) {
-				return new ResultBean("0002", "没有对应角色" + roleId, null);
-			}
-			
-			// 查询所有系统菜单
-			List<SysMenuModel> menuList = sysMenuService.querySysMenuList();
-			return new ResultBean("0000", "获取角色成功", roleModel);
+			Map<String, Object> roleMap = sysRoleService.getRoleAndMenuByRoleId(roleId);
+
+			return new ResultBean("0000", "获取角色成功", roleMap);
 		} catch (Exception e) {
 			logger.error("getRoleById error", e);
 			return new ResultBean("0001", getExceptionMessage(e), null);
 		}
 		
 	}
-	
-//	/**
-//	 * 修改用户角色信息
-//	 * 
-//	 * @return
-//	 */
-//	@ResponseBody
-//	@RequestMapping("/updateRole")
-//	public ResultBean updateRole(SysRoleModel roleModel) {
-//		logger.info("--- updateRole begin ---");
-//		
-//		ResultBean resultBean = new ResultBean();
-//		try {
-//			// sysUserService.updateUser(userBean);
-//			resultBean.setData(roleModel);
-//		} catch (Exception e) {
-//			resultBean.setSuccess(false);
-//			resultBean.setMessage(e.getMessage());
-//			e.printStackTrace();
-//			logger.error(e.getMessage());
-//		}
-//		
-//		logger.info("--- updateRole end ---");
-//		return resultBean;
-//	}
+
+	/**
+	 * 编辑用户角色信息
+	 *
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/editRole", method = RequestMethod.POST)
+	public ResultBean editRole(HttpServletRequest request, HttpServletResponse response,
+							  SysRoleModel roleModel, @RequestParam(value = "menuIds", required = false) Long... menuIds) {
+
+		try {
+			SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
+			roleModel.setUpdateUser(userBean.getId());
+			roleModel.setUpdateTime(new Date());
+
+			if (!sysRoleService.editRole(roleModel, menuIds)) {
+				return new ResultBean("0001", "编辑角色失败", null);
+			}
+			return new ResultBean("0000", "编辑角色成功", null);
+		} catch (Exception e) {
+			logger.error("editRole", e);
+			return new ResultBean("0001", getExceptionMessage(e), null);
+		}
+	}
 
 }

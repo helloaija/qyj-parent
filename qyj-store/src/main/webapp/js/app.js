@@ -2,8 +2,8 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	var qyjStoreApp = angular.module("qyjStoreApp", ["oc.lazyLoad", "ui.router", "ngSanitize"/*,
 		'ui.grid.pagination', 'ui.grid', 'ui.grid.expandable'*/]);
 	
-	qyjStoreApp.httpsHeader = "http://192.168.30.22:8083/qyj-store";
-	qyjStoreApp.uploadFileHeader = "http://192.168.30.22:8083/qyj-store/uploadFile/";
+	qyjStoreApp.httpsHeader = "http://192.168.30.19:8083/qyj-store";
+	qyjStoreApp.uploadFileHeader = "http://192.168.30.19:8083/qyj-store/uploadFile/";
 	
 	qyjStoreApp.config(["$urlRouterProvider", "$stateProvider", "$httpProvider",
         function($urlRouterProvider, $stateProvider, $httpProvider) {
@@ -16,7 +16,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			templateUrl : "page/login/login.html",
 	   			controller : "loginCtrl",
 	   			resolve : {
-	   				load : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load(['js/controller/loginController.js',
 	   					                      'js/service/loginService.js']);
 	   				}]
@@ -27,7 +27,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			templateUrl : "page/home/home.html",
 	   			controller : "homeCtrl",
 	   			resolve : {
-	   				homeCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
 	   					                         "ui.bootstrap", "page/home/home.js"
 						]);
@@ -39,7 +39,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			templateUrl : 'page/store/storeInfo.html',
 	   			controller : "orderInfoCtrl",
 	   			resolve : {
-	   				newsCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
 							"ui.grid", "ui.bootstrap", "ueditor",
 							"js/filter/filters.js", "js/service/commonServices.js",
@@ -53,7 +53,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			templateUrl : 'page/product/productManage.html',
 	   			controller : "productManageCtrl",
 	   			resolve : {
-	   				load : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
                             "ui.grid", "ui.bootstrap", "ng-file-upload", "ueditor",
                             "js/filter/filters.js", 'js/service/commonServices.js',
@@ -67,7 +67,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			templateUrl : 'page/sellOrder/sellOrder.html',
 	   			controller : "sellOrderCtrl",
 	   			resolve : {
-	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
                             "WdatePicker", "ui-select", "ui-grid-stable", "ui.bootstrap", "js/filter/filters.js",
 							'js/service/commonServices.js', 'page/sellOrder/sellOrder.js'
@@ -80,10 +80,10 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
                 templateUrl : 'page/stockOrder/stockOrder.html',
                 controller : "stockOrderCtrl",
                 resolve : {
-                    orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load([
-                            "WdatePicker", "ui-select", "ui-grid-stable", "ui.bootstrap", "js/filter/filters.js", 'js/service/commonServices.js',
-                            'page/stockOrder/stockOrder.js'
+                            "WdatePicker", "ui-select", "ui-grid-stable", "ui.bootstrap", "js/filter/filters.js",
+                            'js/service/commonServices.js', 'page/stockOrder/stockOrder.js'
                         ]);
                     }]
                 }
@@ -93,7 +93,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			templateUrl : 'page/system/menu/menu.html',
 	   			controller : "menuCtrl",
 	   			resolve : {
-	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
                             "tree-control", "js/service/commonServices.js", 'page/system/menu/menu.js'
 	   					]);
@@ -105,7 +105,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			templateUrl : 'page/system/role/role.html',
 	   			controller : "roleCtrl",
 	   			resolve : {
-	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
    					        "ui.grid", "ui.bootstrap", 'js/service/commonServices.js', "tree-control", 'page/system/role/role.js'
 	   					]);
@@ -117,7 +117,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			templateUrl : 'page/system/user/user.html',
 	   			controller : "userCtrl",
 	   			resolve : {
-	   				orderListCtrl : ['$ocLazyLoad', function($ocLazyLoad) {
+                    load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
                             'page/system/user/user.js'
 	   					]);

@@ -3,9 +3,13 @@ package com.qyj.store.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.qyj.common.page.ResultBean;
+import com.qyj.store.common.tree.TreeNode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,7 +141,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 
 	/**
 	 * 根据id查询系统角色
-	 * @param userId 用户id
+	 * @param roleId roleId
 	 * @throws Exception
 	 */
 	@Override
@@ -152,10 +156,21 @@ public class SysRoleServiceImpl implements SysRoleService {
 
 		return roleModelList.get(0);
 	}
-	
+
+	/**
+	 * 根据id查询系统角色和菜单
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
 	public Map<String, Object> getRoleAndMenuByRoleId(Long roleId) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		SysRoleModel role = queryRoleById(roleId);
+
+		if (role == null) {
+			throw new ValidException("没有对应的角色信息，roleId:" + roleId);
+		}
 		resultMap.put("role", role);
 		
 		List<SysMenuModel> menuList = sysMenuService.querySysMenuList();
@@ -163,34 +178,56 @@ public class SysRoleServiceImpl implements SysRoleService {
 		SysRelationEntity relationEntity = new SysRelationEntity();
 		relationEntity.setMainId(roleId);
 		relationEntity.setRelationType(RelatinTypeEnum.ROLEMENU.toString());
+		// 查询角色关联的菜单id
 		List<SysRelationEntity> relationList = sysRelationMapper.listRelationByModel(relationEntity);
-		
-		// TreeUtil.loadTreeNode(parentNode, sysMenuList);
-		
+
+		Set<Long> menuIdSet = new HashSet<Long>();
+		for (SysRelationEntity entiry : relationList) {
+			menuIdSet.add(entiry.getRelationId());
+		}
+
+		for (SysMenuModel model : menuList) {
+			if (menuIdSet.contains(model.getId())) {
+				model.setChecked(true);
+			}
+		}
+
+		TreeNode rootNode = new TreeNode(new Long(0), "根目录");
+		TreeUtil.loadTreeNode(rootNode, menuList);
+		List<TreeNode> tree = new ArrayList<>();
+		tree.add(rootNode);
+
+		if (!menuIdSet.isEmpty()) {
+			rootNode.setChecked(true);
+		}
+
+		resultMap.put("menu", tree);
+
 		return resultMap;
 	}
 	
 	/**
-	 * 添加用户角色
+	 * 编辑用户角色
 	 * @param roleModel
 	 * @param menuIds 关联的菜单id
 	 * @return
 	 * @throws Exception
 	 */
 	@Override
-	public Integer editRole(SysRoleModel roleModel, Long... menuIds) throws Exception {
+	public boolean editRole(SysRoleModel roleModel, Long... menuIds) throws Exception {
 		if (null == roleModel) {
-			throw new Exception("请填写角色信息！");
+			throw new ValidException("请填写角色信息！");
 		}
 		if (StringUtils.isEmpty(roleModel.getRoleCode())) {
-			throw new Exception("角色编码不能为空！");
+			throw new ValidException("角色编码不能为空！");
 		}
 		if (StringUtils.isEmpty(roleModel.getRoleName())) {
-			throw new Exception("角色名称不能为空！");
+			throw new ValidException("角色名称不能为空！");
 		}
 
 		SysRoleModel sysRoleModel = new SysRoleModel();
 		BeanUtils.copyProperties(roleModel, sysRoleModel);
+		sysRoleModel.setUpdateTime(new Date());
 
 		// 更新角色
 		int updateNum = sysRoleMapper.updateRole(sysRoleModel);
@@ -215,7 +252,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 			sysRelationMapper.insertRelationBatch(relationEntityList);
 		}
 
-		return updateNum;
+		return true;
 	}
 
 }

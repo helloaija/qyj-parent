@@ -1,7 +1,7 @@
 var qyjStoreApp = angular.module("qyjStoreApp");
 
-qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleService",
-	function($scope, i18nService, $uibModal, roleService) {
+qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleService", "tipDialogService",
+	function($scope, i18nService, $uibModal, roleService, tipDialogService) {
 		// 查询条件
 	 	$scope.queryModel = {};
 		// 中文
@@ -193,6 +193,11 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 			// 加载第一页数据
 			getPage(1, $scope.gridOptions.paginationPageSize);
 		}
+
+		// 重置查询条件
+        $scope.resetQuery = function() {
+            $scope.queryModel = {};
+		}
 		
 		// 打开新增窗口
 		$scope.showAddRoleWin = function() {
@@ -205,6 +210,25 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 					alert(resultBean.resultMessage);
 				}
 			});
+		}
+
+        // 打开编辑窗口
+        $scope.showEditRoleWin = function(roleId) {
+            var shadeModel = tipDialogService.showLoadingShade();
+            roleService.getRole(roleId).then().then(function(response) {
+                shadeModel.close();
+                var resultBean = response.data;
+                if (resultBean.resultCode == "0000") {
+                    createRoleEditWin({role : resultBean.result.role, menu : resultBean.result.menu},
+						{title : "编辑角色", optType : "EDIT"});
+                } else {
+                    // 请求数据异常
+                    tipDialogService.showPromptDialog(resultBean.resultMessage);
+                }
+            }, function(response) {
+                shadeModel.close();
+                tipDialogService.showPromptDialog("请求数据出错");
+            });
 		}
 		
 		// 创建产品编辑窗口,productData编辑的数据,winParams窗口参数
@@ -236,8 +260,8 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 			});
 		}
 	}
-]).controller("roleEditCtrl", ["$scope", "$uibModalInstance", "roleService", "editParams", "winParams",
-    function($scope, $uibModalInstance, roleService, editParams, winParams) {
+]).controller("roleEditCtrl", ["$scope", "$uibModalInstance", "roleService", "tipDialogService", "editParams", "winParams",
+    function($scope, $uibModalInstance, roleService, tipDialogService, editParams, winParams) {
 		// 窗口参数
 		$scope.winParams = winParams;
 		// 角色
@@ -271,14 +295,37 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 			var params = {};
 			angular.copy($scope.role, params);
 			params.menuIds = getAllCheckNodeIds();
+            var shadeModel = tipDialogService.showLoadingShade();
+			if ("EDIT" === $scope.winParams.optType) {
+                roleService.editRole(params).then(function(response) {
+                    shadeModel.close();
+                    var resultBean = response.data;
+                    if ("0000" == resultBean.resultCode) {
+                        $uibModalInstance.close();
+                    } else {
+                        // 请求数据异常
+                        tipDialogService.showPromptDialog(resultBean.resultMessage);
+                    }
+                }, function(response) {
+                    shadeModel.close();
+                    tipDialogService.showPromptDialog("请求数据出错");
+                });
+                return;
+			}
+
 			roleService.addRole(params).then(function(response) {
+                shadeModel.close();
 				var resultBean = response.data;
 				if ("0000" == resultBean.resultCode) {
 					$uibModalInstance.close();
 				} else {
-					alert(resultBean.resultMessage);
+                    // 请求数据异常
+                    tipDialogService.showPromptDialog(resultBean.resultMessage);
 				}
-			});
+			}, function(response) {
+                shadeModel.close();
+                tipDialogService.showPromptDialog("请求数据出错");
+            });
 		};
 		
 		// 关闭窗口
@@ -412,6 +459,25 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             data : params,
             transformRequest: transformRequest
+        });
+    }
+
+    // 获取角色数据
+    this.getRole = function (roleId) {
+        return $http({
+            method: "GET",
+            url: qyjStoreApp.httpsHeader + "/admin/role/getRoleById",
+            params : {roleId : roleId}
+        });
+    }
+
+    // 编辑角色数据
+    this.editRole = function (params) {
+        return $http({
+            method: "POST",
+            url: qyjStoreApp.httpsHeader + "/admin/role/editRole",
+            contentType: "application/json",
+            params : params
         });
     }
     

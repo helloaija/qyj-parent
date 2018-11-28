@@ -4,6 +4,8 @@ import com.qyj.store.entity.SysRoleModel;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 
+import java.util.Map;
+
 /**
  * 系统用户角色service
  * @author shitongle
@@ -42,6 +44,14 @@ public interface SysRoleService {
 	 * @throws Exception
 	 */
 	public SysRoleModel queryRoleById(Long roleId) throws Exception;
+
+	/**
+	 * 根据id查询系统角色和菜单
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, Object> getRoleAndMenuByRoleId(Long roleId) throws Exception;
 	
 	/**
 	 * 添加用户角色
@@ -50,5 +60,5 @@ public interface SysRoleService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer editRole(SysRoleModel roleModel, Long... menuIds) throws Exception;
+	public boolean editRole(SysRoleModel roleModel, Long... menuIds) throws Exception;
 }
