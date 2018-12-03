@@ -66,7 +66,7 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 				cellTemplate : '<div>' +
 							'<button type="button" class="btn btn-link" ng-click="grid.appScope.showViewRoleWin(row.entity.id)">查看</button>' +
 							'<button type="button" class="btn btn-link" ng-click="grid.appScope.showEditRoleWin(row.entity.id)">修改</button>' +
-							'<button type="button" ng-click="grid.appScope.deleteRole(row.entity.id)" class="btn btn-link">删除</button></div>',
+							'<button type="button" ng-click="grid.appScope.deleteRole(row.entity)" class="btn btn-link">删除</button></div>',
 				// 是否显示列头部菜单按钮
 				enableColumnMenu : false,
 				enableHiding : false,
@@ -214,9 +214,7 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 
         // 打开编辑窗口
         $scope.showEditRoleWin = function(roleId) {
-            var shadeModel = tipDialogService.showLoadingShade();
             roleService.getRole(roleId).then().then(function(response) {
-                shadeModel.close();
                 var resultBean = response.data;
                 if (resultBean.resultCode == "0000") {
                     createRoleEditWin({role : resultBean.result.role, menu : resultBean.result.menu},
@@ -226,10 +224,35 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
                     tipDialogService.showPromptDialog(resultBean.resultMessage);
                 }
             }, function(response) {
-                shadeModel.close();
                 tipDialogService.showPromptDialog("请求数据出错");
             });
 		}
+
+        // 删除角色信息
+        $scope.deleteRole = function(role) {
+            tipDialogService.showDialog({title : "提示", content : "[" + role.roleName + "]确认删除？", ok : function() {
+                    var shadeModel = tipDialogService.showLoadingShade();
+
+                    var roleIds = new Array();
+                    roleIds.push(role.id);
+                    roleService.deleteRole(roleIds).then(function(response) {
+                        shadeModel.close();
+                        var resultBean = response.data;
+                        if (resultBean.resultCode == "0000") {
+                            // 请求数据成功
+                            tipDialogService.showPromptDialog("删除成功");
+                            getPage(1, $scope.gridOptions.paginationPageSize);
+                            return;
+                        } else {
+                            // 请求数据异常
+                            tipDialogService.showPromptDialog(resultBean.resultMessage);
+                            return;
+                        }
+                    }, function(response) {
+                        tipDialogService.showPromptDialog("删除数据异常");
+                    });
+                }});
+        }
 		
 		// 创建产品编辑窗口,productData编辑的数据,winParams窗口参数
 		function createRoleEditWin(editParams, winParams) {
@@ -270,7 +293,7 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 		$scope.menu = editParams.menu;
 		
 		// 展开的节点
-		$scope.expandedNodes = listExpandedNodes(editParams.menu);;
+		$scope.expandedNodes = listExpandedNodes(editParams.menu);
 //		angular.copy($scope.menu, $scope.expandedNodes);
 		
 		// 配置树
@@ -295,10 +318,8 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 			var params = {};
 			angular.copy($scope.role, params);
 			params.menuIds = getAllCheckNodeIds();
-            var shadeModel = tipDialogService.showLoadingShade();
 			if ("EDIT" === $scope.winParams.optType) {
                 roleService.editRole(params).then(function(response) {
-                    shadeModel.close();
                     var resultBean = response.data;
                     if ("0000" == resultBean.resultCode) {
                         $uibModalInstance.close();
@@ -314,7 +335,6 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
 			}
 
 			roleService.addRole(params).then(function(response) {
-                shadeModel.close();
 				var resultBean = response.data;
 				if ("0000" == resultBean.resultCode) {
 					$uibModalInstance.close();
@@ -488,6 +508,16 @@ qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleS
             url: qyjStoreApp.httpsHeader + "/admin/menu/queryMenuTree"
         });
     }
+
+    // 删除角色
+    this.deleteRole = function(ids) {
+        return $http({
+            method: "POST",
+            url: qyjStoreApp.httpsHeader + "/admin/role/delRole",
+            contentType: "application/json",
+            params : {ids : ids}
+        });
+	}
     
     // 序列化参数方法
     function transformRequest(obj) {

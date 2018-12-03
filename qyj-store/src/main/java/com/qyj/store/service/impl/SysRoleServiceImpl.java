@@ -29,6 +29,8 @@ import com.qyj.common.exception.ValidException;
 import com.qyj.common.page.PageBean;
 import com.qyj.common.page.PageParam;
 
+import javax.xml.bind.ValidationException;
+
 /**
  * service实现类-系统用户角色
  * @author shitongle
@@ -80,13 +82,13 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Override
 	public Integer addRole(SysRoleModel roleModel, Long... menuIds) throws Exception {
 		if (null == roleModel) {
-			throw new Exception("请填写用户信息！");
+			throw new ValidationException("请填写用户信息！");
 		}
 		if (StringUtils.isEmpty(roleModel.getRoleCode())) {
-			throw new Exception("角色编码不能为空！");
+			throw new ValidationException("角色编码不能为空！");
 		}
 		if (StringUtils.isEmpty(roleModel.getRoleName())) {
-			throw new Exception("角色名称不能为空！");
+			throw new ValidationException("角色名称不能为空！");
 		}
 
 		SysRoleModel sysRoleModel = new SysRoleModel();

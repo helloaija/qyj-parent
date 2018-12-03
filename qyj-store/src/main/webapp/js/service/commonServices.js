@@ -27,6 +27,8 @@ qyjStoreApp.controller('tipDialogCtrl', function ($scope, $uibModalInstance, ite
 		$uibModalInstance.dismiss('cancel');
 	};
 }).service('tipDialogService', function($uibModal) {
+	var modalInstance = null;
+	var shadeModalInstance = null;
 	// 打开选择对话框
 	this.showDialog = function (item) {
 		// 显示确认和取消按钮
@@ -47,7 +49,7 @@ qyjStoreApp.controller('tipDialogCtrl', function ($scope, $uibModalInstance, ite
 
 	// 弹出对话框方法
 	function openDialog(item) {
-		var modalInstance = $uibModal.open({
+		modalInstance = $uibModal.open({
 			templateUrl : 'page/common/tipDialog.html',
 			controller : 'tipDialogCtrl', // specify controller for modal
 			size : "md",
@@ -71,7 +73,7 @@ qyjStoreApp.controller('tipDialogCtrl', function ($scope, $uibModalInstance, ite
 
 	// 打开加载中遮罩
 	this.showLoadingShade = function() {
-	    var modalInstance = $uibModal.open({
+        shadeModalInstance = $uibModal.open({
 	        templateUrl : 'page/common/loadingShade.html',
             keyboard : false,
             backdrop : "static",
@@ -82,13 +84,13 @@ qyjStoreApp.controller('tipDialogCtrl', function ($scope, $uibModalInstance, ite
 	        size : "md"
 	    });
 
-	    modalInstance.result.then(function() {
+        shadeModalInstance.result.then(function() {
 	        console.log("ok");
 	    }, function() {
 	        console.log("cancel");
 	    });
 
-	    return modalInstance;
+	    return shadeModalInstance;
 	}
 
 });

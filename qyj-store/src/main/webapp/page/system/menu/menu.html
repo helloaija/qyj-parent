@@ -17,7 +17,7 @@
 	<!-- 左菜单树 -->
 	<div style="width:200px;float: left;border-right: 1px solid #ddd;min-height:500px;">
 		<div treecontrol class="tree-light" tree-model="groupsTreeModel" on-selection="selectNode(node)" 
-			on-node-toggle="expendNode(node)" options="treeOptions" expanded-nodes="">
+			on-node-toggle="expendNode(node)" options="treeOptions" expanded-nodes="expandedNodes">
 			{{node.text}}
 		</div>
 	</div>

@@ -343,9 +343,7 @@ qyjStoreApp.controller("stockOrderCtrl", ["$scope", "$document", "$filter", "i18
 
         // 编辑订单窗口
         $scope.showEditOrderWin = function(stockId) {
-            var shadeModel = tipDialogService.showLoadingShade();
             stockOrderService.getStockOrderInfo(stockId).then(function(response) {
-                shadeModel.close();
                 var resultBean = response.data;
                 if (resultBean.resultCode == "0000") {
                     var editWin = $uibModal.open({
@@ -372,7 +370,6 @@ qyjStoreApp.controller("stockOrderCtrl", ["$scope", "$document", "$filter", "i18
                     tipDialogService.showPromptDialog(resultBean.resultMessage);
                 }
             }, function(response) {
-                shadeModel.close();
                 console.log("responseError:" + response);
             });
         }
@@ -382,7 +379,6 @@ qyjStoreApp.controller("stockOrderCtrl", ["$scope", "$document", "$filter", "i18
             tipDialogService.showDialog({title : "提示", content : "[" + orderNumber + "]确认删除？", ok : function() {
                 var shadeModel = tipDialogService.showLoadingShade();
                 stockOrderService.deleteStockOrder(stockId).then(function(response) {
-                    shadeModel.close();
                     var resultBean = response.data;
                     if (resultBean.resultCode == "0000") {
                         // 请求数据成功
@@ -481,7 +477,7 @@ qyjStoreApp.controller("stockOrderAddCtrl", function($scope, $uibModalInstance, 
     };
 
     $scope.closeWin = function() {
-        $uibModalInstance.close();
+        $uibModalInstance.dismiss();
     }
 
 });
@@ -564,7 +560,7 @@ qyjStoreApp.controller('stockOrderEditCtrl', function ($scope, $uibModalInstance
     };
 
     $scope.closeWin = function() {
-        $uibModalInstance.close();
+        $uibModalInstance.dismiss();
     }
 });
 

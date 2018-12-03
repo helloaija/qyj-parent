@@ -11,7 +11,9 @@ require.config({
 		"angular-animate" : "base/angular-animate-1.6.7.min",
 		// 使用指令ng-bind-html需要引入
 		"angular-sanitize" : "base/angular-sanitize-1.6.7.min",
-		"angular-touch" : "base/angular-touch-1.6.7.min"
+		"angular-touch" : "base/angular-touch-1.6.7.min",
+		"ui-bootstrap" : "base/ui-bootstrap-tpls-2.5.0.min",
+		"commonService" : "service/commonServices"
 	},
 	// 这个配置是你在引入依赖的时候的包名
 	shim : {
@@ -43,7 +45,15 @@ require.config({
 	    "angular-sanitize" : {
 	    	deps: ['angular'],
 			exports : "angular-sanitize"
-	    }
+	    },
+        "ui-bootstrap" : {
+            deps: ['angular'],
+            exports : "ui-bootstrap"
+        },
+        "commonService" : {
+            deps: ['angular'],
+            exports : "commonService"
+		}
 	},
 	urlArgs: "bust=" + (new Date()).getTime()
 });

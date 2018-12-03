@@ -45,4 +45,11 @@ public class CommonEnums {
 	public enum OrderStatusEnum {
 		UNPAY, HASPAY
 	}
+
+	/**
+	 * 启用状态[DISABLED: 禁用, USABLE: 启用]
+	 */
+	public enum UserEnableEnum {
+		DISABLED, USABLE
+	}
 }

@@ -108,29 +108,25 @@ public class RoleController extends BaseController {
 		}
 	}
 	
-//	/**
-//	 * 删除用角色户信息
-//	 * 
-//	 * @return
-//	 */
-//	@ResponseBody
-//	@RequestMapping("/delRole")
-//	public ResultBean delRole(@RequestParam("ids[]")Long... ids) {
-//		logger.info("--- delRole begin ---");
-//		
-//		ResultBean resultBean = new ResultBean();
-//		try {
-//			sysRoleService.delRole(ids);
-//		} catch (Exception e) {
-//			resultBean.setSuccess(false);
-//			resultBean.setMessage(e.getMessage());
-//			e.printStackTrace();
-//			logger.error(e.getMessage());
-//		}
-//		
-//		logger.info("--- delRole end ---");
-//		return resultBean;
-//	}
+	/**
+	 * 删除用角色户信息
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/delRole", method = RequestMethod.POST)
+	public ResultBean delRole(@RequestParam("ids") Long... ids) {
+		ResultBean resultBean = new ResultBean();
+		try {
+			int result = sysRoleService.delRole(ids);
+			if (result <= 0) {
+                return resultBean.init("0002", "删除角色失败");
+            }
+            return resultBean.init("0000", "删除角色成功");
+		} catch (Exception e) {
+			logger.error("delete role:", e);
+            return resultBean.init("0001", getExceptionMessage(e));
+		}
+	}
 	
 	/**
 	 * 根据id获取系统用户角色

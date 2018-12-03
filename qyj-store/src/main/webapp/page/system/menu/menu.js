@@ -15,6 +15,9 @@ qyjStoreApp.controller("menuCtrl", ["$scope", "menuService", "tipDialogService",
 		$scope.editTitle = "编辑";
 		// 当前选择的节点
 		$scope.currentNode = null;
+
+        // 展开的节点
+        $scope.expandedNodes;
 		
 		// 配置树
 		$scope.treeOptions = {
@@ -39,6 +42,7 @@ qyjStoreApp.controller("menuCtrl", ["$scope", "menuService", "tipDialogService",
 			if ("0000" == resultBean.resultCode) {
 				// 加载菜单树数据
 				$scope.groupsTreeModel = resultBean.result;
+                $scope.expandedNodes = listExpandedNodes(resultBean.result);
 			}
 		});
 		
@@ -211,6 +215,24 @@ qyjStoreApp.controller("menuCtrl", ["$scope", "menuService", "tipDialogService",
 				}
 			}
 		}
+
+        // 展开全部节点
+        function listExpandedNodes(children) {
+            var nodes = [];
+
+            function getAllChildren(array) {
+                angular.forEach(array, function(node, index) {
+                    nodes.push(node);
+                    if (node.children && angular.isArray(node.children)) {
+                        getAllChildren(node.children);
+                    }
+                });
+            }
+
+            getAllChildren(children);
+
+            return nodes;
+        }
 	}
 ]).service('menuService', ["$http", 
 	function($http) {

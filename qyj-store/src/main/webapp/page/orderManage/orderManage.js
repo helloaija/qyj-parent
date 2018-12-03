@@ -317,7 +317,7 @@ qyjStoreApp.controller("orderDetailCtrl", ["$scope", "$uibModalInstance", "showD
 		$scope.orderDetail = showData;
 		// 关闭窗口
 		$scope.closeWin = function() {
-			$uibModalInstance.close();
+			$uibModalInstance.dismiss();
 		};
 	}                                          
 ]);

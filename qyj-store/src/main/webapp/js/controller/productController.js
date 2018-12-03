@@ -442,7 +442,7 @@ qyjStoreApp.controller('productEditCtrl', function ($scope, $uibModalInstance, U
 	};
 
     $scope.closeWin = function() {
-        $uibModalInstance.close();
+        $uibModalInstance.dismiss();
     }
 });
 

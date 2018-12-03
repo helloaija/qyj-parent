@@ -9,8 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author shitongle
  */
 public class BaseModel {
-	private Long id;
 
+	private Long id;
 	/** 创建时间 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;

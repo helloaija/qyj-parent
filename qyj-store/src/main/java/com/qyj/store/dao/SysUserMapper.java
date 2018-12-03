@@ -18,30 +18,44 @@ public interface SysUserMapper {
 	/**
 	 * 查询系统用户信息分页数据
 	 * @param queryModel
-	 * @param pageBean
+	 * @param pageParam
 	 * @return
 	 */
-	public List<SysUserModel> querySysUserList(@Param("sysUserModel")SysUserModel queryModel, @Param("pageParam")PageParam pageParam);
+	List<SysUserModel> querySysUserList(@Param("sysUserModel")SysUserModel queryModel, @Param("pageParam")PageParam pageParam);
 
 	/**
 	 * 查询系统用户信息分页总记录数
 	 * @param queryModel
-	 * @param pageBean
+	 * @param pageParam
 	 * @return
 	 */
-	public Integer querySysUserTotal(@Param("sysUserModel")SysUserModel queryModel, @Param("pageParam")PageParam pageParam);
+	Integer querySysUserTotal(@Param("sysUserModel")SysUserModel queryModel, @Param("pageParam")PageParam pageParam);
 	
 	/**
 	 * 插入系统用户信息
 	 * @param userModel 用户信息model
 	 * @return
 	 */
-	public Integer insertUser(@Param("sysUserModel")SysUserModel userModel);
-	
+	Integer insertUser(SysUserModel userModel);
+
 	/**
-	 * 根据用户id数组删除系统用户信息
+	 * 更新系统用户信息
 	 * @param userModel 用户信息model
 	 * @return
 	 */
-	public void delUser(@Param("ids")Long... ids);
+	Integer updateUser(SysUserModel userModel);
+	
+	/**
+	 * 根据用户id数组删除系统用户信息
+	 * @param ids 用户信息model
+	 * @return
+	 */
+	void delUser(@Param("ids")Long... ids);
+
+	/**
+	 * 根据userId获取用户信息
+	 * @param userId
+	 * @return
+	 */
+	SysUserModel getUserModelById(Long userId);
 }

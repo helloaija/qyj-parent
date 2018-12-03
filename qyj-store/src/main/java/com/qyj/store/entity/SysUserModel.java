@@ -13,14 +13,14 @@ public class SysUserModel extends BaseModel {
 	private String enable;
 	private String realName;
 	private String card;
-	private String telphone;
+	private String telPhone;
 	private String email;
 	private String qq;
 	private String sex;
 	private String address;
 	private Date lastTime;
-	private String lastIP;
-	private String ipaddr;
+	private String lastIp;
+	private String ipAddr;
 
 	/**
 	 * @return the userName
@@ -95,15 +95,15 @@ public class SysUserModel extends BaseModel {
 	/**
 	 * @return the telphone
 	 */
-	public String getTelphone() {
-		return telphone;
+	public String getTelPhone() {
+		return telPhone;
 	}
 
 	/**
-	 * @param telphone the telphone to set
+	 * @param telPhone the telphone to set
 	 */
-	public void setTelphone(String telphone) {
-		this.telphone = telphone;
+	public void setTelPhone(String telPhone) {
+		this.telPhone = telPhone;
 	}
 
 	/**
@@ -176,32 +176,19 @@ public class SysUserModel extends BaseModel {
 		this.lastTime = lastTime;
 	}
 
-	/**
-	 * @return the lastIP
-	 */
-	public String getLastIP() {
-		return lastIP;
+	public String getLastIp() {
+		return lastIp;
 	}
 
-	/**
-	 * @param lastIP the lastIP to set
-	 */
-	public void setLastIP(String lastIP) {
-		this.lastIP = lastIP;
+	public void setLastIp(String lastIp) {
+		this.lastIp = lastIp;
 	}
 
-	/**
-	 * @return the ipaddr
-	 */
-	public String getIpaddr() {
-		return ipaddr;
+	public String getIpAddr() {
+		return ipAddr;
 	}
 
-	/**
-	 * @param ipaddr the ipaddr to set
-	 */
-	public void setIpaddr(String ipaddr) {
-		this.ipaddr = ipaddr;
+	public void setIpAddr(String ipAddr) {
+		this.ipAddr = ipAddr;
 	}
-
 }

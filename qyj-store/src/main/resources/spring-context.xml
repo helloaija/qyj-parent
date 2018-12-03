@@ -59,6 +59,8 @@
 
 	<!-- proxy-target-class默认"false",更改为"ture"使用CGLib动态代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<bean id="exceptionResolver" class="com.qyj.store.common.interceptor.ExceptionInterceptor"/>
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	     <property name="maxUploadSize" value="104857600" />

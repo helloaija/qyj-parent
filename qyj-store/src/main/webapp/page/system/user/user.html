@@ -1,1 +1,23 @@
-user
+<div style="width: 100%; height: 100%;">
+    <div class="content-title">
+        <h4 class="card-title">用户管理</h4>
+    </div>
+    <form>
+        <div class="form-group row">
+            <label class="col-md-1 col-form-label" style="padding-right: 0px;">用户名：</label>
+            <div class="col-md-2">
+                <input class="form-control" placeholder="请输入角色名称" ng-model="query.userName">
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" ng-click="queryUser()">查询</button>
+                <button type="button" class="btn btn-primary" ng-click="resetQuery()">重置</button>
+                <button type="button" class="btn btn-primary" ng-click="showAddUserWin()">新增</button>
+            </div>
+        </div>
+    </form>
+
+    <div ui-grid="gridOptions" style="width: 100%; height: 550px; text-align: center;"
+         ui-grid-pagination ui-grid-selection>
+    </div>
+</div>

@@ -1,12 +1,12 @@
-define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], function() {
-	var qyjStoreApp = angular.module("qyjStoreApp", ["oc.lazyLoad", "ui.router", "ngSanitize"/*,
-		'ui.grid.pagination', 'ui.grid', 'ui.grid.expandable'*/]);
-	
+define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "ui-bootstrap"], function() {
+	var qyjStoreApp = angular.module("qyjStoreApp", ["oc.lazyLoad", "ui.router", "ngSanitize", "ui.bootstrap"]);
+
 	qyjStoreApp.httpsHeader = "http://192.168.30.19:8083/qyj-store";
 	qyjStoreApp.uploadFileHeader = "http://192.168.30.19:8083/qyj-store/uploadFile/";
 	
 	qyjStoreApp.config(["$urlRouterProvider", "$stateProvider", "$httpProvider",
         function($urlRouterProvider, $stateProvider, $httpProvider) {
+
 			// 默认调到登录页
 			$urlRouterProvider.when('', '/login');
 	   		// 定义路由
@@ -18,7 +18,8 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			resolve : {
                     load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load(['js/controller/loginController.js',
-	   					                      'js/service/loginService.js']);
+	   						'js/service/loginService.js', "js/directive/loadingDirective.js"
+						]);
 	   				}]
 	   	        }
 	   		}).state('home', {
@@ -29,7 +30,7 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			resolve : {
                     load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
-	   					                         "ui.bootstrap", "page/home/home.js"
+	   						"ui.bootstrap", "page/home/home.js", "js/directive/loadingDirective.js"
 						]);
 	   				}]
 	   			}
@@ -119,41 +120,71 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize"], funct
 	   			resolve : {
                     load : ['$ocLazyLoad', function($ocLazyLoad) {
 	   					return $ocLazyLoad.load([
-                            'page/system/user/user.js'
+                            "WdatePicker", "ui.grid", 'js/service/commonServices.js', 'page/system/user/user.js'
 	   					]);
 	   				}]
 	   	        }
-	   		});
+	   		}).state('home.500', {
+                url : "/500",
+                // 首页
+                templateUrl : "page/common/500.html"
+            });
 	   		
 	   		// 定义请求过滤器
-	   		$httpProvider.interceptors.push(["$q", "$location",
-	               function($q, $location) {
-	   				return {
-	   					'request' : function(config) {
-	   						config.headers['X-Requested-With'] = 'XMLHttpRequest';
-	   						return config || $q.when(config);
-	   					},
-	   					'requestError' : function(rejection) {
-	   						return rejection;
-	   					},
-	   					'response' : function(response) {
-	   						return response || $q.when(response);
-	   					},
-	   					'responseError' : function(response) {
-	   						console.log('responseError:' + response);
-	   						if (response.status === 401 || response.status === 403) {
-	   							alert("登录过期，请重新登录！");
-	   							$location.path("/login");
-	   						} else if (response.status === 500) {
-	               				$location.path('/500.html');
-	   						}
-	   						return $q.reject(response);
-	   					}
-	   				}
-	   			}
-	   		]);
+	   		$httpProvider.interceptors.push("storeHttpInterceptor");
 	   	}
 	]);
+
+    qyjStoreApp.factory('storeHttpInterceptor', ['$q', '$rootScope', '$injector', '$location',
+        function ($q, $rootScope, $injector, $location) {
+            $rootScope.hasLogin = true;
+            $rootScope.loading = false;
+            return {
+                'request' : function(config) {
+                    if (!config.url.endsWith(".html") && !config.url.endsWith(".js") &&
+                        !config.url.endsWith(".gif") && !config.url.endsWith(".css") &&
+                        config.url.indexOf("admin") != -1) {
+                        $rootScope.loading = true;
+					}
+
+                    config.headers['X-Requested-With'] = 'XMLHttpRequest';
+                    return config || $q.when(config);
+                },
+                'requestError' : function(rejection) {
+                    $rootScope.loading = false;
+                    return rejection;
+                },
+                'response' : function(response) {
+                    if (!response.config.url.endsWith(".html") && !response.config.url.endsWith(".js") &&
+                        !response.config.url.endsWith(".gif") && !response.config.url.endsWith(".css") &&
+                        response.config.url.indexOf("admin") != -1) {
+                        $rootScope.loading = false;
+                    }
+                    return response || $q.when(response);
+                },
+                'responseError' : function(response) {
+                    if (!response.config.url.endsWith(".html") && !response.config.url.endsWith(".js") &&
+                        !response.config.url.endsWith(".gif") && !response.config.url.endsWith(".css") &&
+                        response.config.url.indexOf("admin") != -1) {
+                        $rootScope.loading = false;
+                    }
+                    console.log('responseError:' + response);
+                    if (response.status === 401 || response.status === 403) {
+                        if ($rootScope.hasLogin) {
+                            alert("登录过期，请重新登录！");
+                            $location.path("/login");
+                        }
+                        $rootScope.hasLogin = false;
+                    } else if (response.status === 500) {
+                        alert("系统异常！");
+                    } else if (response.status === 503) {
+                        alert("系统异常！");
+                    }
+                    return $q.reject(response);
+                }
+            }
+        }
+    ]);
 	
 	qyjStoreApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
 	   $ocLazyLoadProvider.config({
