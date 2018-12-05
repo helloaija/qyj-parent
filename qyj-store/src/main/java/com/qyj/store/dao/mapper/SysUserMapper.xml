@@ -29,7 +29,7 @@
     <!-- tbaleColumns  所有列 -->
     <sql id="tableColumns">
         <trim suffix="" suffixOverrides=",">
-            id, user_name, password, enable, real_name, card, tel_phone, email, qq, sex,
+            id, user_name, enable, real_name, card, tel_phone, email, qq, sex,
             address, last_time, last_ip, ip_addr, create_time, update_time, create_user, update_user,
         </trim>
     </sql>

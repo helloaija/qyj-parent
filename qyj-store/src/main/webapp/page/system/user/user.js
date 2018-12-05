@@ -306,7 +306,6 @@ qyjStoreApp.controller("userCtrl", ["$scope", "$document", "$filter", "i18nServi
 				    var userIds = new Array();
 				    userIds.push(userItem.id);
                     userService.delUser(userIds).then(function(response) {
-					shadeModel.close();
 					var resultBean = response.data;
 					if (resultBean.resultCode == "0000") {
 						// 请求数据成功
@@ -622,9 +621,7 @@ qyjStoreApp.controller('userEditCtrl', function ($scope, $uibModalInstance, $fil
             return;
         }
 
-        var shadeModel = tipDialogService.showLoadingShade();
         userService.updateUser(fieldData).then(function(response) {
-            shadeModel.close();
             var resultBean = response.data;
             if (resultBean.resultCode == "0000") {
                 // 请求数据成功

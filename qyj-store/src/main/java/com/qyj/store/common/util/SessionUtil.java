@@ -29,7 +29,6 @@ public final class SessionUtil {
 	 * 获取session的值
 	 * @param request
 	 * @param key
-	 * @param value
 	 */
 	public static Object getAttribute(HttpServletRequest request, String key) {
 		return request.getSession(true).getAttribute(key);

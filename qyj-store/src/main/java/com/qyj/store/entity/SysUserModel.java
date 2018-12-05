@@ -1,5 +1,7 @@
 package com.qyj.store.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -18,6 +20,7 @@ public class SysUserModel extends BaseModel {
 	private String qq;
 	private String sex;
 	private String address;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date lastTime;
 	private String lastIp;
 	private String ipAddr;

@@ -100,7 +100,7 @@ public class QyjOrderController extends BaseController {
 
 	/**
 	 * 更新订单价格
-	 * @param NewsInfoId
+	 * @param orderId
 	 * @param request
 	 * @param response
 	 * @return

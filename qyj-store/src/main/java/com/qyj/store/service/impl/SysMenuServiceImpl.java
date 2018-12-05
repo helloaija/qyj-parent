@@ -2,12 +2,12 @@ package com.qyj.store.service.impl;
 
 import java.util.List;
 
+import com.qyj.store.service.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qyj.store.dao.SysMenuMapper;
 import com.qyj.store.entity.SysMenuModel;
-import com.qyj.store.service.SysMenuService;
 
 /**
  * 系统菜单service实现类
@@ -66,8 +66,19 @@ public class SysMenuServiceImpl implements SysMenuService {
 	 * @param id
 	 * @return
 	 */
+	@Override
 	public int deleteMenuAndChildById(Long id) throws Exception {
 		return sysMenuMapper.deleteMenuAndChildById(id);
+	}
+
+	/**
+	 * 根据userId获取用户对应的菜单
+	 * @param userId
+	 * @return
+	 */
+	@Override
+	public List<SysMenuModel> listMenuByUserId(Long userId) {
+		return sysMenuMapper.listMenuByUserId(userId);
 	}
 
 }

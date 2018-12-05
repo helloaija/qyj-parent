@@ -144,10 +144,10 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "ui-bo
                     if (!config.url.endsWith(".html") && !config.url.endsWith(".js") &&
                         !config.url.endsWith(".gif") && !config.url.endsWith(".css") &&
                         config.url.indexOf("admin") != -1) {
+                        config.headers['X-Requested-With'] = 'XMLHttpRequest';
                         $rootScope.loading = true;
 					}
 
-                    config.headers['X-Requested-With'] = 'XMLHttpRequest';
                     return config || $q.when(config);
                 },
                 'requestError' : function(rejection) {
@@ -179,7 +179,11 @@ define(["angular", "angular-ui-router", "oclazyload", "angular-sanitize", "ui-bo
                         alert("系统异常！");
                     } else if (response.status === 503) {
                         alert("系统异常！");
-                    }
+                    } else if (response.status === 550) {
+                        alert("没有访问权限！");
+                    } else {
+                        alert("系统异常！");
+					}
                     return $q.reject(response);
                 }
             }

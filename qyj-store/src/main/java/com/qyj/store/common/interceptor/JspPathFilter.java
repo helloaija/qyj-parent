@@ -30,10 +30,12 @@ public class JspPathFilter implements Filter {
 	@SuppressWarnings("unused")
 	private FilterConfig filterConfig = null;
 
+	@Override
 	public void init(FilterConfig config) throws ServletException {
 		this.filterConfig = config;
 	}
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException, IOException {
 		HttpServletRequest req = (HttpServletRequest) request;
@@ -49,6 +51,7 @@ public class JspPathFilter implements Filter {
 		}
 	}
 
+	@Override
 	public void destroy() {
 		this.filterConfig = null;
 	}

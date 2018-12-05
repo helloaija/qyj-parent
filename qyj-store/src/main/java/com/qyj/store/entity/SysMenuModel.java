@@ -12,6 +12,8 @@ public class SysMenuModel extends BaseModel {
 	private String name;
 	/** 类型 */
 	private String menuType;
+	/** 代码 */
+	private String menuCode;
 	/** 序号 */
 	private Integer sortNumber;
 	/** 菜单路径 */
@@ -135,4 +137,11 @@ public class SysMenuModel extends BaseModel {
 		this.checked = checked;
 	}
 
+	public String getMenuCode() {
+		return menuCode;
+	}
+
+	public void setMenuCode(String menuCode) {
+		this.menuCode = menuCode;
+	}
 }

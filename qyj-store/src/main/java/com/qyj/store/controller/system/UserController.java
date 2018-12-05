@@ -104,6 +104,13 @@ public class UserController extends BaseController {
         SysUserBean userBean = (SysUserBean) SessionUtil.getAttribute(request, CommonConstant.SESSION_USER);
         userModel.setUpdateUser(userBean.getId());
         userModel.setUpdateTime(new Date());
+        // 这些数据不更新
+        userModel.setLastIp(null);
+        userModel.setLastTime(null);
+        userModel.setPassword(null);
+        userModel.setCreateTime(null);
+        userModel.setCreateUser(null);
+        userModel.setIpAddr(null);
 
         return sysUserService.updateUser(userModel, roleIds);
     }

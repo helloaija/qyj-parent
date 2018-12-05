@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 控制器-订单管理
+ * 控制器-进货订单管理
  * @author CTF_stone
  *
  */

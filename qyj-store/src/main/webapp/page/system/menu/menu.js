@@ -91,6 +91,10 @@ qyjStoreApp.controller("menuCtrl", ["$scope", "menuService", "tipDialogService",
 				alert("类型不能为空");
 				return;
 			}
+            if (!$scope.edit.menuCode) {
+                alert("编码不能为空");
+                return;
+            }
 			
 			// 有id是编辑
 			if ($scope.edit.id) {
