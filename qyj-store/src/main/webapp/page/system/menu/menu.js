@@ -3,8 +3,10 @@ var qyjStoreApp = angular.module("qyjStoreApp");
 /**
  * 系统菜单控制器
  */
-qyjStoreApp.controller("menuCtrl", ["$scope", "menuService", "tipDialogService",
-	function($scope, menuService, tipDialogService) {
+qyjStoreApp.controller("menuCtrl", ["$rootScope", "$scope", "menuService", "tipDialogService",
+	function($rootScope, $scope, menuService, tipDialogService) {
+        $rootScope.curMenu = {homeAdminManage : true, homeMenu : true};
+
 		// 类型下拉
 		$scope.menuTypeList = [{value:"MENU", name:"菜单"},{value:"FUN", name:"功能"}];
 		// 编辑内容

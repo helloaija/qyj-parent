@@ -6,9 +6,9 @@ qyjStoreApp.controller("productManageCtrl", productManageCtrl);
 /**
  * 产品管理控制器
  */
-function productManageCtrl($scope, $document, $filter, i18nService, $uibModal, Grid, productService, tipDialogService) {
-	console.log("productManageCtrl...");
-	
+function productManageCtrl($rootScope, $scope, $document, $filter, i18nService, $uibModal, Grid, productService, tipDialogService) {
+    $rootScope.curMenu = {homeBusManage : true, homeProductList : true};
+
 	// 中文
 	i18nService.setCurrentLang('zh-cn');
 	

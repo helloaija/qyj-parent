@@ -1,7 +1,8 @@
 var qyjStoreApp = angular.module("qyjStoreApp");
 
-qyjStoreApp.controller("homeCtrl", ["$scope", "$http", "$state",
-	function($scope, $http, $state) {
+qyjStoreApp.controller("homeCtrl", ["$rootScope", "$scope", "$http", "$state",
+	function($rootScope, $scope, $http, $state) {
+        $rootScope.curMenu = {homeBusManage : true};
 		$scope.user = {};
 		$scope.menu = {};
 

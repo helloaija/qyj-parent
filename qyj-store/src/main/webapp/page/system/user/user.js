@@ -1,9 +1,11 @@
 
 var qyjStoreApp = angular.module("qyjStoreApp");
 
-qyjStoreApp.controller("userCtrl", ["$scope", "$document", "$filter", "i18nService", "$uibModal",
+qyjStoreApp.controller("userCtrl", ["$rootScope", "$scope", "$document", "$filter", "i18nService", "$uibModal",
     "tipDialogService", "userService",
-    function($scope, $document, $filter, i18nService, $uibModal, tipDialogService, userService) {
+    function($rootScope, $scope, $document, $filter, i18nService, $uibModal, tipDialogService, userService) {
+        $rootScope.curMenu = {homeAdminManage : true, homeUser : true};
+
         // 中文
         i18nService.setCurrentLang('zh-cn');
 

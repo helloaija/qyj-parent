@@ -1,9 +1,14 @@
+<style>
+	.cur-btn {
+		background-color: #eee;
+	}
+</style>
 <loading></loading>
 <div style="height:100px;margin-top:-100px;">
 	<span style="border: none;font-size: 36px;display:block;">
 		亲亿家 <small>产品管理系统</small>
 	</span>
-	<div style="    text-align: right;">
+	<div style="text-align: right;">
 		<span>欢迎您：{{user.userName}}</span>
 		<button type="button" class="btn btn-link" ng-click="logOut()">退出</button>
 	</div>
@@ -15,42 +20,50 @@
 		<div class="col-md-2" style="border: 1px solid #eee;height: 100%;">
 			<uib-accordion close-others="true">
 				<div uib-accordion-group class="panel-default" heading="业务管理"
-					 is-open="true" is-disabled="false" ng-if="menu.homeBusManage">
+					 is-open="curMenu.homeBusManage" is-disabled="false" ng-if="menu.homeBusManage">
 					<ul class="nav nav-pills nav-stacked">
-						<li role="presentation" ng-if="menu.homeProductList">
+						<li role="presentation" ng-if="menu.homeProductList"
+							ng-class="{true:'cur-btn', false:''} [curMenu.homeProductList]">
 							<a class="nav-link" ui-sref="home.productList">产品管理</a>
 						</li>
-						<li role="presentation" ng-if="menu.homeStoreInfo">
+						<li role="presentation" ng-if="menu.homeStoreInfo"
+							ng-class="{true:'cur-btn', false:''} [curMenu.homeStoreInfo]">
 							<a class="nav-link" ui-sref="home.storeInfo">库存数据</a>
 						</li>
-						<li role="presentation" ng-if="menu.homeStockOrder">
+						<li role="presentation" ng-if="menu.homeStockOrder"
+							ng-class="{true:'cur-btn', false:''} [curMenu.homeStockOrder]">
 							<a class="nav-link" ui-sref="home.stockOrder">进货单</a>
 						</li>
-						<li role="presentation" ng-if="menu.homeSellOrder">
+						<li role="presentation" ng-if="menu.homeSellOrder"
+							ng-class="{true:'cur-btn', false:''} [curMenu.homeSellOrder]">
 							<a class="nav-link" ui-sref="home.sellOrder">销售单</a>
 						</li>
 					</ul>
 				</div>
-				<div uib-accordion-group class="panel-default" heading="数据统计"
-					 is-open="false" is-disabled="false" ng-if="menu.homeDataStatistics">
+				<!--<div uib-accordion-group class="panel-default" heading="数据统计"-->
+					 <!--is-open="curMenu.homeDataStatistics" is-disabled="false" ng-if="menu.homeDataStatistics">-->
+					<!--<ul class="nav nav-pills nav-stacked">-->
+						<!--<li role="presentation" ng-if="menu.homeStockStatistics">-->
+							<!--<a class="nav-link" ui-sref="home.stockOrder">进货统计</a>-->
+						<!--</li>-->
+						<!--<li role="presentation" ng-if="menu.homeSellStatistics">-->
+							<!--<a class="nav-link" ui-sref="home.sellOrder">销售统计</a>-->
+						<!--</li>-->
+					<!--</ul>-->
+				<!--</div>-->
+				<div uib-accordion-group class="panel-default" heading="系统管理" ng-if="menu.homeAdminManage"
+					is-open="curMenu.homeAdminManage">
 					<ul class="nav nav-pills nav-stacked">
-						<li role="presentation" ng-if="menu.homeStockOrder">
-							<a class="nav-link" ui-sref="home.stockOrder">进货统计</a>
-						</li>
-						<li role="presentation" ng-if="menu.homeSellOrder">
-							<a class="nav-link" ui-sref="home.sellOrder">销售统计</a>
-						</li>
-					</ul>
-				</div>
-				<div uib-accordion-group class="panel-default" heading="系统管理" ng-if="menu.homeAdminManage">
-					<ul class="nav nav-pills nav-stacked">
-						<li role="presentation" ng-if="menu.homeMenu">
+						<li role="presentation" ng-if="menu.homeMenu"
+							ng-class="{true:'cur-btn', false:''} [curMenu.homeMenu]">
 							<a class="nav-link" ui-sref="home.menu">菜单管理</a>
 						</li>
-						<li role="presentation" ng-if="menu.homeRole">
+						<li role="presentation" ng-if="menu.homeRole"
+							ng-class="{true:'cur-btn', false:''} [curMenu.homeRole]">
 							<a class="nav-link" ui-sref="home.role">角色管理</a>
 						</li>
-						<li role="presentation" ng-if="menu.homeUser">
+						<li role="presentation" ng-if="menu.homeUser"
+							ng-class="{true:'cur-btn', false:''} [curMenu.homeUser]">
 							<a class="nav-link" ui-sref="home.user">用户管理</a>
 						</li>
 					</ul>

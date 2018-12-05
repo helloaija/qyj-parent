@@ -1,7 +1,9 @@
 var qyjStoreApp = angular.module("qyjStoreApp");
 
-qyjStoreApp.controller("roleCtrl", ["$scope", "i18nService", "$uibModal", "roleService", "tipDialogService",
-	function($scope, i18nService, $uibModal, roleService, tipDialogService) {
+qyjStoreApp.controller("roleCtrl", ["$rootScope", "$scope", "i18nService", "$uibModal", "roleService", "tipDialogService",
+	function($rootScope, $scope, i18nService, $uibModal, roleService, tipDialogService) {
+        $rootScope.curMenu = {homeAdminManage : true, homeRole : true};
+
 		// 查询条件
 	 	$scope.queryModel = {};
 		// 中文
