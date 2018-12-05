@@ -1,0 +1,48 @@
+<style>
+	#orderContainer label {
+		padding-right:0px;
+		text-align: right;
+		padding-left: 1px;
+	}
+
+	#orderContainer .avi-label {
+		width:35%;
+		float: left;
+	}
+
+	#orderContainer .avi-input {
+		width:65%;
+	}
+</style>
+
+<!-- 新增订单弹窗 -->
+<div class="modal-content" style="width: 1000px;">
+	<div class="modal-header">
+		<h5 class="modal-title" id="gridModalLabel">编辑用户</h5>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid bd-example-row" id="orderContainer">
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-md-4">
+					<label for="edit.userName" class="col-form-label avi-label">用户名：</label>
+					<input class="form-control avi-input" id="edit.userName" placeholder="请输入用户名" ng-model="edit.userName" required>
+				</div>
+
+				<div class="col-md-4">
+					<label for="edit.realName" class="col-form-label avi-label">真实姓名：</label>
+					<input class="form-control avi-input" id="edit.realName" placeholder="请输入真实姓名" ng-model="edit.realName" required>
+				</div>
+				<div class="col-md-4">
+					<label for="edit.telPhone" class="col-form-label avi-label">联系电话：</label>
+					<input class="form-control avi-input" id="edit.telPhone" placeholder="请输入联系电话" ng-model="edit.telPhone" required>
+				</div>
+			</div>
+			<div ui-grid="roleGridOptions" style="width: 100%; height: 350px; text-align: center;" ui-grid-selection>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="saveUser()">保存</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeWin()">退出</button>
+	</div>
+</div>
