@@ -27,7 +27,7 @@ public class CoreService {
 		String respMessage = null;
 		try {
 			// 默认返回的文本消息内容
-			String respContent = "hi，亲亲你来啦[玫瑰]！~ \n我这么低调都能被你关注，你真是太有才了！~(?ω?)\n网络一线牵，珍惜这段缘[愉快]\n\n这里有每日热点，不定期福利，理财经验分享~\n不准取关哦\n\n如果你是新人，享200元红包壕礼[玫瑰]\n<a href=\"https://www.huilc.cn/wxfront/noviceBorrow?utm=xialacaidan\">点这里</a>[嘴唇]\n\n更多资讯：\n1、续投返现0.2%不变[玫瑰][调皮]\n<a href=\"https://www.huilc.cn/nWeChat/toActivityNoticeView?pageType=0\">点这里</a> [嘴唇]\n\n2、天天抽奖、红包任性送[玫瑰][嘿哈]\n<a href=\"https://www.huilc.cn/wxfront/draw/toLuckDraw?utm=shouye\">点这里</a> [嘴唇]\n\n有疑问或建议请直接，\n拨打客服热线：400-966-0198[调皮]";
+			String respContent = "hi，亲亲你来啦[玫瑰]！";
 
 			// xml请求解析
 			Map<String, String> requestMap = MessageUtil.parseXml(request);
