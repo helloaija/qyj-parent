@@ -177,8 +177,8 @@ public class WeChatController extends BaseController {
 	// if (md5Text.equals(signStr)) {
 	//
 	// AppJsonUtil.toJsonMsg(response, AppConstants.ZERO,
-	// MethodUtil.getDES(WechatUtil.getAccessToken(PropertyUtil.getWechatPayProp("huilc.appId"),
-	// PropertyUtil.getWechatPayProp("huilc.appSecret"), request), 0, key));
+	// MethodUtil.getDES(WechatUtil.getAccessToken(PropertyUtil.getWechatPayProp("huxxilc.appId"),
+	// PropertyUtil.getWechatPayProp("huxxilc.appSecret"), request), 0, key));
 	// } else {
 	// AppJsonUtil.toJsonMsg(response, AppConstants.FIRST, "签名错误");
 	// }
