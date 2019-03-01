@@ -67,7 +67,7 @@ public class MenuManager {
 		ViewButton viewBtn = new ViewButton();
 		viewBtn.setName("哎哟");
 		viewBtn.setType("view");
-		viewBtn.setUrl("http://www.huilc.cn");
+		viewBtn.setUrl("http://www.huxxixxlc.cn");
 
 		ComplexButton mainBtn3 = new ComplexButton();
 		mainBtn3.setName("汇投资");
